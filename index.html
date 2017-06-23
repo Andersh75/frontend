@@ -13,7 +13,7 @@
 
 
       <header>
-hej!
+hej!!
       </header>
 
       <section>
@@ -24,7 +24,9 @@ hej!
     var header = document.querySelector('header');
     var section = document.querySelector('section');
 
-    var requestURL = 'http://172.25.0.3:5000';
+    var requestURL = 'http://0.0.0.0:5000/api/courses';
+
+    //var requestURL = 'http://0.0.0.0:5000/api/teachers';
     console.log(requestURL);
 
     var request = new XMLHttpRequest();
@@ -38,18 +40,17 @@ hej!
     request.onload = function() {
       var superHeroes = request.response;
       populateHeader(superHeroes);
-      showHeroes(superHeroes);
     }
 
 
     function populateHeader(jsonObj) {
       var myH1 = document.createElement('h1');
-      myH1.textContent = jsonObj['squadName'];
+      myH1.textContent = jsonObj['objects'][0]['department'];
       header.appendChild(myH1);
 
-      var myPara = document.createElement('p');
-      myPara.textContent = 'Hometown: ' + jsonObj['homeTown'] + ' // Formed: ' + jsonObj['formed'];
-      header.appendChild(myPara);
+      //var myPara = document.createElement('p');
+      //myPara.textContent = 'Hometown: ' + jsonObj['homeTown'] + ' // Formed: ' + jsonObj['formed'];
+      //header.appendChild(myPara);
     }
 
     </script>
