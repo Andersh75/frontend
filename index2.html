@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>Our superheroes</title>
+    <!-- <link href="http://172.25.0.3:5000" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css?family=Faster+One" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+  </head>
+
+  <body>
+
+
+      <header>
+        hej!?!?
+      </header>
+
+
+      <div id="content">
+
+      </div>
+
+
+      <section>
+
+      </section>
+
+
+
+
+    <script>
+    var header = document.querySelector('header');
+    var section = document.querySelector('section');
+
+
+    var requestURL = 'http://127.0.0.1:5000/api/teachers';
+    //var requestURL = 'http://172.25.0.20:5000/api/teachers';
+    console.log(requestURL);
+
+    var request = new XMLHttpRequest();
+
+    request.open('GET', requestURL);
+
+    request.responseType = 'json';
+
+    request.send();
+
+    request.onload = function() {
+      var superHeroes = request.response;
+      populateHeader(superHeroes);
+    }
+
+
+    function populateHeader(jsonObj) {
+
+      //myH1.textContent = jsonObj['objects'];
+
+      for (i = 0; i < jsonObj['objects'].length; i++) {
+        //var myH1 = document.createElement('h1');
+        //myH1.textContent = jsonObj['objects'][i]['firstname'] + " " + jsonObj['objects'][i]['email'];
+        //header.appendChild(myH1);
+        addRow(jsonObj['objects'][i]['firstname'], jsonObj['objects'][i]['email']);
+      }
+      //myH1.textContent = jsonObj['objects'][0]['email'];
+      //myH1.textContent = jsonObj['objects'][0]['department'];
+      //header.appendChild(myH1);
+
+      //var myPara = document.createElement('p');
+      //myPara.textContent = 'Hometown: ' + jsonObj['homeTown'] + ' // Formed: ' + jsonObj['formed'];
+      //header.appendChild(myPara);
+    }
+
+    // how to add three 
+    function addRow(firstname, email) {
+    var div = document.createElement('div');
+    div.className = 'row';
+    div.innerHTML = '<input type="text" name="name" value="" />\
+        <input type="text" name="value" value="" />\
+        <label> <input type="checkbox" name="check" value="1" /> Sent variable: ' + firstname + '</label>\
+        <input type="button" value="-" onclick="removeRow(this)">';
+     document.getElementById('content').appendChild(div);
+    }
+
+    addRow();
+
+    </script>
+  </body>
+</html>
