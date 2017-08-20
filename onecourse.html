@@ -48,7 +48,7 @@
         <div class="margin__210--left"></div>
         <div class="pagetitle-tesla__box">
           <div class="titlebox-tesla">
-            <div class="h-tesla-30-400-000000">Förnamn Efternamn</div>
+            <div class="h-tesla-30-400-000000" id="courseNameHeadline">Förnamn Efternamn</div>
           </div>
         </div>
         <div class="margin__210--right"></div>
@@ -105,6 +105,64 @@
                 </div>
               </div>
             </div>
+
+
+            <div class="table-tesla__checkboxblock">
+              <div class="form-wrapper-2 w-form">
+                <form data-name="Email Form 2" id="email-form-2" name="email-form-2"><label class="field-label" for="name">TYP</label>
+                  <div class="table-tesla__checkbox__fieldbox" id="classtypesBox">
+                    <div class="checkboxblock__entry">
+                      <div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="classtypes radio all" id="classtypes-radio-all" name="classtypes-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">Alla</label></div>
+                      <div class="text-block-16" id="countF"></div>
+                    </div>
+                    <div class="checkboxblock__entry">
+                      <div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="classtypes radio all" id="classtypes-radio-none" name="classtypes-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">Ingen</label></div>
+                      <div class="text-block-16" id="countF"></div>
+                    </div>
+
+
+
+
+                  </div>
+                </form>
+                <div class="w-form-done">
+                  <div>Thank you! Your submission has been received!</div>
+                </div>
+                <div class="w-form-fail">
+                  <div>Oops! Something went wrong while submitting the form</div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="table-tesla__checkboxblock">
+              <div class="form-wrapper-2 w-form">
+                <form data-name="Email Form 2" id="email-form-2" name="email-form-2"><label class="field-label" for="name">TYP</label>
+                  <div class="table-tesla__checkbox__fieldbox" id="roomsBox">
+                    <div class="checkboxblock__entry">
+                      <div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="rooms radio all" id="rooms-radio-all" name="rooms-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">Alla</label></div>
+                      <div class="text-block-16" id="countF"></div>
+                    </div>
+                    <div class="checkboxblock__entry">
+                      <div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="rooms radio all" id="rooms-radio-none" name="rooms-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">Ingen</label></div>
+                      <div class="text-block-16" id="countF"></div>
+                    </div>
+
+
+
+
+                  </div>
+                </form>
+                <div class="w-form-done">
+                  <div>Thank you! Your submission has been received!</div>
+                </div>
+                <div class="w-form-fail">
+                  <div>Oops! Something went wrong while submitting the form</div>
+                </div>
+              </div>
+            </div>
+      <!--
             <div class="table-tesla__checkboxblock">
               <div class="form-wrapper-2 w-form">
                 <form data-name="Email Form 2" id="email-form-2" name="email-form-2"><label class="field-label" for="name">KURS</label>
@@ -126,6 +184,8 @@
                 </div>
               </div>
             </div>
+
+          -->
             <div class="table-tesla__searchblock">
               <div class="form-wrapper w-form">
                 <form data-name="Email Form" id="email-form" name="email-form"><label class="field-label" for="Field-2">KROCKTEST</label><select class="select-field w-select" data-name="Field" id="Field-2" name="Field"><option value="">Lärare</option>
@@ -162,7 +222,7 @@
                 <div class="table-tesla__header__cell__text">SAL</div>
               </div>
               <div class="table-tesla__table__header__lablebox-programandyear">
-                <div class="table-tesla__header__cell__text">KURS</div>
+                <div class="table-tesla__header__cell__text">LÄRARE</div>
               </div>
             </div>
 <!--
@@ -193,30 +253,28 @@
                 </div>
               </div>
             </div>
-            <div class="table-tesla__checkboxblock">
+
+            <div class="table-tesla__checkboxblock" id="availableteachersbox">
               <div class="form-wrapper-2 w-form">
-                <form data-name="Email Form 2" id="email-form-2" name="email-form-2"><label class="field-label" for="name">TYP</label>
-                  <div class="table-tesla__checkbox__fieldbox" id="classtypesBox">
+                <form data-name="Email Form 2" id="email-form-2" name="email-form-2"><label class="field-label" for="name">NAMN</label>
+                  <div id="availableteacherscheckboxes" class="table-tesla__checkbox__fieldbox">
+
+<!--
                     <div class="checkboxblock__entry">
-                      <div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="classtypes radio all" id="classtypes-radio-all" name="classtypes-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">Alla</label></div>
+                      <div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="availableteachers radio all" id="availableteachers-radio-all" name="availableteachers-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">Alla</label></div>
                       <div class="text-block-16" id="countF"></div>
                     </div>
                     <div class="checkboxblock__entry">
-                      <div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="classtypes radio all" id="classtypes-radio-none" name="classtypes-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">Ingen</label></div>
+                      <div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="availableteachers radio all" id="availableteachers-radio-none" name="availableteachers-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">Ingen</label></div>
                       <div class="text-block-16" id="countF"></div>
                     </div>
 
-                    <!--
                     <div class="checkboxblock__entry">
-                      <div class="w-checkbox w-clearfix"><input checked="checked" class="checkbox-2 w-checkbox-input" data-name="checkbox-F" id="checkbox-F" name="checkbox-F" type="checkbox"><label class="field-label-8 w-form-label" for="checkbox-F">Föreläsning</label></div>
-                      <div class="text-block-16" id="countF">23</div>
-                    </div>
-                    <div class="checkboxblock__entry">
-                      <div class="w-checkbox w-clearfix"><input checked="checked" class="w-checkbox-input" data-name="checkbox-E" id="checkbox-E" name="checkbox-E" type="checkbox"><label class="field-label-8 w-form-label" for="checkbox-E">Övning</label></div>
+                      <div class="w-checkbox w-clearfix"><input checked="checked" class="w-checkbox-input" data-name="Checkbox E 2" id="checkbox-E-2" name="checkbox-E-2" type="checkbox"><label class="field-label-8 w-form-label" for="checkbox-E-2">Övning</label></div>
                       <div class="text-block-16" id="countE">233</div>
                     </div>
                     <div class="checkboxblock__entry">
-                      <div class="w-checkbox w-clearfix"><input checked="checked" class="w-checkbox-input" data-name="checkbox-S" id="checkbox-S" name="checkbox-S" type="checkbox"><label class="field-label-8 w-form-label" for="checkbox-S">Seminarium</label></div>
+                      <div class="w-checkbox w-clearfix"><input checked="checked" class="w-checkbox-input" data-name="Checkbox S 2" id="checkbox-S-2" name="checkbox-S-2" type="checkbox"><label class="field-label-8 w-form-label" for="checkbox-S-2">Seminarium</label></div>
                       <div class="text-block-16" id="countS">42</div>
                     </div>
                   -->
@@ -230,6 +288,9 @@
                 </div>
               </div>
             </div>
+
+
+
             <div class="table-tesla__checkboxblock">
               <div class="form-wrapper-2 w-form">
                 <form data-name="Email Form 2" id="email-form-2" name="email-form-2"><label class="field-label" for="name">KURS</label>
@@ -342,7 +403,448 @@
       ]
       */
 
+      function addAvailableTeachers(code) {
+        var div;
+        var i;
+        var periods;
+        var program;
+        var year;
 
+        for (i = 0; i < code.length; i++) {
+
+          //console.log(i);
+
+    // Create row element
+          div = document.createElement('div');
+          div.className = "checkboxblock__entry";
+
+    // Populate row element
+          div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="w-checkbox-input availableteachers-checkboxes" data-availableteachers="' + code[i]['id'] + '" id="availableteachers-checkbox-' + i + '" name="availableteachers-checkbox-' + i + '" type="checkbox">\
+          <label class="field-label-8 w-form-label" for="availableteachers-checkbox-' + i + '">' + code[i]['firstname'] + ' ' + code[i]['lastname'] + '</label></div>\
+            <div class="text-block-16" id="countE"></div>';
+
+    // Append row element
+          document.getElementById('availableteacherscheckboxes').appendChild(div);
+        }
+
+  // Create row element
+        div = document.createElement('div');
+        div.className = "checkboxblock__entry";
+
+  // Populate row element
+        div.innerHTML = '<input style="border-radius:3px; background-color:#3B99FC; margin-top:3px; padding:5px; color:white" class="signin-tesla__form__button--submit w-button field-label" data-wait="Please wait..." id="availableteachers-submit" type="button" value="SUBMIT">\
+          <div class="text-block-16" id="countE"></div>';
+
+
+
+        document.getElementById('availableteacherscheckboxes').appendChild(div);
+
+
+        var submitbutton = document.getElementById("availableteachers-submit");
+
+        submitbutton.addEventListener("click", function(event) {
+
+
+          var myarray = document.querySelector('[data-editteachersclasses="true"]').getAttribute("data-teachersclasses").split(", ");
+          //console.log(document.querySelector('[data-editteachersclasses="true"]').parentElement.parentElement.getAttribute("data-classes"));
+          //console.log(myarray);
+          var classid = document.querySelector('[data-editteachersclasses="true"]').parentElement.parentElement.getAttribute("data-classes");
+
+          var j;
+
+/*
+          //var requestTeachersURL = 'http://127.0.0.1:5000/api/teachers/' + myarray[j];
+          var requestTeachersURL = 'http://127.0.0.1:5000/api/teachers/1/akafirstname';
+          var requestTeachers = new XMLHttpRequest();
+
+
+
+          //headers = {'Content-Type': 'application/json'};
+
+          requestTeachers.open('DELETE', requestTeachersURL, true);
+
+
+
+
+          //http.open("POST", url, true);
+
+          //Send the proper header information along with the request
+          requestTeachers.setRequestHeader("Content-type", "application/json");
+
+          requestTeachers.send();
+
+          //console.log(requestTeachers);
+
+          requestTeachers.onreadystatechange = function() {//Call a function when the state changes.
+              if(requestTeachers.readyState == 4 && requestTeachers.status == 200) {
+                alert(requestTeachers.responseText);
+              } else {
+                alert(requestTeachers.responseText);
+              }
+          }
+          //requestClasses.send(params);
+*/
+          var data = {};
+          data['teachers'] = [];
+
+          for (j = 0; j < myarray.length; j++) {
+
+
+            var newdata = {};
+
+            var teacherid = myarray[j];
+
+            //data1['id'] = teacherid;
+            //data2['id'] = 2;
+
+            newdata['id'] = teacherid;
+            console.log(newdata);
+
+            //data['teachers'] = [data1, data2];
+            data['teachers'].push(newdata);
+            //data3['akalastname'] = "test";
+
+
+
+
+          }
+          console.log(data);
+          console.log(JSON.stringify(data));
+          var requestTeachersURL = 'http://127.0.0.1:5000/api/classes/' + classid + '/teachers';
+
+          var requestTeachers = new XMLHttpRequest();
+
+
+
+          //headers = {'Content-Type': 'application/json'};
+
+          requestTeachers.open('PATCH', requestTeachersURL, true);
+
+
+
+
+          //http.open("POST", url, true);
+
+          //Send the proper header information along with the request
+          requestTeachers.setRequestHeader("Content-type", "application/json");
+
+          requestTeachers.send(JSON.stringify(data));
+          //requestTeachers.send();
+
+          console.log(requestTeachers);
+
+          requestTeachers.onreadystatechange = function() {//Call a function when the state changes.
+              if(requestTeachers.readyState == 4 && requestTeachers.status == 200) {
+                //alert(requestTeachers.responseText);
+              } else {
+                //alert(requestTeachers.responseText);
+              }
+          }
+          console.log(JSON.stringify(data));
+
+
+          //event.target.blur();
+
+
+          //event.target.dataset.editteachersclasses = true;
+          //event.target.parentElement.parentElement.style.backgroundColor = "rgba(59, 153, 252, 0.1)";
+
+          document.getElementById('availableteachersbox').style.display = "none";
+          document.querySelector('[data-editteachersclasses="true"]').parentElement.parentElement.style.backgroundColor = "rgba(255, 255, 255)";
+          document.querySelector('[data-editteachersclasses="true"]').dataset.editteachersclasses = false;
+          event.preventDefault();
+
+
+          //getAttribute("data-classes")
+
+
+        });
+
+
+        var checkboxlist = document.getElementsByClassName("availableteachers-checkboxes");
+
+        //var availableteachersRadioAll = document.getElementById('availableteachers-radio-all');
+        //var availableteachersRadioNone = document.getElementById('availableteachers-radio-none');
+
+        for (i = 0; i < checkboxlist.length; i++) {
+          checkboxlist[i].checked = false;
+          checkboxlist[i].addEventListener("change", function() {
+
+            //console.log(document.querySelector('[data-editteachersclasses="true"]').getAttribute("data-teachersclasses"));
+
+            var myteachers = document.querySelector('[data-editteachersclasses="true"]').textContent;
+            var myteachersarray = myteachers.split(", ");
+            var myarray = document.querySelector('[data-editteachersclasses="true"]').getAttribute("data-teachersclasses").split(", ");
+            //console.log(myarray);
+            var j;
+
+
+
+            //console.log(this.checked);
+            //console.log(myarray.length);
+            var found = false;
+
+            for (j = 0; j < myarray.length; j++) {
+              //console.log(myarray[j]);
+              if (myarray[j] == this.getAttribute("data-availableteachers")) {
+                found = true;
+                if (this.checked == false) {
+                  myarray.splice(j, 1);
+                  myteachersarray.splice(j, 1);
+                }
+              }
+            }
+            //console.log(this.parentElement.children[1].textContent);
+
+
+
+            var initials = this.parentElement.children[1].textContent.split(' ').map(function(item){return item[0]}).join('');
+            //console.log(initials);             // ['J','S','O','N']
+
+            if (found == false) {
+              if (this.checked == true) {
+                myarray.push(this.getAttribute("data-availableteachers"));
+                //myteachersarray.push(this.parentElement.children[1].textContent);
+                myteachersarray.push(initials);
+              }
+            }
+            //console.log(myteachersarray);
+
+            myarray = myarray.filter(Boolean);
+            myteachersarray = myteachersarray.filter(Boolean);
+
+            //console.log(myteachersarray);
+
+            if (myteachersarray.length > 1) {
+              if (myteachersarray[0] == "None") {
+                myteachersarray.splice(0, 1);
+              }
+            }
+
+            var mystring = "";
+            var myteachersstring = "";
+            for (j = 0; j < myarray.length; j++) {
+              mystring = mystring + ", " + myarray[j];
+              myteachersstring = myteachersstring + ", " + myteachersarray[j];
+            }
+
+            if (mystring.charAt(0) == ",") {
+              mystring = mystring.substring(2);
+              myteachersstring = myteachersstring.substring(2);
+            }
+            //console.log(mystring);
+
+            //var matches = myteachersstring.match(/\b(\w)/g);              // ['J','S','O','N']
+            //var myteachersstring = matches.join('');
+
+
+            document.querySelector('[data-editteachersclasses="true"]').textContent = myteachersstring;
+            document.querySelector('[data-editteachersclasses="true"]').dataset.teachersclasses = mystring;
+            //console.log(this.getAttribute("data-availableteachers"));
+            //availableteachersRadioAll.checked = false;
+            //availableteachersRadioNone.checked = false;
+          });
+        }
+
+        document.getElementById('availableteachersbox').style.display = "none";
+
+
+
+/*
+        availableteachersRadioAll.addEventListener("change", function() {
+          for (i = 0; i < checkboxlist.length; i++) {
+            checkboxlist[i].checked = true;
+          }
+        });
+
+        availableteachersRadioNone.addEventListener("change", function() {
+          for (i = 0; i < checkboxlist.length; i++) {
+            checkboxlist[i].checked = false;
+          }
+        });
+        */
+
+        /*
+        checkboxlist.addEventListener("change", function() {
+          for (i = 0; i < checkboxlist.length; i++) {
+            checkboxlist[i].checked = false;
+          }
+        });
+
+        */
+
+      }
+
+
+
+
+
+
+
+      function addRooms(code) {
+        var div;
+        var i;
+        var periods;
+        var program;
+        var year;
+
+        for (i = 0; i < code.length; i++) {
+
+          //console.log(i);
+
+    // Create row element
+          div = document.createElement('div');
+          div.className = "checkboxblock__entry";
+
+    // Populate row element
+          div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="w-checkbox-input rooms-checkboxes" data-rooms="' + code[i]['id'] + '" id="rooms-checkbox-' + i + '" name="rooms-checkbox-' + i + '" type="checkbox">\
+          <label class="field-label-8 w-form-label" for="rooms-checkbox-' + i + '">' + code[i]['name'] + '</label></div>\
+            <div class="text-block-16" id="countE"></div>';
+
+    // Append row element
+          document.getElementById('roomsBox').appendChild(div);
+        }
+
+
+
+        var checkboxlist = document.getElementsByClassName("rooms-checkboxes");
+
+        var roomsRadioAll = document.getElementById('rooms-radio-all');
+        var roomsRadioNone = document.getElementById('rooms-radio-none');
+
+        for (i = 0; i < checkboxlist.length; i++) {
+          checkboxlist[i].checked = true;
+          checkboxlist[i].addEventListener("change", function() {
+            roomsRadioAll.checked = false;
+            roomsRadioNone.checked = false;
+
+            //Add or remove course from schedule
+            var schedulelist;
+            schedulelist = document.getElementById('schedule').children;
+
+            //console.log(this);
+            //console.log(this.getAttribute("data-courses"));
+
+            for (j = 1; j < schedulelist.length; j++) {
+              //console.log(schedulelist[i]);
+              //console.log(schedulelist[j].children[0].children[5].textContent);
+              //console.log(this.nextSibling.textContent);
+              //console.log(schedulelist[j].children[0].children[5]);
+              //console.log(schedulelist[j].children[0].children[5].getAttribute("data-coursesclasses"));
+              var roomsvar = document.querySelector("[data-rooms='" + schedulelist[j].children[0].children[4].getAttribute("data-roomsclasses") + "']");
+              var classtypesvar = document.querySelector("[data-classtypes='" + schedulelist[j].children[0].children[2].getAttribute("data-classtypesclasses") + "']");
+              var coursesvar = document.querySelector("[data-courses='" + schedulelist[j].children[0].children[5].getAttribute("data-coursesclasses") + "']");
+//console.log(testvar.checked);
+
+              if (classtypesvar.checked == false || coursesvar.checked == false || roomsvar.checked == false) {
+                schedulelist[j].style.display = "none";
+              } else {
+                schedulelist[j].style.display = "";
+              }
+/*
+              n = schedulelist[j].children[0].children[5].textContent.search(this.nextSibling.textContent);
+              if (n !== -1) {
+                if (this.checked == true) {
+                  schedulelist[j].style.display = "";
+                } else {
+                  schedulelist[j].style.display = "none";
+                }
+              }
+              */
+            }
+          });
+        }
+
+
+
+        roomsRadioAll.addEventListener("change", function() {
+          for (i = 0; i < checkboxlist.length; i++) {
+            checkboxlist[i].checked = true;
+          }
+          var schedulelist;
+          schedulelist = document.getElementById('schedule').children;
+
+          console.log(this);
+          console.log(this.getAttribute("data-courses"));
+
+          for (j = 1; j < schedulelist.length; j++) {
+            //console.log(schedulelist[i]);
+            //console.log(schedulelist[j].children[0].children[5].textContent);
+            //console.log(this.nextSibling.textContent);
+            //console.log(schedulelist[j].children[0].children[5]);
+            //console.log(schedulelist[j].children[0].children[5].getAttribute("data-coursesclasses"));
+            var roomsvar = document.querySelector("[data-rooms='" + schedulelist[j].children[0].children[4].getAttribute("data-roomsclasses") + "']");
+            var classtypesvar = document.querySelector("[data-classtypes='" + schedulelist[j].children[0].children[2].getAttribute("data-classtypesclasses") + "']");
+            var coursesvar = document.querySelector("[data-courses='" + schedulelist[j].children[0].children[5].getAttribute("data-coursesclasses") + "']");
+//console.log(testvar.checked);
+
+            if (classtypesvar.checked == false || coursesvar.checked == false || roomsvar.checked == false) {
+              schedulelist[j].style.display = "none";
+            } else {
+              schedulelist[j].style.display = "";
+            }
+/*
+            n = schedulelist[j].children[0].children[5].textContent.search(this.nextSibling.textContent);
+            if (n !== -1) {
+              if (this.checked == true) {
+                schedulelist[j].style.display = "";
+              } else {
+                schedulelist[j].style.display = "none";
+              }
+            }
+            */
+          }
+        });
+
+        roomsRadioNone.addEventListener("change", function() {
+          for (i = 0; i < checkboxlist.length; i++) {
+            checkboxlist[i].checked = false;
+          }
+          var schedulelist;
+          schedulelist = document.getElementById('schedule').children;
+
+          console.log(this);
+          console.log(this.getAttribute("data-courses"));
+
+          for (j = 1; j < schedulelist.length; j++) {
+            //console.log(schedulelist[i]);
+            //console.log(schedulelist[j].children[0].children[5].textContent);
+            //console.log(this.nextSibling.textContent);
+            //console.log(schedulelist[j].children[0].children[5]);
+            //console.log(schedulelist[j].children[0].children[5].getAttribute("data-coursesclasses"));
+            var roomsvar = document.querySelector("[data-rooms='" + schedulelist[j].children[0].children[4].getAttribute("data-roomsclasses") + "']");
+            var classtypesvar = document.querySelector("[data-classtypes='" + schedulelist[j].children[0].children[2].getAttribute("data-classtypesclasses") + "']");
+            var coursesvar = document.querySelector("[data-courses='" + schedulelist[j].children[0].children[5].getAttribute("data-coursesclasses") + "']");
+//console.log(testvar.checked);
+
+            if (classtypesvar.checked == false || coursesvar.checked == false || roomsvar.checked == false) {
+              schedulelist[j].style.display = "none";
+            } else {
+              schedulelist[j].style.display = "";
+            }
+/*
+            n = schedulelist[j].children[0].children[5].textContent.search(this.nextSibling.textContent);
+            if (n !== -1) {
+              if (this.checked == true) {
+                schedulelist[j].style.display = "";
+              } else {
+                schedulelist[j].style.display = "none";
+              }
+            }
+            */
+          }
+        });
+
+        /*
+        checkboxlist.addEventListener("change", function() {
+          for (i = 0; i < checkboxlist.length; i++) {
+            checkboxlist[i].checked = false;
+          }
+        });
+
+        */
+
+      }
 
 
 
@@ -424,6 +926,10 @@
 
         dict = [];
 
+        document.getElementById('courseNameHeadline').textContent = code[0]['code'];
+
+
+
         for (i = 0; i < code.length; i++) {
 
           //console.log(code[i]['code']);
@@ -462,8 +968,8 @@
             var schedulelist;
             schedulelist = document.getElementById('schedule').children;
 
-            console.log(this);
-            console.log(this.getAttribute("data-courses"));
+            //console.log(this);
+            //console.log(this.getAttribute("data-courses"));
 
             for (j = 1; j < schedulelist.length; j++) {
               //console.log(schedulelist[i]);
@@ -471,11 +977,12 @@
               //console.log(this.nextSibling.textContent);
               //console.log(schedulelist[j].children[0].children[5]);
               //console.log(schedulelist[j].children[0].children[5].getAttribute("data-coursesclasses"));
+              var roomsvar = document.querySelector("[data-rooms='" + schedulelist[j].children[0].children[4].getAttribute("data-roomsclasses") + "']");
               var classtypesvar = document.querySelector("[data-classtypes='" + schedulelist[j].children[0].children[2].getAttribute("data-classtypesclasses") + "']");
               var coursesvar = document.querySelector("[data-courses='" + schedulelist[j].children[0].children[5].getAttribute("data-coursesclasses") + "']");
 //console.log(testvar.checked);
 
-              if (classtypesvar.checked == false || coursesvar.checked == false) {
+              if (classtypesvar.checked == false || coursesvar.checked == false || roomsvar.checked == false) {
                 schedulelist[j].style.display = "none";
               } else {
                 schedulelist[j].style.display = "";
@@ -511,11 +1018,12 @@
             //console.log(this.nextSibling.textContent);
             //console.log(schedulelist[j].children[0].children[5]);
             //console.log(schedulelist[j].children[0].children[5].getAttribute("data-coursesclasses"));
+            var roomsvar = document.querySelector("[data-rooms='" + schedulelist[j].children[0].children[4].getAttribute("data-roomsclasses") + "']");
             var classtypesvar = document.querySelector("[data-classtypes='" + schedulelist[j].children[0].children[2].getAttribute("data-classtypesclasses") + "']");
             var coursesvar = document.querySelector("[data-courses='" + schedulelist[j].children[0].children[5].getAttribute("data-coursesclasses") + "']");
 //console.log(testvar.checked);
 
-            if (classtypesvar.checked == false || coursesvar.checked == false) {
+            if (classtypesvar.checked == false || coursesvar.checked == false || roomsvar.checked == false) {
               schedulelist[j].style.display = "none";
             } else {
               schedulelist[j].style.display = "";
@@ -550,11 +1058,12 @@
             //console.log(this.nextSibling.textContent);
             //console.log(schedulelist[j].children[0].children[5]);
             //console.log(schedulelist[j].children[0].children[5].getAttribute("data-coursesclasses"));
+            var roomsvar = document.querySelector("[data-rooms='" + schedulelist[j].children[0].children[4].getAttribute("data-roomsclasses") + "']");
             var classtypesvar = document.querySelector("[data-classtypes='" + schedulelist[j].children[0].children[2].getAttribute("data-classtypesclasses") + "']");
             var coursesvar = document.querySelector("[data-courses='" + schedulelist[j].children[0].children[5].getAttribute("data-coursesclasses") + "']");
 //console.log(testvar.checked);
 
-            if (classtypesvar.checked == false || coursesvar.checked == false) {
+            if (classtypesvar.checked == false || coursesvar.checked == false || roomsvar.checked == false) {
               schedulelist[j].style.display = "none";
             } else {
               schedulelist[j].style.display = "";
@@ -629,11 +1138,12 @@
               //console.log(schedulelist[j].children[0].children[5].textContent);
               //console.log(this.nextSibling.textContent);
 
+              var roomsvar = document.querySelector("[data-rooms='" + schedulelist[j].children[0].children[4].getAttribute("data-roomsclasses") + "']");
               var classtypesvar = document.querySelector("[data-classtypes='" + schedulelist[j].children[0].children[2].getAttribute("data-classtypesclasses") + "']");
               var coursesvar = document.querySelector("[data-courses='" + schedulelist[j].children[0].children[5].getAttribute("data-coursesclasses") + "']");
 //console.log(testvar.checked);
 
-              if (classtypesvar.checked == false || coursesvar.checked == false) {
+              if (classtypesvar.checked == false || coursesvar.checked == false || roomsvar.checked == false) {
                 schedulelist[j].style.display = "none";
               } else {
                 schedulelist[j].style.display = "";
@@ -668,11 +1178,12 @@
             //console.log(this.nextSibling.textContent);
             //console.log(schedulelist[j].children[0].children[5]);
             //console.log(schedulelist[j].children[0].children[5].getAttribute("data-coursesclasses"));
+            var roomsvar = document.querySelector("[data-rooms='" + schedulelist[j].children[0].children[4].getAttribute("data-roomsclasses") + "']");
             var classtypesvar = document.querySelector("[data-classtypes='" + schedulelist[j].children[0].children[2].getAttribute("data-classtypesclasses") + "']");
             var coursesvar = document.querySelector("[data-courses='" + schedulelist[j].children[0].children[5].getAttribute("data-coursesclasses") + "']");
 //console.log(testvar.checked);
 
-            if (classtypesvar.checked == false || coursesvar.checked == false) {
+            if (classtypesvar.checked == false || coursesvar.checked == false || roomsvar.checked == false) {
               schedulelist[j].style.display = "none";
             } else {
               schedulelist[j].style.display = "";
@@ -707,11 +1218,12 @@
             //console.log(this.nextSibling.textContent);
             //console.log(schedulelist[j].children[0].children[5]);
             //console.log(schedulelist[j].children[0].children[5].getAttribute("data-coursesclasses"));
+            var roomsvar = document.querySelector("[data-rooms='" + schedulelist[j].children[0].children[4].getAttribute("data-roomsclasses") + "']");
             var classtypesvar = document.querySelector("[data-classtypes='" + schedulelist[j].children[0].children[2].getAttribute("data-classtypesclasses") + "']");
             var coursesvar = document.querySelector("[data-courses='" + schedulelist[j].children[0].children[5].getAttribute("data-coursesclasses") + "']");
 //console.log(testvar.checked);
 
-            if (classtypesvar.checked == false || coursesvar.checked == false) {
+            if (classtypesvar.checked == false || coursesvar.checked == false || roomsvar.checked == false) {
               schedulelist[j].style.display = "none";
             } else {
               schedulelist[j].style.display = "";
@@ -752,6 +1264,7 @@
         var i;
         var j;
         var rooms;
+        var teachers;
         var coursecode;
 
         for (i = 0; i < code.length; i++) {
@@ -765,6 +1278,31 @@
     // Erase beginning comma
           if (rooms.charAt(0) == "<") {
             rooms = rooms.substring(4);
+          }
+
+
+          teachers = "";
+          teachersid = "";
+
+          for (j = 0; j < code[i]['teachers'].length; j++) {
+            teachername = code[i]['teachers'][j]['firstname'] + " " + code[i]['teachers'][j]['lastname'];
+            teachername = teachername.split(' ').map(function(item){return item[0]}).join('');
+            console.log(teachername);
+            teachers = teachers + ", " + teachername;
+            teachersid = teachersid + ", " + code[i]['teachers'][j]['id'];
+            console.log(teachers);
+          }
+
+    // Erase beginning comma
+
+          if (teachers.length < 1) {
+            teachers = "None";
+            teachersid = "";
+          }
+
+          if (teachers.charAt(0) == ",") {
+            teachers = teachers.substring(2);
+            teachersid = teachersid.substring(2);
           }
 
           if (code[i]['content'] == null) {
@@ -783,14 +1321,16 @@
           div.className = "table-tesla__table__rowbox";
           div.dataset.classes = code[i]['id'];
 
+
+
       // Populate row element
           div.innerHTML = '<div class="table-tesla__table__row">\
               <div class="table-tesla__cell__text">' + code[i]['dates']['date'].substring(2, 4) + code[i]['dates']['date'].substring(5, 7) + code[i]['dates']['date'].substring(8, 10) + '</div>\
               <div class="table-tesla__cell__text">'+ code[i]['starttime'] + '-' + code[i]['endtime'] + '</div>\
               <div class="table-tesla__cell__text" data-classtypesclasses="' + code[i]['classtypes']['id'] + '">' + code[i]['classtypes']['classtype'].charAt(0) + '</div>\
-              <div class="table-tesla__cell__text--bold">' + coursecode + '</div>\
-              <div class="table-tesla__cell__text">' + rooms + '</div>\
-              <div class="table-tesla__cell__text" data-coursesclasses="' + code[i]['courses']['id'] + '">' + code[i]['courses']['code'] + '</div>\
+              <div class="table-tesla__cell__text--bold" contenteditable="true">' + coursecode + '</div>\
+              <div class="table-tesla__cell__text" data-roomsclasses="' + code[i]['rooms'][0]['id'] + '">' + rooms + '</div>\
+              <div class="table-tesla__cell__text" data-teachersclasses="' + teachersid + '" data-editteachersclasses="false">' + teachers + '</div>\
             </div>';
 
       // Append row element
@@ -798,31 +1338,283 @@
         }
 
         //console.log(document.querySelectorAll("[data-classcourses='1']"))
+        var schedulerows;
+        schedulerows = document.getElementsByClassName('table-tesla__table__rowbox');
+        var i;
+
+        for (i = 0; i < schedulerows.length; i++) {
+
+          schedulerows[i].children[0].children[5].addEventListener('click', function (event) {
+            document.getElementById('availableteachersbox').style.display = "";
+
+            var availableboxes = document.getElementsByClassName('availableteachers-checkboxes');
+
+            //console.log(event.target.getAttribute("data-teachersclasses"));
+
+            var newarray = event.target.getAttribute("data-teachersclasses");
+
+            if (document.querySelector('[data-editteachersclasses="true"]') !== null) {
+              var myarray = document.querySelector('[data-editteachersclasses="true"]').getAttribute("data-teachersclasses").split(", ");
+              //console.log(document.querySelector('[data-editteachersclasses="true"]').parentElement.parentElement.getAttribute("data-classes"));
+              //console.log(myarray);
+              var classid = document.querySelector('[data-editteachersclasses="true"]').parentElement.parentElement.getAttribute("data-classes");
+
+              var j;
+
+    /*
+              //var requestTeachersURL = 'http://127.0.0.1:5000/api/teachers/' + myarray[j];
+              var requestTeachersURL = 'http://127.0.0.1:5000/api/teachers/1/akafirstname';
+              var requestTeachers = new XMLHttpRequest();
+
+
+
+              //headers = {'Content-Type': 'application/json'};
+
+              requestTeachers.open('DELETE', requestTeachersURL, true);
+
+
+
+
+              //http.open("POST", url, true);
+
+              //Send the proper header information along with the request
+              requestTeachers.setRequestHeader("Content-type", "application/json");
+
+              requestTeachers.send();
+
+              //console.log(requestTeachers);
+
+              requestTeachers.onreadystatechange = function() {//Call a function when the state changes.
+                  if(requestTeachers.readyState == 4 && requestTeachers.status == 200) {
+                    alert(requestTeachers.responseText);
+                  } else {
+                    alert(requestTeachers.responseText);
+                  }
+              }
+              //requestClasses.send(params);
+    */
+              var data = {};
+              data['teachers'] = [];
+
+              for (j = 0; j < myarray.length; j++) {
+
+
+                var newdata = {};
+
+                var teacherid = myarray[j];
+
+                //data1['id'] = teacherid;
+                //data2['id'] = 2;
+
+                newdata['id'] = teacherid;
+                console.log(newdata);
+
+                //data['teachers'] = [data1, data2];
+                data['teachers'].push(newdata);
+                //data3['akalastname'] = "test";
+
+
+
+
+              }
+              console.log(data);
+              console.log(JSON.stringify(data));
+              var requestTeachersURL = 'http://127.0.0.1:5000/api/classes/' + classid + '/teachers';
+
+              var requestTeachers = new XMLHttpRequest();
+
+
+
+              //headers = {'Content-Type': 'application/json'};
+
+              requestTeachers.open('PATCH', requestTeachersURL, true);
+
+
+
+
+              //http.open("POST", url, true);
+
+              //Send the proper header information along with the request
+              requestTeachers.setRequestHeader("Content-type", "application/json");
+
+              requestTeachers.send(JSON.stringify(data));
+              //requestTeachers.send();
+
+              console.log(requestTeachers);
+
+              requestTeachers.onreadystatechange = function() {//Call a function when the state changes.
+                  if(requestTeachers.readyState == 4 && requestTeachers.status == 200) {
+                    //alert(requestTeachers.responseText);
+                  } else {
+                    //alert(requestTeachers.responseText);
+                  }
+              }
+              console.log(JSON.stringify(data));
+
+              document.querySelector('[data-editteachersclasses="true"]').parentElement.parentElement.style.backgroundColor = "rgba(255, 255, 255)";
+              document.querySelector('[data-editteachersclasses="true"]').dataset.editteachersclasses = false;
+
+
+            }
+
+            var k;
+            for (k = 0; k < availableboxes.length; k++) {
+              //console.log(availableboxes[k]);
+              availableboxes[k].checked = false;
+
+            }
+
+            for (j = 0; j < newarray.length; j++) {
+
+              for (k = 0; k < availableboxes.length; k++) {
+                //console.log(availableboxes[k]);
+                //availableboxes[k].checked = false;
+                if (availableboxes[k].getAttribute("data-availableteachers") == newarray[j]) {
+                  availableboxes[k].checked = true;
+                };
+                //console.log(availableboxes[k].getAttribute("data-availableteachers"));
+
+              }
+              //console.log("hej");
+
+            }
+
+
+
+
+            event.target.dataset.editteachersclasses = true;
+            event.target.parentElement.parentElement.style.backgroundColor = "rgba(59, 153, 252, 0.1)";
+            //event.target.parentElement.parentElement.style.backgroundColor = "#3B99FC";
+            //console.log(event.target.parentElement.parentElement);
+            //
+          }, true);
+
+
+
+
+          //console.log(i);
+          schedulerows[i].addEventListener('keydown', function (event) {
+
+
+            var esc = event.which == 27,
+                nl = event.which == 13,
+                el = event.target,
+                input = el.nodeName != 'INPUT' && el.nodeName != 'TEXTAREA',
+                data = {};
+
+
+
+            if (input) {
+
+
+              if (esc) {
+                // restore state
+                document.execCommand('undo');
+                el.blur();
+              } else if (nl) {
+                console.log("fire")
+
+                data['content'] = el.innerHTML;
+
+                //console.log(el.children[0].children[3].innerHTML);
+                console.log(el.innerHTML);
+                //console.log(el.parent.parent.getAttribute("data-classes"));
+                console.log(event.currentTarget.getAttribute("data-classes"));
+                //console.log(event.parentElement.nodeName);
+
+                classid = event.currentTarget.getAttribute("data-classes");
+
+
+                var requestClassesURL = 'http://127.0.0.1:5000/api/classes/' + classid;
+
+                var requestClasses = new XMLHttpRequest();
+
+                //headers = {'Content-Type': 'application/json'};
+
+                requestClasses.open('PUT', requestClassesURL, true);
+
+
+                //http.open("POST", url, true);
+
+                //Send the proper header information along with the request
+                requestClasses.setRequestHeader("Content-type", "application/json");
+
+                requestClasses.onreadystatechange = function() {//Call a function when the state changes.
+                    if(requestClasses.readyState == 4 && requestClasses.status == 200) {
+                        //alert(requestClasses.responseText);
+                    }
+                }
+                //requestClasses.send(params);
+
+
+
+                requestClasses.send(JSON.stringify(data));
+
+                // save
+                //data[el.getAttribute('data-name')] = el.innerHTML;
+
+                // we could send an ajax request to update the field
+                /*
+                $.ajax({
+                  url: window.location.toString(),
+                  data: data,
+                  type: 'post'
+                });
+                */
+                //log(JSON.stringify(data));
+
+                el.blur();
+                event.preventDefault();
+              }
+            }
+          }, true);
+
+        }
       }
 
 
 
 // Request teachers for left panel
-      var requestURL = 'http://127.0.0.1:5000/api/teachers';
+      var requestTeachersURL = 'http://127.0.0.1:5000/api/teachers?q={"filters":[{"name":"examiner","op":"any","val":{"name":"code","op":"==","val":"AI2808"}}]}';
 
-      var request = new XMLHttpRequest();
+      var requestTeachers = new XMLHttpRequest();
 
-      request.open('GET', requestURL);
+      requestTeachers.open('GET', requestTeachersURL);
 
-      request.responseType = 'json';
+      requestTeachers.responseType = 'json';
 
-      request.send();
+      requestTeachers.send();
 
-      request.onload = function() {
-        var jsonObj = request.response;
+      requestTeachers.onload = function() {
+        var jsonObj = requestTeachers.response;
         //populateTable(jsonObj);
         //addRow(jsonObj['objects'][0]['code']);
         addTeachers(jsonObj['objects']);
 
       }
 
+
+// Request teachers for left panel
+      var requestAvailableTeachersURL = 'http://127.0.0.1:5000/api/teachers';
+
+      var requestAvailableTeachers = new XMLHttpRequest();
+
+      requestAvailableTeachers.open('GET', requestAvailableTeachersURL);
+
+      requestAvailableTeachers.responseType = 'json';
+
+      requestAvailableTeachers.send();
+
+      requestAvailableTeachers.onload = function() {
+        var jsonObj = requestAvailableTeachers.response;
+        //populateTable(jsonObj);
+        //addRow(jsonObj['objects'][0]['code']);
+        addAvailableTeachers(jsonObj['objects']);
+
+      }
+
 // Request courses for right panel
-      var requestCoursesURL = 'http://127.0.0.1:5000/api/courses';
+      var requestCoursesURL = 'http://127.0.0.1:5000/api/courses?q={"filters":[{"name":"code","op":"==","val":"AI2808"}]}';
 
       var requestCourses = new XMLHttpRequest();
 
@@ -865,7 +1657,8 @@
 
 
 // Request classes for mid panel
-      var requestClassesURL = 'http://127.0.0.1:5000/api/classes?q={"order_by":[{"field": "dates__date", "direction": "asc"}]}';
+      //var requestClassesURL = 'http://127.0.0.1:5000/api/classes?q={"order_by":[{"field": "dates__date", "direction": "asc"}]}';
+      var requestClassesURL = 'http://127.0.0.1:5000/api/classes?q={"filters":[{"name":"courses","op":"has","val":{"name":"code","op":"==","val":"AI2808"}}],"order_by":[{"field": "dates__date", "direction": "asc"}]}';
 
       var requestClasses = new XMLHttpRequest();
 
@@ -890,6 +1683,37 @@
 */
 
       }
+
+
+
+
+  // Request classes for mid panel
+        //var requestClassesURL = 'http://127.0.0.1:5000/api/classes?q={"order_by":[{"field": "dates__date", "direction": "asc"}]}';
+        var requestRoomsURL = 'http://127.0.0.1:5000/api/rooms?q={"filters":[{"name":"classes","op":"any","val":{"name":"courses_id","op":"==","val":95}}]}';
+
+        var requestRooms = new XMLHttpRequest();
+
+        requestRooms.open('GET', requestRoomsURL);
+
+        requestRooms.responseType = 'json';
+
+        requestRooms.send();
+
+        requestRooms.onload = function() {
+          var jsonObj = requestRooms.response;
+          //populateTable(jsonObj);
+          //addRow(jsonObj['objects'][0]['code']);
+
+
+          addRooms(jsonObj['objects']);
+
+  /*
+          addClasses(jsonObj['objects'].sort(function(a, b) {
+              return parseFloat(a.starttime) - parseFloat(b.starttime);
+          }));
+  */
+
+        }
 
 
 
@@ -983,7 +1807,21 @@
   };
 </script>
   <script>
+
+
 	document.addEventListener("DOMContentLoaded", function() {
+
+
+
+
+
+    //function log(s) {
+      //document.getElementById('debug').innerHTML = 'value changed to: ' + s;
+    //}
+
+
+
+
 
     document.getElementById("teachers-radio-all").checked = false;
     document.getElementById("teachers-radio-none").checked = false;
