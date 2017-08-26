@@ -408,6 +408,7 @@
 
     for (i = 0; i < availableKindsArray.length; i++) {
       availableKindsArray[i].checked = false;
+      //console.log(availableKindsArray[i]);
 
       availableKindsArray[i].addEventListener("change", function() {
         var activeSlot;
@@ -652,8 +653,8 @@
       div.dataset.classes = code[i]['id'];
       div.dataset.editclasses = "false";
       div.innerHTML = '<div class="table-tesla__table__row">\
-          <div class="table-tesla__cell__text">' + code[i]['dates']['date'].substring(2, 4) + code[i]['dates']['date'].substring(5, 7) + code[i]['dates']['date'].substring(8, 10) + '</div>\
-          <div class="table-tesla__cell__text">'+ code[i]['starttime'] + '-' + code[i]['endtime'] + '</div>\
+          <div class="table-tesla__cell__text" data-datesclasses="' + code[i]['dates']['date'] + '">' + code[i]['dates']['date'].substring(2, 4) + code[i]['dates']['date'].substring(5, 7) + code[i]['dates']['date'].substring(8, 10) + '</div>\
+          <div class="table-tesla__cell__text" data-starttimeclasses="' + code[i]['starttime'] + '"  data-endtimeclasses="' + code[i]['endtime'] + '">'+ code[i]['starttime'] + '-' + code[i]['endtime'] + '</div>\
           <div class="table-tesla__cell__text" data-classtypesclasses="' + code[i]['classtypes']['id'] + '">' + code[i]['classtypes']['classtype'].charAt(0) + '</div>\
           <div class="table-tesla__cell__text--bold" contenteditable="true">' + coursecode + '</div>\
           <div class="table-tesla__cell__text" data-roomsclasses="' + roomsid + '">' + rooms + '</div>\
@@ -843,37 +844,104 @@
 
       }
 
-      schedulelines = document.getElementsByClassName('table-tesla__table__rowbox');
+      var requestURL = 'http://127.0.0.1:5000/api/classes?q={"filters":[{"name":"courses","op":"has","val":{"name":"periodone","op":"==","val":"1"}}], "order_by":[{"field": "dates__date", "direction": "asc"}, {"field": "starttime", "direction": "asc"}]}';
 
+      var request = new XMLHttpRequest();
 
-      event.target.parentElement.parentElement.dataset.editclasses = true;
-      event.target.parentElement.parentElement.style.backgroundColor = "rgba(59, 153, 252, 0.1)";
-      //event.preventDefault();
+      request.open('GET', requestURL);
 
-      document.getElementById('available' + kind + 'box').style.display = "";
+      request.responseType = 'json';
 
-      availableboxes = document.getElementsByClassName('available' + kind + '-checkboxes');
+      request.send();
 
-      slotToCheckForActiveKindIds = event.target.getAttribute('data-' + kind + 'classes');
-
-      slotToCheckForActiveKindIdArray = slotToCheckForActiveKindIds.split(", ");
-
-
-      for (k = 0; k < availableboxes.length; k++) {
-        availableboxes[k].checked = false;
+      request.onreadystatechange = function() {
+          if(request.readyState == 4 && request.status == 200) {
+            //console.log("GotExaminer");
+          } else {
+            //console.log(requestExaminer.readyState);
+          }
       }
 
-      for (j = 0; j < slotToCheckForActiveKindIdArray.length; j++) {
+      request.onload = function() {
+        var jsonObj = request.response;
+
+        var code = jsonObj['objects'];
+
+        schedulelines = document.getElementsByClassName('table-tesla__table__rowbox');
+
+
+        event.target.parentElement.parentElement.dataset.editclasses = true;
+        event.target.parentElement.parentElement.style.backgroundColor = "rgba(59, 153, 252, 0.1)";
+        //event.preventDefault();
+
+        document.getElementById('available' + kind + 'box').style.display = "";
+
+        availableboxes = document.getElementsByClassName('available' + kind + '-checkboxes');
+
+        slotToCheckForActiveKindIds = event.target.getAttribute('data-' + kind + 'classes');
+
+        slotToCheckForActiveKindIdArray = slotToCheckForActiveKindIds.split(", ");
+
+
         for (k = 0; k < availableboxes.length; k++) {
-          if (availableboxes[k].getAttribute('data-available' + kind) == slotToCheckForActiveKindIdArray[j]) {
-            availableboxes[k].checked = true;
+          availableboxes[k].checked = false;
+          availableboxes[k].disabled = false;
+          console.log(availableboxes[k].parentElement.children[1]);
+          availableboxes[k].parentElement.children[1].style.textDecoration = "none";
+          //document.querySelector('[data-available' + kind + '="' + code[j]['teachers'][k]['id'] + '"]').checked = true;
+          //document.querySelector('[data-available' + kind + '="' + code[j]['teachers'][k]['id'] + '"]').parentElement.children[1].style.setProperty("text-decoration", "line-through");
+          //document.querySelector('[data-available' + kind + '="' + code[j]['teachers'][k]['id'] + '"]').parentElement.children[1].textContent = document.querySelector('[data-available' + kind + '="' + code[j]["teachers"][k]["id"] + '"]').parentElement.children[1].textContent + " (" + code[j]['courses']['code'] + ")";
+
+        }
+
+        for (j = 0; j < slotToCheckForActiveKindIdArray.length; j++) {
+          for (k = 0; k < availableboxes.length; k++) {
+            if (availableboxes[k].getAttribute('data-available' + kind) == slotToCheckForActiveKindIdArray[j]) {
+              availableboxes[k].checked = true;
+            }
           }
         }
+
+        //var occupiedTeachers = [];
+        for (j = 0; j < code.length; j++) {
+
+          if (code[j]['dates']['date'] == event.target.parentElement.children[0].getAttribute('data-datesclasses') && code[j]['id'] != event.target.parentElement.parentElement.getAttribute('data-classes')) {
+            for (k = 0; k < code[j][kind].length; k++) {
+              if (code[j][kind][k] !== undefined) {
+                if (code[j]['starttime'] <= event.target.parentElement.children[1].getAttribute('data-endtimeclasses') && code[j]['endtime'] >= event.target.parentElement.children[1].getAttribute('data-starttimeclasses')) {
+                  //console.log(code[j]['teachers'][k]['id']);
+                  //occupiedTeachers.push(code[j]['teachers'][k]['id']);
+                  document.querySelector('[data-available' + kind + '="' + code[j][kind][k]['id'] + '"]').disabled = true;
+                  //document.querySelector('[data-available' + kind + '="' + code[j]['teachers'][k]['id'] + '"]').checked = true;
+                  document.querySelector('[data-available' + kind + '="' + code[j][kind][k]['id'] + '"]').parentElement.children[1].style.textDecoration = "line-through";
+                  document.querySelector('[data-available' + kind + '="' + code[j][kind][k]['id'] + '"]').parentElement.children[1].style.color = "red";
+                  //document.querySelector('[data-available' + kind + '="' + code[j]['teachers'][k]['id'] + '"]').parentElement.children[1].textContent = document.querySelector('[data-available' + kind + '="' + code[j]["teachers"][k]["id"] + '"]').parentElement.children[1].textContent + " (" + code[j]['courses']['code'] + ")";
+
+                }
+              }
+            }
+          }
+        }
+        /*
+        console.log(occupiedTeachers);
+
+        for (j = 0; j < occupiedTeachers.length; j++) {
+          document.querySelector('[data-available' + kind + '="' + occupiedTeachers[j] + '"]').disabled = true;
+          document.querySelector('[data-available' + kind + '="' + occupiedTeachers[j] + '"]').checked = true;
+          document.querySelector('[data-available' + kind + '="' + occupiedTeachers[j] + '"]').parentElement.children[1].style.setProperty("text-decoration", "line-through");
+          document.querySelector('[data-available' + kind + '="' + occupiedTeachers[j] + '"]').parentElement.children[1].textContent = document.querySelector('[data-available' + kind + '="' + occupiedTeachers[j] + '"]').parentElement.children[1].textContent + " kjhk";
+          console.log(document.querySelector('[data-available' + kind + '="' + occupiedTeachers[j] + '"]').parentElement.children[1].textContent);
+        }
+        */
+
+
+//
+        //console.log("event.target: " + event.target.parentElement.children[0].getAttribute('data-datesclasses'));
+
+
+
+
       }
-
-
-      //event.target.parentElement.parentElement.dataset.editclasses = true;
-      //event.target.parentElement.parentElement.style.backgroundColor = "rgba(59, 153, 252, 0.1)";
 
     }, true);
 
@@ -1148,6 +1216,13 @@
     codeSelector = document.getElementById('resurs');
 
     codeSelector.addEventListener('change', function() {
+      if (document.querySelector('[data-editclasses="true"]') !== null) {
+
+        submitAllSelectedFromSlot(4, "rooms");
+        submitAllSelectedFromSlot(5, "teachers");
+
+      }
+
       customApiRequest(this.value, "classes");
       customApiRequest(this.value, "examiner");
       customApiRequest(this.value, "responsible");
