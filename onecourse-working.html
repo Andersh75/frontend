@@ -143,7 +143,7 @@
             <div class="table-tesla__checkboxblock">
               <div class="form-wrapper-2 w-form">
                 <form data-name="Email Form 2" id="email-form-2" name="email-form-2"><label class="field-label" for="name">KIND</label>
-                  <div class="table-tesla__checkbox__fieldbox" id="classtypesBox">
+                  <div class="table-tesla__checkbox__fieldbox" id="classtypescheckboxes">
 
 
 
@@ -165,7 +165,7 @@
             <div class="table-tesla__checkboxblock">
               <div class="form-wrapper-2 w-form">
                 <form data-name="Email Form 2" id="email-form-2" name="email-form-2"><label class="field-label" for="name">ROOM</label>
-                  <div class="table-tesla__checkbox__fieldbox" id="roomsBox">
+                  <div class="table-tesla__checkbox__fieldbox" id="roomscheckboxes">
 
 
 
@@ -208,10 +208,8 @@
           <div class="schedule-tesla__right">
             <div class="table-tesla__searchblock">
               <div class="form-wrapper w-form">
-                <form data-name="Email Form" id="email-form" name="email-form"><label class="field-label" for="Field-2">YEAR</label><select class="select-field w-select" data-name="Field" id="Field-2" name="Field"><option value="">2017</option>
-<option value="First">VT17</option>
-<option value="Second">VT16</option>
-<option value="Third">VT15</option></select></form>
+                <form data-name="Email Form" id="email-form" name="email-form"><input style="border-radius:3px; background-color:#3B99FC; margin-top:3px; padding:5px; color:white" class="signin-tesla__form__button--submit w-button field-label" data-wait="Please wait..." id="print-submit" type="button" value="PRINT">
+                  </form>
                 <div class="w-form-done">
                   <div>Thank you! Your submission has been received!</div>
                 </div>
@@ -223,28 +221,23 @@
 
             <div class="table-tesla__checkboxblock" id="availableteachersbox">
               <div class="form-wrapper-2 w-form">
-                <form data-name="Email Form 2" id="email-form-2" name="email-form-2"><label class="field-label" for="name">NAME</label>
+                <form data-name="Email Form 2" id="email-form-2" name="email-form-2"><label class="field-label" for="name">TEACHERS</label>
                   <div id="availableteacherscheckboxes" class="table-tesla__checkbox__fieldbox">
+                  </div>
+                </form>
+                <div class="w-form-done">
+                  <div>Thank you! Your submission has been received!</div>
+                </div>
+                <div class="w-form-fail">
+                  <div>Oops! Something went wrong while submitting the form</div>
+                </div>
+              </div>
+            </div>
 
-<!--
-                    <div class="checkboxblock__entry">
-                      <div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="availableteachers radio all" id="availableteachers-radio-all" name="availableteachers-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">Alla</label></div>
-                      <div class="text-block-16" id="countF"></div>
-                    </div>
-                    <div class="checkboxblock__entry">
-                      <div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="availableteachers radio all" id="availableteachers-radio-none" name="availableteachers-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">Ingen</label></div>
-                      <div class="text-block-16" id="countF"></div>
-                    </div>
-
-                    <div class="checkboxblock__entry">
-                      <div class="w-checkbox w-clearfix"><input checked="checked" class="w-checkbox-input" data-name="Checkbox E 2" id="checkbox-E-2" name="checkbox-E-2" type="checkbox"><label class="field-label-8 w-form-label" for="checkbox-E-2">Övning</label></div>
-                      <div class="text-block-16" id="countE">233</div>
-                    </div>
-                    <div class="checkboxblock__entry">
-                      <div class="w-checkbox w-clearfix"><input checked="checked" class="w-checkbox-input" data-name="Checkbox S 2" id="checkbox-S-2" name="checkbox-S-2" type="checkbox"><label class="field-label-8 w-form-label" for="checkbox-S-2">Seminarium</label></div>
-                      <div class="text-block-16" id="countS">42</div>
-                    </div>
-                  -->
+            <div class="table-tesla__checkboxblock" id="availableroomsbox">
+              <div class="form-wrapper-2 w-form">
+                <form data-name="Email Form 2" id="email-form-2" name="email-form-2"><label class="field-label" for="name">ROOMS</label>
+                  <div id="availableroomscheckboxes" class="table-tesla__checkbox__fieldbox">
                   </div>
                 </form>
                 <div class="w-form-done">
@@ -287,921 +280,256 @@
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
   <script>
 
-  function updateCurrentTeacherlist() {
 
+
+
+  function updateCurrentKindlist(kind, col) {
+
+    var slotArray;
     var j;
+    var slotKindIds;
+    var slotKindIdArray;
+    var availableKindsCheckboxForKindToAdd;
+    var initials;
     var i;
+    var div;
+    var currentKindArray;
+    var currentKindId;
+    var kindIsCurrent;
     var k;
     var m;
-    var schedulelist = document.getElementById('schedule').children;
 
-    for (j = 1; j < schedulelist.length; j++) {
 
 
+    slotArray = document.getElementById('schedule').children;
 
-      var myteachers = schedulelist[j].children[0].children[5].getAttribute("data-teachersclasses");
-      var myteachersarray = myteachers.split(", ");
+    for (j = 1; j < slotArray.length; j++) {
 
-      //console.log(myteachersarray);
+      slotKindIds = slotArray[j].children[0].children[col].getAttribute("data-"+ kind + "classes");
+      slotKindIdArray = slotKindIds.split(", ");
 
 
-      var teachersvar = false;
+      if (slotKindIdArray != null) {
+        for (k = 0; k < slotKindIdArray.length; k++) {
+          if (slotKindIdArray[k] != 0) {
+            if (document.querySelector("[data-"+ kind + "='" + slotKindIdArray[k] + "']") == null) {
 
+              availableKindsCheckboxForKindToAdd = document.querySelector("[data-available"+ kind + "='" + slotKindIdArray[k] + "']");
 
-      if (myteachersarray == null) {
-        console.log("empty array");
-      }
+              initials = availableKindsCheckboxForKindToAdd.nextSibling.nextSibling.textContent;
 
-      for (k = 0; k < myteachersarray.length; k++) {
-        //console.log(myteachersarray[k]);
-        if (myteachersarray[k] != 0) {
-          if (document.querySelector("[data-teachers='" + myteachersarray[k] + "']") == null) {
-            //console.log("NEED TO ADD " + myteachersarray[k]);
-            //console.log(document.getElementById('availableteachers-checkbox-' + myteachersarray[k]));
-
-            var newname = document.querySelector("[data-availableteachers='" + myteachersarray[k] + "']").nextSibling.nextSibling.textContent;
-            console.log(newname);
-
-            var newid = document.querySelector("[data-availableteachers='" + myteachersarray[k] + "']").getAttribute("data-availableteachers");
-            console.log(document.querySelector("[data-availableteachers='" + myteachersarray[k] + "']").getAttribute("data-availableteachers"));
-            i = document.getElementById('teacherscheckboxes').children.length;
-
-            // Create row element
-            div = document.createElement('div');
-            div.className = "checkboxblock__entry";
-
-            // Populate row element
-            div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="w-checkbox-input teachers-checkboxes" data-teachers="' + newid + '" id="teachers-checkbox-' + i + '" name="teachers-checkbox-' + i + '" type="checkbox" checked>\
-            <label class="field-label-8 w-form-label" for="teachers-checkbox-' + i + '">' + newname + '</label></div>\
-              <div class="text-block-16" id="countE"></div>';
-
-
-            div.addEventListener("change", function() {
-              var teachersRadioAll;
-              var teachersRadioNone;
-
-              teachersRadioAll = document.getElementById('teachers-radio-all');
-              teachersRadioNone = document.getElementById('teachers-radio-none');
-
-              teachersRadioAll.checked = false;
-              teachersRadioNone.checked = false;
-
-              filterSchedule();
-            });
-
-
-            // Append row element
-            document.getElementById('teacherscheckboxes').appendChild(div);
-
-          }
-        }
-
-      }
-
-
-
-
-    }
-
-
-    var teacherslist = document.getElementById('teacherscheckboxes').children;
-
-    var myteacher;
-    //console.log(teacherslist);
-
-    for (j = 2; j < teacherslist.length; j++) {
-      //console.log(teacherslist[j]);
-
-      //console.log("1");
-
-      myteacher = teacherslist[j].children[0].children[0].getAttribute("data-teachers");
-
-
-      schedulelist = document.getElementById('schedule').children;
-
-      var teachersvar = false;
-
-      for (k = 1; k < schedulelist.length; k++) {
-
-        var myteachers = schedulelist[k].children[0].children[5].getAttribute("data-teachersclasses");
-        var myteachersarray = myteachers.split(", ");
-
-        //console.log(myteachersarray);
-
-
-
-
-
-
-
-        if (myteachersarray == null) {
-          console.log("EMPTY");
-        }
-
-        for (m = 0; m < myteachersarray.length; m++) {
-          //console.log(myteachersarray[k]);
-          if (myteachersarray[m] != 0) {
-            if (myteachersarray[m] == myteacher) {
-              teachersvar = true;
-              }
-          }
-
-        }
-
-      }
-
-      if (teachersvar == false) {
-        //teacherslist[j].style.display = "none";
-        teacherslist[j].remove();
-      }
-
-    }
-
-  }
-
-
-
-
-  function filterSchedule() {
-    schedulelist = document.getElementById('schedule').children;
-
-    for (j = 1; j < schedulelist.length; j++) {
-
-      //var roomsvar = document.querySelector("[data-rooms='" + schedulelist[j].children[0].children[4].getAttribute("data-roomsclasses") + "']");
-      var classtypesvar = document.querySelector("[data-classtypes='" + schedulelist[j].children[0].children[2].getAttribute("data-classtypesclasses") + "']");
-
-      var myteachers = schedulelist[j].children[0].children[5].getAttribute("data-teachersclasses");
-      var myteachersarray = myteachers.split(", ");
-
-      //console.log(myteachersarray);
-
-      var k;
-      var teachersvar = false;
-
-
-      if (myteachersarray == null) {
-        console.log("empty array");
-      }
-
-      for (k = 0; k < myteachersarray.length; k++) {
-        //console.log(myteachersarray[k]);
-        if (document.querySelector("[data-teachers='" + myteachersarray[k] + "']") != null) {
-          if (document.querySelector("[data-teachers='" + myteachersarray[k] + "']").checked == true) {
-            teachersvar = true;
-          }
-        } else {
-          teachersvar = true;
-        }
-
-      }
-
-      //console.log(teachersvar);
-
-
-
-      var myrooms = schedulelist[j].children[0].children[4].getAttribute("data-roomsclasses");
-      var myroomsarray = myrooms.split(", ");
-
-
-      var roomsvar = false;
-
-
-
-      for (k = 0; k < myroomsarray.length; k++) {
-        //console.log(myteachersarray[k]);
-        if (document.querySelector("[data-rooms='" + myroomsarray[k] + "']") != null) {
-          if (document.querySelector("[data-rooms='" + myroomsarray[k] + "']").checked == true) {
-            roomsvar = true;
-          }
-        } else {
-          roomsvar = true;
-        }
-      }
-
-      //if (classtypesvar.checked == false || coursesvar.checked == false || roomsvar.checked == false) {
-      if (classtypesvar.checked == false || roomsvar == false || teachersvar == false) {
-        schedulelist[j].style.display = "none";
-      } else {
-        schedulelist[j].style.display = "";
-      }
-    }
-  }
-
-
-  function addCourseToTitle(code) {
-    document.getElementById('courseNameHeadline').textContent = code[0]['code'] + " " + code[0]['name'];
-  }
-
-
-
-
-
-  function addCoursesToSelect(code) {
-    var option;
-    var i;
-    var codeSelector;
-
-
-    for (i = 0; i < code.length; i++) {
-
-      // Create row element
-      option = document.createElement('option');
-      option.value = code[i]['id'];
-
-      // Populate row element
-      option.innerHTML = code[i]['code'] + " " + code[i]['name'];
-
-      // Append row element
-      document.getElementById('resurs').appendChild(option);
-
-
-
-
-    }
-
-    codeSelector = document.getElementById('resurs');
-    codeSelector.addEventListener('change', function() {
-      //console.log(this.value);
-      requestClasses(this.value);
-      requestCourse(this.value);
-      requestExaminer(this.value);
-      requestResponsible(this.value);
-      requestTeachers(this.value);
-      requestClasstypes(this.value);
-      requestRooms(this.value);
-    }, false);
-  }
-
-
-
-
-
-  function addAvailableTeachers(code) {
-    var div;
-    var i;
-    var periods;
-    var program;
-    var year;
-    var submitbutton;
-
-    for (i = 0; i < code.length; i++) {
-
-      // Create row element
-      div = document.createElement('div');
-      div.className = "checkboxblock__entry";
-
-      // Populate row element
-      div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="w-checkbox-input availableteachers-checkboxes" data-availableteachers="' + code[i]['id'] + '" id="availableteachers-checkbox-' + code[i]['id'] + '" name="availableteachers-checkbox-' + code[i]['id'] + '" type="checkbox">\
-      <label class="field-label-8 w-form-label" for="availableteachers-checkbox-' + code[i]['id'] + '">' + code[i]['firstname'] + ' ' + code[i]['lastname'] + '</label></div>\
-        <div class="text-block-16" id="countE"></div>';
-
-      // Append row element
-      document.getElementById('availableteacherscheckboxes').appendChild(div);
-    }
-
-    // BUTTON
-    div = document.createElement('div');
-    div.className = "checkboxblock__entry";
-
-    div.innerHTML = '<input style="border-radius:3px; background-color:#3B99FC; margin-top:3px; padding:5px; color:white" class="signin-tesla__form__button--submit w-button field-label" data-wait="Please wait..." id="availableteachers-submit" type="button" value="SUBMIT">\
-      <div class="text-block-16" id="countE"></div>';
-
-    document.getElementById('availableteacherscheckboxes').appendChild(div);
-
-
-
-    submitbutton = document.getElementById("availableteachers-submit");
-
-
-    //ADD EVENTLISTENER
-    submitbutton.addEventListener("click", function(event) {
-      var myarray;
-      var classid;
-      var j;
-      var i;
-      var data = {};
-      var newdata = {};
-      var teacherid;
-      var requestTeachersURL;
-      var requestTeachers;
-      var checkboxlist = [];
-
-
-
-      myarray = document.querySelector('[data-editclasses="true"]').children[0].children[5].getAttribute("data-teachersclasses").split(", ");
-      classid = document.querySelector('[data-editclasses="true"]').getAttribute("data-classes");
-
-
-      data['teachers'] = [];
-
-      for (j = 0; j < myarray.length; j++) {
-
-        newdata = {};
-
-
-        if (myarray[j] != 0 || myarray[j] != null || myarray[j] <= 45) {
-          teacherid = myarray[j];
-        }
-
-
-
-        if (myarray[j] != 0 || myarray[j] != null|| myarray[j] <= 45) {
-          newdata['id'] = teacherid;
-
-          data['teachers'].push(newdata);
-
-        }
-
-
-
-      }
-
-      requestTeachersURL = 'http://127.0.0.1:5000/api/classes/' + classid + '/teachers';
-
-      requestTeachers = new XMLHttpRequest();
-
-      requestTeachers.open('PATCH', requestTeachersURL, true);
-
-      requestTeachers.setRequestHeader("Content-type", "application/json");
-
-      requestTeachers.send(JSON.stringify(data));
-      //console.log(JSON.stringify(data));
-
-      requestTeachers.onreadystatechange = function() {
-          if(requestTeachers.readyState == 4 && requestTeachers.status == 200) {
-            console.log("SentTeachers");
-          } else {
-            console.log(requestTeachers.readyState);
-            console.log(requestTeachers.status);
-          }
-      }
-
-
-
-
-      document.getElementById('availableteachersbox').style.display = "none";
-      document.querySelector('[data-editclasses="true"]').style.backgroundColor = "rgba(255, 255, 255)";
-      document.querySelector('[data-editclasses="true"]').dataset.editclasses = false;
-      event.preventDefault();
-
-
-
-    });
-
-
-    checkboxlist = document.getElementsByClassName("availableteachers-checkboxes");
-
-
-    for (i = 0; i < checkboxlist.length; i++) {
-      checkboxlist[i].checked = false;
-
-      checkboxlist[i].addEventListener("change", function() {
-        var myteachers;
-        var myteachersarray = [];
-        var myarray = [];
-        var found;
-        var initials;
-        var j;
-        var mystring;
-        var myteachersstring;
-
-
-        myteachers = document.querySelector('[data-editclasses="true"]').children[0].children[5].textContent;
-        myteachersarray = myteachers.split(", ");
-        myarray = document.querySelector('[data-editclasses="true"]').children[0].children[5].getAttribute("data-teachersclasses").split(", ");
-
-
-
-        found = false;
-        console.log("length:" + myarray.length);
-
-        for (j = 0; j < myarray.length; j++) {
-          console.log(myarray[j]);
-
-          if (myarray[j] == this.getAttribute("data-availableteachers")) {
-
-            found = true;
-            if (this.checked == false) {
-              myarray.splice(j, 1);
-              myteachersarray.splice(j, 1);
+              div = document.createElement('div');
+              div.className = "checkboxblock__entry";
+              div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="w-checkbox-input ' + kind + '-checkboxes" data-' + kind + '="' + slotKindIdArray[k] + '" id="' + kind + '-checkbox-' + slotKindIdArray[k] + '" name="' + kind + '-checkbox-' + slotKindIdArray[k] + '" type="checkbox" checked>\
+              <label class="field-label-8 w-form-label" for="' + kind + '-checkbox-' + slotKindIdArray[k] + '">' + initials + '</label></div>\
+                <div class="text-block-16" id="countE"></div>';
+              filterRadioChange(kind, div);
+              document.getElementById(kind + 'checkboxes').appendChild(div);
             }
           }
-
         }
-
-        initials = this.parentElement.children[1].textContent.split(' ').map(function(item){return item[0]}).join('');
-
-        if (found == false) {
-          if (this.checked == true) {
-            myarray.push(this.getAttribute("data-availableteachers"));
-
-            myteachersarray.push(initials);
-          }
-        }
-
-        myarray = myarray.filter(Boolean);
-        myteachersarray = myteachersarray.filter(Boolean);
-
-        if (myteachersarray.length > 1) {
-          if (myteachersarray[0] == "None" || myteachersarray[0] == "nn") {
-            myteachersarray.splice(0, 1);
-          }
-        }
-
-        mystring = "";
-        myteachersstring = "";
-        for (j = 0; j < myarray.length; j++) {
-          mystring = mystring + ", " + myarray[j];
-          myteachersstring = myteachersstring + ", " + myteachersarray[j];
-        }
-
-        if (mystring.charAt(0) == ",") {
-          mystring = mystring.substring(2);
-          myteachersstring = myteachersstring.substring(2);
-        }
-
-        console.log("myteachersstring:" + myteachersstring);
-
-        if (mystring.charAt(0) == "0") {
-          mystring = mystring.substring(3);
-          var myteachersstringarr = myteachersstring.split(", ");
-          myteachersstring = myteachersstringarr[0];
-        }
-
-        if (mystring == "") {
-          myteachersstring = "None";
-          mystring = 0;
-        }
-
-
-
-        document.querySelector('[data-editclasses="true"]').children[0].children[5].textContent = myteachersstring;
-        document.querySelector('[data-editclasses="true"]').children[0].children[5].dataset.teachersclasses = mystring;
-
-
-        updateCurrentTeacherlist();
-
-      });
+      }
     }
 
-    document.getElementById('availableteachersbox').style.display = "none";
+
+    currentKindArray = document.getElementById(kind + 'checkboxes').children;
+
+    for (j = 2; j < currentKindArray.length; j++) {
+
+      currentKindId = currentKindArray[j].children[0].children[0].getAttribute("data-" + kind);
+      slotArray = document.getElementById('schedule').children;
+      kindIsCurrent = false;
+
+      for (k = 1; k < slotArray.length; k++) {
+
+        slotKindIds = slotArray[k].children[0].children[col].getAttribute("data-" + kind + "classes");
+        slotKindIdArray = slotKindIds.split(", ");
 
 
+        if (slotKindIdArray != null) {
+          for (m = 0; m < slotKindIdArray.length; m++) {
+            if (slotKindIdArray[m] != 0) {
+              if (slotKindIdArray[m] == currentKindId) {
+                kindIsCurrent = true;
+              }
+            }
+          }
+        }
+      }
+
+      if (kindIsCurrent == false) {
+        currentKindArray[j].remove();
+      }
+    }
   }
 
 
 
+  function modAvailableKind(code) {
+    var myNode;
 
 
-
-
-  function addRooms(code) {
-    var div;
-    var i;
-    var periods;
-    var program;
-    var year;
-    var checkboxlist = [];
-    var roomsRadioAll;
-    var roomsRadioNone;
-
-
-    var myNode = document.getElementById('roomsBox');
+    myNode = document.getElementById('availableTeachercheckboxes');
+    //console.log("myNode: " + myNode.innerHTML);
+    console.log(id);
     while (myNode.firstChild) {
       myNode.removeChild(myNode.firstChild);
     }
-
-    //console.log(myNode);
-
-
-    // CREATE ROW ELEMENT
-    div = document.createElement('div');
-    div.className = "checkboxblock__entry";
-
-    // Populate row element
-    div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="rooms radio all" id="rooms-radio-all" name="rooms-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">All</label></div>\
-    <div class="text-block-16" id="countF"></div>';
-
-    // Append row element
-    document.getElementById('roomsBox').appendChild(div);
-
-    div = document.createElement('div');
-    div.className = "checkboxblock__entry";
-
-    // Populate row element
-    div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="rooms radio all" id="rooms-radio-none" name="rooms-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">None</label></div>\
-    <div class="text-block-16" id="countF"></div>';
-
-    document.getElementById('roomsBox').appendChild(div);
-
-
-
-
-
-    for (i = 0; i < code.length; i++) {
-
-      // Create row element
-      div = document.createElement('div');
-      div.className = "checkboxblock__entry";
-
-      // Populate row element
-      div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="w-checkbox-input rooms-checkboxes" data-rooms="' + code[i]['id'] + '" id="rooms-checkbox-' + i + '" name="rooms-checkbox-' + i + '" type="checkbox">\
-      <label class="field-label-8 w-form-label" for="rooms-checkbox-' + i + '">' + code[i]['name'] + '</label></div>\
-        <div class="text-block-16" id="countE"></div>';
-
-      // Append row element
-      document.getElementById('roomsBox').appendChild(div);
-    }
-
-
-
-    checkboxlist = document.getElementsByClassName("rooms-checkboxes");
-
-    roomsRadioAll = document.getElementById('rooms-radio-all');
-    roomsRadioNone = document.getElementById('rooms-radio-none');
-
-    for (i = 0; i < checkboxlist.length; i++) {
-      checkboxlist[i].checked = true;
-
-
-      checkboxlist[i].addEventListener("change", function() {
-        var roomsRadioAll;
-        var roomsRadioNone;
-        var schedulelist = [];
-        var j;
-        var roomsvar;
-        var classtypesvar;
-        //var coursesvar;
-        var roomsvar;
-
-
-        roomsRadioAll = document.getElementById('rooms-radio-all');
-        roomsRadioNone = document.getElementById('rooms-radio-none');
-
-        roomsRadioAll.checked = false;
-        roomsRadioNone.checked = false;
-
-        filterSchedule()
-
-      });
-
-
-    }
-
-
-
-    roomsRadioAll.addEventListener("change", function() {
-      var roomsvar;
-      var classtypesvar;
-      //var coursesvar;
-      var i;
-      var j;
-      var checkboxlist = [];
-      var schedulelist = [];
-
-      checkboxlist = document.getElementsByClassName("rooms-checkboxes");
-
-      for (i = 0; i < checkboxlist.length; i++) {
-        checkboxlist[i].checked = true;
-      }
-
-      filterSchedule()
-    });
-
-    roomsRadioNone.addEventListener("change", function() {
-      var roomsvar;
-      var classtypesvar;
-      //var coursesvar;
-      var i;
-      var j;
-      var checkboxlist = [];
-      var schedulelist = [];
-
-      checkboxlist = document.getElementsByClassName("rooms-checkboxes");
-
-      for (i = 0; i < checkboxlist.length; i++) {
-        checkboxlist[i].checked = false;
-      }
-
-      filterSchedule()
-    });
   }
 
 
-  function addExaminer(code) {
+
+
+  function addAvailableKind(code, kind, col) {
     var div;
     var i;
-
-    //console.log(code[0]);
-
-    var myNode = document.getElementById('examinercheckboxes');
-    while (myNode.firstChild) {
-      myNode.removeChild(myNode.firstChild);
-    }
+    var submitbutton;
+    var availableKindsArray;
 
 
     for (i = 0; i < code.length; i++) {
-
-      // Create row element
       div = document.createElement('div');
       div.className = "checkboxblock__entry";
 
-      // Populate row element
-      div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="w-checkbox-input examiner-checkboxes" data-examiner="' + code[i]['id'] + '" id="examiner-checkbox-' + i + '" name="examiner-checkbox-' + i + '" type="checkbox" disabled checked>\
-      <label class="field-label-8 w-form-label" for="examiner-checkbox-' + i + '">' + code[i]['firstname'] + ' ' + code[i]['lastname'] + '</label></div>\
-        <div class="text-block-16" id="countE"></div>';
-
-      // Append row element
-      document.getElementById('examinercheckboxes').appendChild(div);
-    }
-
-  }
-
-
-
-
-    function addResponsible(code) {
-      var div;
-      var i;
-
-      //console.log(code[0]);
-
-      var myNode = document.getElementById('responsiblecheckboxes');
-      while (myNode.firstChild) {
-        myNode.removeChild(myNode.firstChild);
-      }
-
-
-      for (i = 0; i < code.length; i++) {
-
-        // Create row element
-        div = document.createElement('div');
-        div.className = "checkboxblock__entry";
-
-        // Populate row element
-        div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="w-checkbox-input responsible-checkboxes" data-responsible="' + code[i]['id'] + '" id="responsible-checkbox-' + code[i]['id'] + '" name="responsible-checkbox-' + code[i]['id'] + '" type="checkbox" disabled checked>\
-        <label class="field-label-8 w-form-label" for="responsible-checkbox-' + code[i]['id'] + '">' + code[i]['firstname'] + ' ' + code[i]['lastname'] + '</label></div>\
+      if (kind == "teachers") {
+        div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="w-checkbox-input available' + kind + '-checkboxes" data-available' + kind + '="' + code[i]['id'] + '" id="available' + kind + '-checkbox-' + code[i]['id'] + '" name="available' + kind + '-checkbox-' + code[i]['id'] + '" type="checkbox">\
+        <label class="field-label-8 w-form-label" for="available' + kind + '-checkbox-' + code[i]['id'] + '">' + code[i]['firstname'] + ' ' + code[i]['lastname'] + '</label></div>\
           <div class="text-block-16" id="countE"></div>';
-
-        // Append row element
-        document.getElementById('responsiblecheckboxes').appendChild(div);
+      } else {
+        div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="w-checkbox-input available' + kind + '-checkboxes" data-available' + kind + '="' + code[i]['id'] + '" id="available' + kind + '-checkbox-' + code[i]['id'] + '" name="available' + kind + '-checkbox-' + code[i]['id'] + '" type="checkbox">\
+        <label class="field-label-8 w-form-label" for="available' + kind + '-checkbox-' + code[i]['id'] + '">' + code[i]['name'] + '</label></div>\
+          <div class="text-block-16" id="countE"></div>';
       }
 
+      document.getElementById('available' + kind + 'checkboxes').appendChild(div);
     }
 
-
-
-
-
-  function addTeachers(code) {
-    var div;
-    var i;
-    var periods;
-    var program;
-    var year;
-    var checkboxlist = [];
-    var teachersRadioAll;
-    var teachersRadioNone;
-
-
-    var myNode = document.getElementById('teacherscheckboxes');
-
-    //console.log(myNode);
-
-    while (myNode.firstChild) {
-      myNode.removeChild(myNode.firstChild);
-    }
-
-    //console.log(myNode);
-
-
-    // CREATE ROW ELEMENT
-    div = document.createElement('div');
-    div.className = "checkboxblock__entry";
-
-    // Populate row element
-    div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="teachers radio all" id="teachers-radio-all" name="teachers-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">All</label></div>\
-                          <div class="text-block-16" id="countF"></div>';
-
-    // Append row element
-    document.getElementById('teacherscheckboxes').appendChild(div);
-
-    div = document.createElement('div');
-    div.className = "checkboxblock__entry";
-
-    // Populate row element
-    div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="teachers radio all" id="teachers-radio-none" name="teachers-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">None</label></div>\
-    <div class="text-block-16" id="countF"></div>';
-
-    document.getElementById('teacherscheckboxes').appendChild(div);
-
-
-    for (i = 0; i < code.length; i++) {
-
-      // Create row element
-      div = document.createElement('div');
-      div.className = "checkboxblock__entry";
-
-      // Populate row element
-      div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="w-checkbox-input teachers-checkboxes" data-teachers="' + code[i]['id'] + '" id="teachers-checkbox-' + code[i]['id'] + '" name="teachers-checkbox-' + code[i]['id'] + '" type="checkbox">\
-      <label class="field-label-8 w-form-label" for="teachers-checkbox-' + code[i]['id'] + '">' + code[i]['firstname'] + ' ' + code[i]['lastname'] + '</label></div>\
-        <div class="text-block-16" id="countE"></div>';
-
-      // Append row element
-      document.getElementById('teacherscheckboxes').appendChild(div);
-    }
-
-
-    checkboxlist = document.getElementsByClassName("teachers-checkboxes");
-
-    teachersRadioAll = document.getElementById('teachers-radio-all');
-    teachersRadioNone = document.getElementById('teachers-radio-none');
-
-    teachersRadioAll.checked = false;
-    teachersRadioNone.checked = false;
-
-    for (i = 0; i < checkboxlist.length; i++) {
-      checkboxlist[i].checked = true;
-
-      checkboxlist[i].addEventListener("change", function() {
-        var teachersRadioAll;
-        var teachersRadioNone;
-
-        teachersRadioAll = document.getElementById('teachers-radio-all');
-        teachersRadioNone = document.getElementById('teachers-radio-none');
-
-        teachersRadioAll.checked = false;
-        teachersRadioNone.checked = false;
-
-        filterSchedule();
-      });
-    }
-
-    teachersRadioAll.addEventListener("change", function() {
-      var checkboxlist = [];
-      var i;
-
-      checkboxlist = document.getElementsByClassName("teachers-checkboxes");
-
-      for (i = 0; i < checkboxlist.length; i++) {
-        checkboxlist[i].checked = true;
-      }
-
-      filterSchedule();
-
-
-    });
-
-    teachersRadioNone.addEventListener("change", function() {
-      var checkboxlist = [];
-      var i;
-
-      checkboxlist = document.getElementsByClassName("teachers-checkboxes");
-
-      for (i = 0; i < checkboxlist.length; i++) {
-        checkboxlist[i].checked = false;
-      }
-
-      filterSchedule();
-    });
-  }
-
-
-
-
-  function addClasstypes(code) {
-    var div;
-    var i;
-    var j;
-    var periods;
-    var program;
-    var year;
-    var checkboxlist = [];
-    var classtypesRadioAll;
-    var classtypesRadioNone;
-    var schedulelist = [];
-    var roomsvar;
-    var classtypesvar;
-    //var coursesvar;
-
-
-    var myNode = document.getElementById('classtypesBox');
-
-    //console.log(myNode);
-
-    while (myNode.firstChild) {
-      myNode.removeChild(myNode.firstChild);
-    }
-
-
-    div = document.createElement('div');
-    div.className = "checkboxblock__entry";
-
-    // Populate row element
-    div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="classtypes radio all" id="classtypes-radio-all" name="classtypes-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">Alla</label></div>\
-    <div class="text-block-16" id="countF"></div>';
-
-    // Append row element
-    document.getElementById('classtypesBox').appendChild(div);
-
-
-
-    div = document.createElement('div');
-    div.className = "checkboxblock__entry";
-
-    // Populate row element
-    div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="classtypes radio all" id="classtypes-radio-none" name="classtypes-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">Ingen</label></div>\
-    <div class="text-block-16" id="countF"></div>';
-
-    // Append row element
-    document.getElementById('classtypesBox').appendChild(div);
-
-
-
-
-
-
-
-
-    for (i = 0; i < code.length; i++) {
-
-      // Create row element
-      div = document.createElement('div');
-      div.className = "checkboxblock__entry";
-
-      // Populate row element
-      div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input classtypes-checkboxes" data-classtypes="' + code[i]['id'] + '" id="classtypes-checkbox-' + code[i]['id'] + '" type="checkbox"><label class="field-label-8 w-form-label">' + code[i]['classtype'] + '</label></div>\
-        <div class="text-block-16"></div>';
-
-      // Append row element
-      document.getElementById('classtypesBox').appendChild(div);
-    }
-
-    checkboxlist = document.getElementsByClassName("classtypes-checkboxes");
-
-    classtypesRadioAll = document.getElementById('classtypes-radio-all');
-    classtypesRadioNone = document.getElementById('classtypes-radio-none');
-
-    for (i = 0; i < checkboxlist.length; i++) {
-      checkboxlist[i].checked = true;
-
-      //ADD EVENTLISTENERS FOR CHECKBOXES
-      checkboxlist[i].addEventListener("change", function() {
-        var classtypesRadioAll;
-        var classtypesRadioNone;
-        var schedulelist = [];
+    availableKindsArray = document.getElementsByClassName("available" + kind + "-checkboxes");
+
+    for (i = 0; i < availableKindsArray.length; i++) {
+      availableKindsArray[i].checked = false;
+
+      availableKindsArray[i].addEventListener("change", function() {
+        var activeSlot;
+        var activeSlotKindsInitials;
+        var activeSlotKindInitialsArray;
+        var activeSlotKindIds;
+        var activeSlotKindIdArray;
+        var thisAvailableKindIdMatchesActiveSlotKindId;
+        var thisavailableKindId;
         var j;
-        var roomsvar;
-        var classtypesvar;
-        //var coursesvar;
 
-        classtypesRadioAll = document.getElementById('classtypes-radio-all');
-        classtypesRadioNone = document.getElementById('classtypes-radio-none');
 
-        classtypesRadioAll.checked = false;
-        classtypesRadioNone.checked = false;
+        activeSlot = document.querySelector('[data-editclasses="true"]');
 
-        filterSchedule();
+        activeSlotKindsInitials = activeSlot.children[0].children[col].textContent;
+        activeSlotKindInitialsArray = activeSlotKindsInitials.split(", ");
+
+        activeSlotKindIds = activeSlot.children[0].children[col].getAttribute("data-" + kind + "classes");
+        console.log(activeSlotKindIds);
+        activeSlotKindIdArray = activeSlotKindIds.split(", ");
+
+
+        thisAvailableKindIdMatchesActiveSlotKindId = false;
+
+        thisavailableKindId = this.getAttribute("data-available" + kind);
+
+
+        //Remove unchecked activeSlotKind
+        for (j = 0; j < activeSlotKindIdArray.length; j++) {
+          if (activeSlotKindIdArray[j] == thisavailableKindId) {
+            thisAvailableKindIdMatchesActiveSlotKindId = true;
+            if (this.checked == false) {
+              activeSlotKindIdArray.splice(j, 1);
+              activeSlotKindInitialsArray.splice(j, 1);
+            }
+          }
+        }
+
+
+        //Add checked non existing activeSlotKind
+        if (thisAvailableKindIdMatchesActiveSlotKindId == false) {
+          if (this.checked == true) {
+            activeSlotKindIdArray.push(thisavailableKindId);
+
+            if (kind == "teachers") {
+              thisAvailableKindInitials = this.parentElement.children[1].textContent.split(' ').map(function(item){return item[0]}).join('');
+            } else {
+              thisAvailableKindInitials = this.parentElement.children[1].textContent;
+            }
+
+            activeSlotKindInitialsArray.push(thisAvailableKindInitials);
+          }
+        }
+
+
+        //Clean activeSlotKindArrays
+        activeSlotKindIdArray = activeSlotKindIdArray.filter(Boolean);
+        activeSlotKindInitialsArray = activeSlotKindInitialsArray.filter(Boolean);
+
+        if (activeSlotKindInitialsArray.length > 1) {
+          if (activeSlotKindInitialsArray[0] == "None" || activeSlotKindInitialsArray[0] == "nn") {
+            activeSlotKindInitialsArray.splice(0, 1);
+            activeSlotKindIdArray.splice(0, 1);
+          }
+        }
+
+
+
+
+        activeSlotKindIds = "";
+        activeSlotKindsInitials = "";
+
+        for (j = 0; j < activeSlotKindIdArray.length; j++) {
+          activeSlotKindIds = activeSlotKindIds + ", " + activeSlotKindIdArray[j];
+          activeSlotKindsInitials = activeSlotKindsInitials + ", " + activeSlotKindInitialsArray[j];
+        }
+
+        if (activeSlotKindIds.charAt(0) == ",") {
+          activeSlotKindIds = activeSlotKindIds.substring(2);
+          activeSlotKindsInitials = activeSlotKindsInitials.substring(2);
+        }
+
+        if (activeSlotKindIds.charAt(0) == "0") {
+          activeSlotKindIds = activeSlotKindIds.substring(3);
+          activeSlotKindsInitials = activeSlotKindsInitials.substring(6);
+        }
+
+        if (activeSlotKindIds == "") {
+          activeSlotKindsInitials = "None";
+          activeSlotKindIds = 0;
+        }
+
+
+        activeSlot.children[0].children[col].textContent = activeSlotKindsInitials;
+
+        if (kind == "teachers") {
+          activeSlot.children[0].children[col].dataset.teachersclasses = activeSlotKindIds;
+        } else {
+          activeSlot.children[0].children[col].dataset.roomsclasses = activeSlotKindIds;
+        }
+
+        updateCurrentKindlist(kind, col);
+
       });
     }
 
-    //ADD EVENTLISTENERS FOR RADIO ALL
-    classtypesRadioAll.addEventListener("change", function() {
-      var checkboxlist = [];
-      var schedulelist = [];
-      var j;
-      var i;
-      var roomsvar;
-      var classtypesvar;
-      //var coursesvar;
 
-      checkboxlist = document.getElementsByClassName("classtypes-checkboxes");
+    //Add submit button
+    div = document.createElement('div');
+    div.className = "checkboxblock__entry";
+    div.innerHTML = '<input style="border-radius:3px; background-color:#3B99FC; margin-top:3px; padding:5px; color:white" class="signin-tesla__form__button--submit w-button field-label" data-wait="Please wait..." id="available' + kind + '-submit" type="button" value="SUBMIT">\
+      <div class="text-block-16" id="countE"></div>';
+    document.getElementById('available' + kind + 'checkboxes').appendChild(div);
 
-      for (i = 0; i < checkboxlist.length; i++) {
-        checkboxlist[i].checked = true;
-      }
 
-      filterSchedule();
-    });
+    submitbutton = document.getElementById('available' + kind + '-submit');
 
-    //ADD EVENTLISTENERS FOR RADIO NONE
-    classtypesRadioNone.addEventListener("change", function() {
-      var checkboxlist = [];
-      var schedulelist = [];
-      var j;
-      var i;
-      var roomsvar;
-      var classtypesvar;
-      //var coursesvar;
+    submitKindInSlot(submitbutton, kind, col);
 
-      checkboxlist = document.getElementsByClassName("classtypes-checkboxes");
 
-      for (i = 0; i < checkboxlist.length; i++) {
-        checkboxlist[i].checked = false;
-      }
-
-      filterSchedule();
-    });
+    //Hide box
+    document.getElementById('available' + kind + 'box').style.display = "none";
   }
 
 
@@ -1222,17 +550,16 @@
     var coursecode;
     var div;
     var schedulerows;
+    var data;
+    var data = [];
+    var id;
 
-    var myNode = document.getElementById('schedule');
-    while (myNode.firstChild) {
-      myNode.removeChild(myNode.firstChild);
-    }
+    id = "schedule";
+    removeAllChildNodes(id);
 
-    // CREATE ROW ELEMENT
+
     div = document.createElement('div');
     div.className = "table-tesla__table__headerbox";
-
-    // Populate row element
     div.innerHTML = '<div class="table-tesla__header__lablebox-period">\
             <div class="table-tesla__header__cell__text">DATE</div>\
           </div>\
@@ -1251,8 +578,6 @@
           <div class="table-tesla__table__header__lablebox-programandyear">\
             <div class="table-tesla__header__cell__text">TEACHER</div>\
           </div>';
-
-    // Append row element
     document.getElementById('schedule').appendChild(div);
 
 
@@ -1326,8 +651,6 @@
       div.className = "table-tesla__table__rowbox";
       div.dataset.classes = code[i]['id'];
       div.dataset.editclasses = "false";
-
-      // Populate row element
       div.innerHTML = '<div class="table-tesla__table__row">\
           <div class="table-tesla__cell__text">' + code[i]['dates']['date'].substring(2, 4) + code[i]['dates']['date'].substring(5, 7) + code[i]['dates']['date'].substring(8, 10) + '</div>\
           <div class="table-tesla__cell__text">'+ code[i]['starttime'] + '-' + code[i]['endtime'] + '</div>\
@@ -1336,8 +659,6 @@
           <div class="table-tesla__cell__text" data-roomsclasses="' + roomsid + '">' + rooms + '</div>\
           <div class="table-tesla__cell__text" data-teachersclasses="' + teachersid + '">' + teachers + '</div>\
         </div>';
-
-      // Append row element
       document.getElementById('schedule').appendChild(div);
     }
 
@@ -1348,125 +669,23 @@
     for (i = 0; i < schedulerows.length; i++) {
 
 
-      //ADD EVENTLISTENER FOR TEACHERS
-      schedulerows[i].children[0].children[5].addEventListener('click', function (event) {
-        var availableboxes = [];
-        var newarray = [];
-        var myarray = [];
-        var classid;
-        var data = {};
-        var newdata = {};
-        var j;
-        var k;
-        var m;
-        var teacherid;
-        var requestTeachersURL;
-        var requestTeachers;
-
-        document.getElementById('availableteachersbox').style.display = "";
-
-        availableboxes = document.getElementsByClassName('availableteachers-checkboxes');
-
-        newarray = event.target.getAttribute("data-teachersclasses");
-
-
-        var schedulelines = document.getElementsByClassName('table-tesla__table__rowbox');
-
-        for (m = 0; m < schedulelines.length; m++) {
-          schedulelines[m].dataset.editclasses = false;
-          schedulelines[m].style.backgroundColor = "rgba(255, 255, 255)";
-        }
-
-        console.log(schedulelines[3]);
-
-        event.target.parentElement.parentElement.dataset.editclasses = true;
-        event.target.parentElement.parentElement.style.backgroundColor = "rgba(59, 153, 252, 0.1)";
-
-
-
-        if (document.querySelector('[data-editclasses="true"]') !== null) {
-          //console.log("newarray" + newarray);
-          myarray = document.querySelector('[data-editclasses="true"]').children[0].children[5].getAttribute("data-teachersclasses").split(", ");
-          console.log("myarray" + myarray);
-          classid = document.querySelector('[data-editclasses="true"]').getAttribute("data-classes");
-
-          data['teachers'] = [];
-
-          for (j = 0; j < myarray.length; j++) {
-
-            newdata = {};
-
-            teacherid = myarray[j];
-
-            newdata['id'] = teacherid;
-
-            console.log("tid" + newdata['id']);
-
-            data['teachers'].push(newdata);
-
-          }
-
-          //console.log(data);
-          console.log(JSON.stringify(data));
-
-          requestTeachersURL = 'http://127.0.0.1:5000/api/classes/' + classid + '/teachers';
-
-          requestTeachers = new XMLHttpRequest();
-
-          requestTeachers.open('PATCH', requestTeachersURL, true);
-
-          requestTeachers.setRequestHeader("Content-type", "application/json");
-
-          requestTeachers.send(JSON.stringify(data));
-
-          requestTeachers.onreadystatechange = function() {
-              if(requestTeachers.readyState == 4 && requestTeachers.status == 200) {
-                console.log("SentTeachers");
-              } else {
-                console.log(requestTeachers.readyState);
-              }
-          }
-
-          document.querySelector('[data-editclasses="true"]').style.backgroundColor = "rgba(255, 255, 255)";
-          document.querySelector('[data-editclasses="true"]').dataset.editclasses = false;
-
-        }
-
-
-
-
-        for (k = 0; k < availableboxes.length; k++) {
-          availableboxes[k].checked = false;
-        }
-
-        console.log("newarray: " + newarray);
-
-        for (j = 0; j < myarray.length; j++) {
-          for (k = 0; k < availableboxes.length; k++) {
-            if (availableboxes[k].getAttribute("data-availableteachers") == myarray[j]) {
-              console.log(availableboxes[k].getAttribute("data-availableteachers"));
-              availableboxes[k].checked = true;
-            }
-          }
-        }
-
-        event.target.parentElement.parentElement.dataset.editclasses = true;
-        event.target.parentElement.parentElement.style.backgroundColor = "rgba(59, 153, 252, 0.1)";
-
-      }, true);
-
+      slotEventListeners(5, "teachers", schedulerows[i]);
+      slotEventListeners(4, "rooms", schedulerows[i]);
 
       schedulerows[i].children[0].children[3].addEventListener('click', function (event) {
-        //console.log(document.querySelector('[data-editclasses="true"]'));
-        if (document.querySelector('[data-editclasses="true"]') != null) {
-          //console.log('EJ NULL');
+        if (document.querySelector('[data-editclasses="true"]') !== null) {
+          submitAllSelectedFromSlot(4, "rooms");
+          submitAllSelectedFromSlot(5, "teachers");
           document.querySelector('[data-editclasses="true"]').style.backgroundColor = "rgba(255, 255, 255)";
           document.querySelector('[data-editclasses="true"]').dataset.editclasses = false;
         }
+        event.target.style.outline = "0px solid transparent";
         event.target.parentElement.parentElement.dataset.editclasses = true;
         event.target.parentElement.parentElement.style.backgroundColor = "rgba(59, 153, 252, 0.1)";
-        document.getElementById("availableteachersbox").style.display = "none";
       });
+
+
+
 
       //ADD EVENTLISTENER FOR CONTENT
       schedulerows[i].addEventListener('keydown', function (event) {
@@ -1514,14 +733,19 @@
 
           requestClasses.onreadystatechange = function() {
             if(requestClasses.readyState == 4 && requestClasses.status == 200) {
-              console.log("SentContent");
+              //console.log("SentContent");
             } else {
-              console.log(requestClasses.readyState);
+              //console.log(requestClasses.readyState);
             }
           }
 
-          this.style.backgroundColor = "rgba(255, 255, 255)";
-          this.dataset.editclasses = false;
+          if(this.getAttribute('data-classes') != document.querySelector('[data-editclasses="true"]').getAttribute('data-classes')) {
+            this.style.backgroundColor = "rgba(255, 255, 255)";
+            this.dataset.editclasses = false;
+          }
+
+
+
 
         }
 
@@ -1534,7 +758,7 @@
 
           //OM KLICKET VAR INOM EN SCHEMARAD - AKTIVERA RADEN
 
-          console.log("CLICK");
+          //console.log("CLICK");
 
 
 
@@ -1576,9 +800,9 @@
 
             requestClasses.onreadystatechange = function() {
               if(requestClasses.readyState == 4 && requestClasses.status == 200) {
-                console.log("SentContent");
+                //console.log("SentContent");
               } else {
-                console.log(requestClasses.readyState);
+                //console.log(requestClasses.readyState);
               }
             }
 
@@ -1592,307 +816,715 @@
     }
   }
 
+  function slotEventListeners(col, kind, node) {
+    //ADD EVENTLISTENER FOR ROOMS - var kind; var s;
+    node.children[0].children[col].addEventListener('click', function (event) {
 
+      var schedulelines;
+      var m;
+      var availableboxes = [];
+      var slotToCheckForActiveKindIds;
+      var slotToCheckForActiveKindIdArray = [];
+
+
+      if (document.querySelector('[data-editclasses="true"]') !== null) {
+
+        submitAllSelectedFromSlot(4, "rooms");
+        submitAllSelectedFromSlot(5, "teachers");
+
+
+        //document.getElementById('availablekindsbox').style.display = "none";
+        if(event.target.parentElement.parentElement.getAttribute('data-classes') != document.querySelector('[data-editclasses="true"]').getAttribute('data-classes')) {
+          console.log(event.target.parentElement.parentElement.getAttribute('data-classes'));
+          console.log(document.querySelector('[data-editclasses="true"]').getAttribute('data-classes'));
+          document.querySelector('[data-editclasses="true"]').style.backgroundColor = "rgba(255, 255, 255)";
+          document.querySelector('[data-editclasses="true"]').dataset.editclasses = false;
+        }
+
+      }
+
+      schedulelines = document.getElementsByClassName('table-tesla__table__rowbox');
+
+
+      event.target.parentElement.parentElement.dataset.editclasses = true;
+      event.target.parentElement.parentElement.style.backgroundColor = "rgba(59, 153, 252, 0.1)";
+      //event.preventDefault();
+
+      document.getElementById('available' + kind + 'box').style.display = "";
+
+      availableboxes = document.getElementsByClassName('available' + kind + '-checkboxes');
+
+      slotToCheckForActiveKindIds = event.target.getAttribute('data-' + kind + 'classes');
+
+      slotToCheckForActiveKindIdArray = slotToCheckForActiveKindIds.split(", ");
+
+
+      for (k = 0; k < availableboxes.length; k++) {
+        availableboxes[k].checked = false;
+      }
+
+      for (j = 0; j < slotToCheckForActiveKindIdArray.length; j++) {
+        for (k = 0; k < availableboxes.length; k++) {
+          if (availableboxes[k].getAttribute('data-available' + kind) == slotToCheckForActiveKindIdArray[j]) {
+            availableboxes[k].checked = true;
+          }
+        }
+      }
+
+
+      //event.target.parentElement.parentElement.dataset.editclasses = true;
+      //event.target.parentElement.parentElement.style.backgroundColor = "rgba(59, 153, 252, 0.1)";
+
+    }, true);
+
+
+
+
+  }
+
+
+  function submitAllSelectedFromSlot(col, kind) {
+
+    var classid;
+    var kindsToPatch = {};
+    var slotToSubmit;
+    var kindIdToPatch;
+    var slotToSubmitKindIds;
+    var slotToSubmitKindIdArray;
+    var i;
+
+
+    slotToSubmit = document.querySelector('[data-editclasses="true"]');
+    slotToSubmitKindIds = slotToSubmit.children[0].children[col].getAttribute("data-" + kind + "classes");
+    slotToSubmitKindIdArray = slotToSubmitKindIds.split(", ");
+    console.log("slotToSubmitKindIdArray" + slotToSubmitKindIdArray);
+
+    kindsToPatch[kind] = [];
+
+    for (i = 0; i < slotToSubmitKindIdArray.length; i++) {
+      kindIdToPatch = {};
+
+      if (slotToSubmitKindIdArray[i] != 0 && slotToSubmitKindIdArray[i] != null) {
+        kindIdToPatch['id'] = slotToSubmitKindIdArray[i];
+        kindsToPatch[kind].push(kindIdToPatch);
+      }
+    }
+
+    classid = slotToSubmit.getAttribute("data-classes");
+
+
+    patchKind(classid, kindsToPatch, kind);
+    document.getElementById('available' + kind + 'box').style.display = "none";
+  }
+
+
+
+
+  function addClasstypes(code) {
+    var div;
+    var i;
+    var checkboxlist = [];
+    var classtypesRadioAll;
+    var classtypesRadioNone;
+    var id;
+
+    id = "classtypescheckboxes";
+    removeAllChildNodes(id);
+
+
+    div = document.createElement('div');
+    div.className = "checkboxblock__entry";
+    div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="classtypes radio all" id="classtypes-radio-all" name="classtypes-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">Alla</label></div>\
+    <div class="text-block-16" id="countF"></div>';
+    document.getElementById('classtypescheckboxes').appendChild(div);
+
+
+    div = document.createElement('div');
+    div.className = "checkboxblock__entry";
+    div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="classtypes radio all" id="classtypes-radio-none" name="classtypes-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">Ingen</label></div>\
+    <div class="text-block-16" id="countF"></div>';
+    document.getElementById('classtypescheckboxes').appendChild(div);
+
+
+    for (i = 0; i < code.length; i++) {
+      div = document.createElement('div');
+      div.className = "checkboxblock__entry";
+      div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input classtypes-checkboxes" data-classtypes="' + code[i]['id'] + '" id="classtypes-checkbox-' + code[i]['id'] + '" type="checkbox"><label class="field-label-8 w-form-label">' + code[i]['classtype'] + '</label></div>\
+        <div class="text-block-16"></div>';
+      document.getElementById('classtypescheckboxes').appendChild(div);
+    }
+
+
+    checkboxlist = document.getElementsByClassName("classtypes-checkboxes");
+
+    for (i = 0; i < checkboxlist.length; i++) {
+      checkboxlist[i].checked = true;
+      filterRadioChange("classtypes", checkboxlist[i]);
+    }
+
+
+    classtypesRadioAll = document.getElementById('classtypes-radio-all');
+    classtypesRadioNone = document.getElementById('classtypes-radio-none');
+
+    filterRadioChangeEffectOnCheckboxes("classtypes", classtypesRadioAll, true);
+    filterRadioChangeEffectOnCheckboxes("classtypes", classtypesRadioNone, false);
+
+  }
+
+
+
+  function addResponsible(code) {
+    var div;
+    var i;
+    var id;
+
+    id = "responsiblecheckboxes";
+    removeAllChildNodes(id);
+
+
+    for (i = 0; i < code.length; i++) {
+      div = document.createElement('div');
+      div.className = "checkboxblock__entry";
+      div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="w-checkbox-input responsible-checkboxes" data-responsible="' + code[i]['id'] + '" id="responsible-checkbox-' + code[i]['id'] + '" name="responsible-checkbox-' + code[i]['id'] + '" type="checkbox" disabled checked>\
+      <label class="field-label-8 w-form-label" for="responsible-checkbox-' + code[i]['id'] + '">' + code[i]['firstname'] + ' ' + code[i]['lastname'] + '</label></div>\
+        <div class="text-block-16" id="countE"></div>';
+      document.getElementById('responsiblecheckboxes').appendChild(div);
+    }
+
+  }
+
+
+  function addTeachers(code) {
+    var div;
+    var i;
+    var checkboxlist = [];
+    var teachersRadioAll;
+    var teachersRadioNone;
+    var id;
+
+    id = "teacherscheckboxes";
+    removeAllChildNodes(id);
+
+
+    div = document.createElement('div');
+    div.className = "checkboxblock__entry";
+    div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="teachers radio all" id="teachers-radio-all" name="teachers-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">All</label></div>\
+                          <div class="text-block-16" id="countF"></div>';
+    document.getElementById('teacherscheckboxes').appendChild(div);
+
+
+    div = document.createElement('div');
+    div.className = "checkboxblock__entry";
+    div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="teachers radio all" id="teachers-radio-none" name="teachers-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">None</label></div>\
+    <div class="text-block-16" id="countF"></div>';
+    document.getElementById('teacherscheckboxes').appendChild(div);
+
+
+    for (i = 0; i < code.length; i++) {
+      div = document.createElement('div');
+      div.className = "checkboxblock__entry";
+      div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="w-checkbox-input teachers-checkboxes" data-teachers="' + code[i]['id'] + '" id="teachers-checkbox-' + code[i]['id'] + '" name="teachers-checkbox-' + code[i]['id'] + '" type="checkbox">\
+      <label class="field-label-8 w-form-label" for="teachers-checkbox-' + code[i]['id'] + '">' + code[i]['firstname'] + ' ' + code[i]['lastname'] + '</label></div>\
+        <div class="text-block-16" id="countE"></div>';
+      document.getElementById('teacherscheckboxes').appendChild(div);
+    }
+
+
+    checkboxlist = document.getElementsByClassName("teachers-checkboxes");
+
+    teachersRadioAll = document.getElementById('teachers-radio-all');
+    teachersRadioNone = document.getElementById('teachers-radio-none');
+
+    teachersRadioAll.checked = false;
+    teachersRadioNone.checked = false;
+
+    for (i = 0; i < checkboxlist.length; i++) {
+      checkboxlist[i].checked = true;
+      filterRadioChange("teachers", checkboxlist[i]);
+    }
+
+    filterRadioChangeEffectOnCheckboxes("teachers", teachersRadioAll, true);
+    filterRadioChangeEffectOnCheckboxes("teachers", teachersRadioNone, false);
+  }
+
+
+
+
+  function addRooms(code) {
+    var div;
+    var i;
+    var id;
+    var checkboxlist = [];
+    var roomsRadioAll;
+    var roomsRadioNone;
+
+
+    id = "roomscheckboxes";
+    removeAllChildNodes(id);
+
+
+    div = document.createElement('div');
+    div.className = "checkboxblock__entry";
+    div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="rooms radio all" id="rooms-radio-all" name="rooms-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">All</label></div>\
+    <div class="text-block-16" id="countF"></div>';
+    document.getElementById('roomscheckboxes').appendChild(div);
+
+
+    div = document.createElement('div');
+    div.className = "checkboxblock__entry";
+    div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="checkbox-2 w-checkbox-input" data-name="rooms radio all" id="rooms-radio-none" name="rooms-radio-all" type="radio"><label class="field-label-8 w-form-label" for="checkbox-F-2">None</label></div>\
+    <div class="text-block-16" id="countF"></div>';
+    document.getElementById('roomscheckboxes').appendChild(div);
+
+
+    for (i = 0; i < code.length; i++) {
+      div = document.createElement('div');
+      div.className = "checkboxblock__entry";
+      div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="w-checkbox-input rooms-checkboxes" data-rooms="' + code[i]['id'] + '" id="rooms-checkbox-' + code[i]['id'] + '" name="rooms-checkbox-' + code[i]['id'] + '" type="checkbox">\
+      <label class="field-label-8 w-form-label" for="rooms-checkbox-' + code[i]['id'] + '">' + code[i]['name'] + '</label></div>\
+        <div class="text-block-16" id="countE"></div>';
+      document.getElementById('roomscheckboxes').appendChild(div);
+    }
+
+
+    checkboxlist = document.getElementsByClassName("rooms-checkboxes");
+    roomsRadioAll = document.getElementById('rooms-radio-all');
+    roomsRadioNone = document.getElementById('rooms-radio-none');
+
+    for (i = 0; i < checkboxlist.length; i++) {
+      checkboxlist[i].checked = true;
+      filterRadioChange("rooms", checkboxlist[i]);
+    }
+
+
+    filterRadioChangeEffectOnCheckboxes("rooms", roomsRadioAll, true);
+    filterRadioChangeEffectOnCheckboxes("rooms", roomsRadioNone, false);
+  }
+
+
+
+  function addExaminer(code) {
+    var div;
+    var i;
+    var id;
+
+    id = "examinercheckboxes";
+    removeAllChildNodes(id);
+
+
+    for (i = 0; i < code.length; i++) {
+      div = document.createElement('div');
+      div.className = "checkboxblock__entry";
+      div.innerHTML = '<div class="w-checkbox w-clearfix"><input class="w-checkbox-input examiner-checkboxes" data-examiner="' + code[i]['id'] + '" id="examiner-checkbox-' + code[i]['id'] + '" name="examiner-checkbox-' + code[i]['id'] + '" type="checkbox" disabled checked>\
+      <label class="field-label-8 w-form-label" for="examiner-checkbox-' + code[i]['id'] + '">' + code[i]['firstname'] + ' ' + code[i]['lastname'] + '</label></div>\
+        <div class="text-block-16" id="countE"></div>';
+      document.getElementById('examinercheckboxes').appendChild(div);
+    }
+
+  }
+
+
+
+  function addCourseToTitle(code) {
+    document.getElementById('courseNameHeadline').textContent = code[0]['code'] + " " + code[0]['name'];
+  }
+
+
+
+  function addCoursesToSelect(code) {
+    var option;
+    var i;
+    var codeSelector;
+
+
+    for (i = 0; i < code.length; i++) {
+      option = document.createElement('option');
+      option.value = code[i]['id'];
+      option.innerHTML = code[i]['code'] + " " + code[i]['name'];
+      document.getElementById('resurs').appendChild(option);
+    }
+
+
+    codeSelector = document.getElementById('resurs');
+
+    codeSelector.addEventListener('change', function() {
+      customApiRequest(this.value, "classes");
+      customApiRequest(this.value, "examiner");
+      customApiRequest(this.value, "responsible");
+      customApiRequest(this.value, "teachers");
+      customApiRequest(this.value, "classtypes");
+      customApiRequest(this.value, "rooms");
+      customApiRequest(this.value, "course");
+      //customApiRequest("periodone", "allClassesInPeriod");
+      scanner();
+    }, false);
+  }
+
+
+  function patchKind(classid, data, kind) {
+
+    var requestTeachersURL;
+    var requestTeachers;
+
+    requestTeachersURL = 'http://127.0.0.1:5000/api/classes/' + classid + '/' + kind;
+    requestTeachers = new XMLHttpRequest();
+    requestTeachers.open('PATCH', requestTeachersURL, true);
+    requestTeachers.setRequestHeader("Content-type", "application/json");
+    requestTeachers.send(JSON.stringify(data));
+    requestTeachers.onreadystatechange = function() {
+        if(requestTeachers.readyState == 4 && requestTeachers.status == 200) {
+          console.log("SentKind:" + kind);
+        } else {
+          console.log(requestTeachers.readyState);
+        }
+    }
+  }
+
+
+  function submitKindInSlot(submitbutton, kind, col) {
+    submitbutton.addEventListener("click", function(event) {
+
+      var slotToSubmit;
+      var slotToSubmitKindIds;
+      var slotToSubmitKindIdArray;
+      var kindsToPatch = {};
+      var i;
+      var classid;
+
+
+      slotToSubmit = document.querySelector('[data-editclasses="true"]');
+      slotToSubmitKindIds =slotToSubmit.children[0].children[col].getAttribute("data-" + kind + "classes");
+      slotToSubmitKindIdArray = slotToSubmitKindIds.split(", ");
+
+      kindsToPatch[kind] = [];
+
+      for (i = 0; i < slotToSubmitKindIdArray.length; i++) {
+        kindIdToPatch = {};
+
+        if (slotToSubmitKindIdArray[i] != 0 && slotToSubmitKindIdArray[i] != null) {
+          kindIdToPatch['id'] = slotToSubmitKindIdArray[i];
+          kindsToPatch[kind].push(kindIdToPatch);
+        }
+      }
+
+      classid = slotToSubmit.getAttribute("data-classes");
+
+      patchKind(classid, kindsToPatch, kind);
+
+      document.getElementById('available' + kind + 'box').style.display = "none";
+      document.querySelector('[data-editclasses="true"]').style.backgroundColor = "rgba(255, 255, 255)";
+      document.querySelector('[data-editclasses="true"]').dataset.editclasses = false;
+      event.preventDefault();
+    });
+
+  }
+
+
+
+
+
+  function filterRadioChangeEffectOnCheckboxes(kind, node, allOrNone) {
+    node.addEventListener("change", function() {
+      var i;
+      var checkboxlist = [];
+
+      checkboxlist = document.getElementsByClassName(kind + "-checkboxes");
+
+      for (i = 0; i < checkboxlist.length; i++) {
+        checkboxlist[i].checked = allOrNone;
+      }
+      filterSchedule()
+    });
+  }
+
+
+  function filterRadioChange(kind, node) {
+    node.addEventListener("change", function() {
+      var RadioAll;
+      var RadioNone;
+
+      RadioAll = document.getElementById(kind + '-radio-all');
+      RadioNone = document.getElementById(kind + '-radio-none');
+
+      RadioAll.checked = false;
+      RadioNone.checked = false;
+
+      filterSchedule();
+    });
+  }
+
+
+  function filterSchedule() {
+    schedulelist = document.getElementById('schedule').children;
+
+    for (j = 1; j < schedulelist.length; j++) {
+
+      //var roomsvar = document.querySelector("[data-rooms='" + schedulelist[j].children[0].children[4].getAttribute("data-roomsclasses") + "']");
+      var classtypesvar = document.querySelector("[data-classtypes='" + schedulelist[j].children[0].children[2].getAttribute("data-classtypesclasses") + "']");
+
+      var myteachers = schedulelist[j].children[0].children[5].getAttribute("data-teachersclasses");
+      var slotToSubmitTeacherInitialsArray = myteachers.split(", ");
+
+      //console.log(slotToSubmitTeacherInitialsArray);
+
+      var k;
+      var teachersvar = false;
+
+
+      if (slotToSubmitTeacherInitialsArray == null) {
+        ////console.log("empty array");
+      }
+
+      for (k = 0; k < slotToSubmitTeacherInitialsArray.length; k++) {
+        ////console.log(slotToSubmitTeacherInitialsArray[k]);
+        if (document.querySelector("[data-teachers='" + slotToSubmitTeacherInitialsArray[k] + "']") != null) {
+          if (document.querySelector("[data-teachers='" + slotToSubmitTeacherInitialsArray[k] + "']").checked == true) {
+            teachersvar = true;
+          }
+        } else {
+          teachersvar = true;
+        }
+
+      }
+
+      ////console.log(teachersvar);
+
+
+
+      var myrooms = schedulelist[j].children[0].children[4].getAttribute("data-roomsclasses");
+      var myroomsarray = myrooms.split(", ");
+
+
+      var roomsvar = false;
+
+
+
+      for (k = 0; k < myroomsarray.length; k++) {
+        ////console.log(slotToSubmitTeacherInitialsArray[k]);
+        if (document.querySelector("[data-rooms='" + myroomsarray[k] + "']") != null) {
+          if (document.querySelector("[data-rooms='" + myroomsarray[k] + "']").checked == true) {
+            roomsvar = true;
+          }
+        } else {
+          roomsvar = true;
+        }
+      }
+
+      //if (classtypesvar.checked == false || coursesvar.checked == false || roomsvar.checked == false) {
+      if (classtypesvar.checked == false || roomsvar == false || teachersvar == false) {
+        schedulelist[j].style.display = "none";
+      } else {
+        schedulelist[j].style.display = "";
+      }
+    }
+  }
 
 
 /* SET TITLE */
 
 
+  function addAllClassesInPeriod(data) {
+    console.log(JSON.stringify(data[0]));
+  }
+
+
 /* ALL INITIAL REQUESTS */
 
 
+  function customApiRequest(courseid, kind) {
+    var requestURL;
+    var request;
 
-// Request teachers for left panel
+    switch(kind) {
+      case "examiner":
+          requestURL = 'http://127.0.0.1:5000/api/teachers?q={"filters":[{"name":"examiner","op":"any","val":{"name":"id","op":"==","val":"' + courseid + '"}}]}';
+          break;
+      case "availableteachers":
+          requestURL = 'http://127.0.0.1:5000/api/teachers?q={"filters":[{"name":"firstname","op":"is_not_null","val":"yes"}],"order_by":[{"field": "firstname", "direction": "asc"}]}';
+          break;
+      case "availablerooms":
+          requestURL = 'http://127.0.0.1:5000/api/rooms?q={"filters":[{"name":"name","op":"is_not_null","val":"yes"}],"order_by":[{"field": "name", "direction": "asc"}]}';
+          break;
+      case "courses":
+          requestURL = 'http://127.0.0.1:5000/api/courses?q={"filters":[{"name":"examiner_id","op":"ge","val":1}],"order_by":[{"field": "code", "direction": "asc"}]}';
+          break;
+      case "responsible":
+          requestURL = 'http://127.0.0.1:5000/api/teachers?q={"filters":[{"name":"responsible","op":"any","val":{"name":"id","op":"==","val":"' + courseid + '"}}]}';
+          break;
+      case "teachers":
+          requestURL = 'http://127.0.0.1:5000/api/teachers?q={"filters":[{"name":"classes","op":"any","val":{"name":"courses_id","op":"eq","val":' + courseid + '}}]}';
+          break;
+      case "availableTeachers":
+          requestURL = 'http://127.0.0.1:5000/api/teachers?q={"filters":[{"name":"firstname","op":"is_not_null","val":"yes"}],"order_by":[{"field": "firstname", "direction": "asc"}]}';
+          break;
+      case "course":
+          requestURL = 'http://127.0.0.1:5000/api/courses?q={"filters":[{"name":"id","op":"==","val":' + courseid + '}]}';
+          break;
+      case "classtypes":
+          requestURL = 'http://127.0.0.1:5000/api/classtypes?q={"filters":[{"name":"classes","op":"any","val":{"name":"courses_id","op":"==","val":' + courseid + '}}]}';
+          break;
+      case "classes":
+          requestURL = 'http://127.0.0.1:5000/api/classes?q={"filters":[{"name":"courses","op":"has","val":{"name":"id","op":"==","val":"' + courseid + '"}}],"order_by":[{"field": "dates__date", "direction": "asc"}]}';
+          break;
+      case "rooms":
+          requestURL = 'http://127.0.0.1:5000/api/rooms?q={"filters":[{"name":"classes","op":"any","val":{"name":"courses_id","op":"==","val":' + courseid + '}}]}';
+          break;
+      case "allClassesInPeriod":
+          requestURL = 'http://127.0.0.1:5000/api/classes?q={"filters":[{"name":"courses","op":"has","val":{"name":"periodone","op":"==","val":"1"}}], "order_by":[{"field": "dates__date", "direction": "asc"}, {"field": "starttime", "direction": "asc"}]}';
+          break;
 
-/*
-  var requestTeachersURL = 'http://127.0.0.1:5000/api/teachers?q={"filters":[{"name":"examiner","op":"any","val":{"name":"code","op":"==","val":"AI2808"}}]}';
 
-  var requestTeachers = new XMLHttpRequest();
+    }
 
-  requestTeachers.open('GET', requestTeachersURL);
+    request = new XMLHttpRequest();
 
-  requestTeachers.responseType = 'json';
+    request.open('GET', requestURL);
 
-  requestTeachers.send();
+    request.responseType = 'json';
 
-  requestTeachers.onreadystatechange = function() {
-      if(requestTeachers.readyState == 4 && requestTeachers.status == 200) {
-        console.log("GotTeachers");
-      } else {
-        console.log(requestTeachers.readyState);
+    request.send();
+
+    request.onreadystatechange = function() {
+        if(request.readyState == 4 && request.status == 200) {
+          //console.log("GotExaminer");
+        } else {
+          //console.log(requestExaminer.readyState);
+        }
+    }
+
+    request.onload = function() {
+      var jsonObj = request.response;
+
+      switch(kind) {
+        case "examiner":
+            addExaminer(jsonObj['objects']);
+            break;
+        case "availableteachers":
+            addAvailableKind(jsonObj['objects'], "teachers", 5);
+            break;
+        case "availablerooms":
+            addAvailableKind(jsonObj['objects'], "rooms", 4);
+            break;
+        case "courses":
+            addCoursesToSelect(jsonObj['objects']);
+            break;
+        case "responsible":
+            addResponsible(jsonObj['objects']);
+            break;
+        case "teachers":
+            addTeachers(jsonObj['objects']);
+            break;
+        case "course":
+            addCourseToTitle(jsonObj['objects']);
+            break;
+        case "classtypes":
+            addClasstypes(jsonObj['objects']);
+            break;
+        case "classes":
+            addClasses(jsonObj['objects']);
+            break;
+        case "rooms":
+            addRooms(jsonObj['objects']);
+            break;
+        case "allClassesInPeriod":
+            modAvailableKind(jsonObj['objects']);
+            break;
+
       }
+
+    }
+
   }
 
-  requestTeachers.onload = function() {
-    var jsonObj = requestTeachers.response;
-    addTeachers(jsonObj['objects']);
+
+
+
+  function removeAllChildNodes(id) {
+    var myNode;
+
+
+    myNode = document.getElementById(id);
+    //console.log("myNode: " + myNode.innerHTML);
+    console.log(id);
+    while (myNode.firstChild) {
+      myNode.removeChild(myNode.firstChild);
+    }
   }
 
 
-*/
+  function scanner(code) {
+    var i;
+    var data;
+    var col;
 
 
+    data = {};
+    col = code.children[0].children;
 
+    data['date'] = col[0].innerHTML;
+    data['time'] = col[1].innerHTML;
+    data['kind'] = col[2].innerHTML;
+    data['title'] = col[3].innerHTML;
+    data['rooms'] = col[4].innerHTML;
+    data['teachers'] = col[5].innerHTML;
 
+    return data;
 
-function requestExaminer(courseid) {
-  // Request teachers for left panel
-  var requestExaminerURL = 'http://127.0.0.1:5000/api/teachers?q={"filters":[{"name":"examiner","op":"any","val":{"name":"id","op":"==","val":"' + courseid + '"}}]}';
-
-  var requestExaminer = new XMLHttpRequest();
-
-  requestExaminer.open('GET', requestExaminerURL);
-
-  requestExaminer.responseType = 'json';
-
-  requestExaminer.send();
-
-  requestExaminer.onreadystatechange = function() {
-      if(requestExaminer.readyState == 4 && requestExaminer.status == 200) {
-        console.log("GotExaminer");
-      } else {
-        console.log(requestExaminer.readyState);
-      }
   }
 
-  requestExaminer.onload = function() {
-    var jsonObj = requestExaminer.response;
-    addExaminer(jsonObj['objects']);
-  }
+
+
+function printing(objArray) {
+    var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+
+    var str = '';
+
+    for (var i = 0; i < array.length; i++) {
+        var line = '';
+
+        for (var index in array[i]) {
+            line += array[i][index] + ';';
+        }
+
+        line.slice(0,line.Length-1);
+
+        str += line + '\r\n';
+    }
+    window.open( "data:text/csv;charset=utf-8," + escape(str))
 }
-
-
-function requestResponsible(courseid) {
-  // Request teachers for left panel
-  var requestResponsibleURL = 'http://127.0.0.1:5000/api/teachers?q={"filters":[{"name":"responsible","op":"any","val":{"name":"id","op":"==","val":"' + courseid + '"}}]}';
-
-  var requestResponsible = new XMLHttpRequest();
-
-  requestResponsible.open('GET', requestResponsibleURL);
-
-  requestResponsible.responseType = 'json';
-
-  requestResponsible.send();
-
-  requestResponsible.onreadystatechange = function() {
-      if(requestResponsible.readyState == 4 && requestResponsible.status == 200) {
-        console.log("GotExaminer");
-      } else {
-        console.log(requestResponsible.readyState);
-      }
-  }
-
-  requestResponsible.onload = function() {
-    var jsonObj = requestResponsible.response;
-    addResponsible(jsonObj['objects']);
-  }
-}
-
-
-function requestTeachers(courseid) {
-  // Request teachers for left panel
-  var requestTeachersURL = 'http://127.0.0.1:5000/api/teachers?q={"filters":[{"name":"classes","op":"any","val":{"name":"courses_id","op":"eq","val":' + courseid + '}}]}';
-
-  var requestTeachers = new XMLHttpRequest();
-
-  requestTeachers.open('GET', requestTeachersURL);
-
-  requestTeachers.responseType = 'json';
-
-  requestTeachers.send();
-
-  requestTeachers.onreadystatechange = function() {
-      if(requestTeachers.readyState == 4 && requestTeachers.status == 200) {
-        console.log("GotTeachers");
-      } else {
-        console.log(requestTeachers.readyState);
-      }
-  }
-
-  requestTeachers.onload = function() {
-    var jsonObj = requestTeachers.response;
-    addTeachers(jsonObj['objects']);
-  }
-}
-
-
-
-
-
-
-
-
-// Request available teachers for right panel
-  var requestAvailableTeachersURL = 'http://127.0.0.1:5000/api/teachers?q={"filters":[{"name":"firstname","op":"is_not_null","val":"yes"}],"order_by":[{"field": "firstname", "direction": "asc"}]}';
-
-  var requestAvailableTeachers = new XMLHttpRequest();
-
-  requestAvailableTeachers.open('GET', requestAvailableTeachersURL);
-
-  requestAvailableTeachers.responseType = 'json';
-
-  requestAvailableTeachers.send();
-
-  requestAvailableTeachers.onload = function() {
-    var jsonObj = requestAvailableTeachers.response;
-    addAvailableTeachers(jsonObj['objects']);
-  }
-
-
-  function requestCourses() {
-
-  // Request courses for right panel
-    //var requestCoursesURL = 'http://127.0.0.1:5000/api/courses';
-    var requestCoursesURL = 'http://127.0.0.1:5000/api/courses?q={"filters":[{"name":"examiner_id","op":"ge","val":1}],"order_by":[{"field": "code", "direction": "asc"}]}';
-
-
-    var requestCourses = new XMLHttpRequest();
-
-    requestCourses.open('GET', requestCoursesURL);
-
-    requestCourses.responseType = 'json';
-
-    requestCourses.send();
-
-    requestCourses.onload = function() {
-      var jsonObj = requestCourses.response;
-      //populateTable(jsonObj);
-      //addRow(jsonObj['objects'][0]['code']);
-      var coursesDict = addCoursesToSelect(jsonObj['objects']);
-
-      //console.log(coursesDict);
-
-    }
-  }
-
-
-  function requestCourse(courseid) {
-
-  // Request courses for right panel
-    var requestCourseURL = 'http://127.0.0.1:5000/api/courses?q={"filters":[{"name":"id","op":"==","val":' + courseid + '}]}';
-
-    var requestCourse = new XMLHttpRequest();
-
-    requestCourse.open('GET', requestCourseURL);
-
-    requestCourse.responseType = 'json';
-
-    requestCourse.send();
-
-    requestCourse.onload = function() {
-      var jsonObj = requestCourse.response;
-      //populateTable(jsonObj);
-      //addRow(jsonObj['objects'][0]['code']);
-      var coursesDict = addCourseToTitle(jsonObj['objects']);
-
-      //console.log(coursesDict);
-
-    }
-  }
-
-
-  function requestClasstypes(courseid) {
-
-// Request classtypes for left panel
-  var requestClasstypesURL = 'http://127.0.0.1:5000/api/classtypes?q={"filters":[{"name":"classes","op":"any","val":{"name":"courses_id","op":"==","val":' + courseid + '}}]}';
-
-  var requestClasstypes = new XMLHttpRequest();
-
-  requestClasstypes.open('GET', requestClasstypesURL);
-
-  requestClasstypes.responseType = 'json';
-
-  requestClasstypes.send();
-
-  requestClasstypes.onreadystatechange = function() {
-      if(requestClasstypes.readyState == 4 && requestClasstypes.status == 200) {
-        console.log("GotClasstypes");
-      } else {
-        console.log(requestClasstypes.readyState);
-      }
-  }
-
-  requestClasstypes.onload = function() {
-    var jsonObj = requestClasstypes.response;
-    addClasstypes(jsonObj['objects']);
-  }
-}
-
-
-
-  function requestClasses(courseid) {
-
-  // Request classes for mid panel
-    var requestClassesURL = 'http://127.0.0.1:5000/api/classes?q={"filters":[{"name":"courses","op":"has","val":{"name":"id","op":"==","val":"' + courseid + '"}}],"order_by":[{"field": "dates__date", "direction": "asc"}]}';
-
-    var requestClasses = new XMLHttpRequest();
-
-    requestClasses.open('GET', requestClassesURL);
-
-    requestClasses.responseType = 'json';
-
-    requestClasses.send();
-
-    requestClasses.onreadystatechange = function() {
-      if(requestClasses.readyState == 4 && requestClasses.status == 200) {
-        console.log("GotClasses");
-      } else {
-        console.log(requestClasses.readyState);
-      }
-    }
-
-    requestClasses.onload = function() {
-      var jsonObj = requestClasses.response;
-      addClasses(jsonObj['objects']);
-      //console.log(JSON.parse(JSON.stringify(jsonObj['objects'][0])));
-    }
-  }
-
-
-
-  function requestRooms(courseid) {
-
-  // Request rooms for left panel
-    var requestRoomsURL = 'http://127.0.0.1:5000/api/rooms?q={"filters":[{"name":"classes","op":"any","val":{"name":"courses_id","op":"==","val":' + courseid + '}}]}';
-
-    var requestRooms = new XMLHttpRequest();
-
-    requestRooms.open('GET', requestRoomsURL);
-
-    requestRooms.responseType = 'json';
-
-    requestRooms.send();
-
-    requestRooms.onreadystatechange = function() {
-      if(requestRooms.readyState == 4 && requestRooms.status == 200) {
-        console.log("GotRooms");
-      } else {
-        console.log(requestRooms.readyState);
-      }
-  }
-
-    requestRooms.onload = function() {
-      var jsonObj = requestRooms.response;
-      addRooms(jsonObj['objects']);
-
-    }
-  }
-
-
-
 
 
 	document.addEventListener("DOMContentLoaded", function() {
-    requestCourses()
-    requestClasses("48");
-    requestExaminer("48");
-    requestResponsible("48");
-    requestTeachers("48");
-    requestClasstypes("48");
-    requestRooms("48");
-    requestCourse("48");
+    customApiRequest("none", "courses");
+    customApiRequest("none", "availableteachers");
+    customApiRequest("none", "availablerooms");
+    customApiRequest("48", "classes");
+    customApiRequest("48", "examiner");
+    customApiRequest("48", "responsible");
+    customApiRequest("48", "teachers");
+    customApiRequest("48", "classtypes");
+    customApiRequest("48", "rooms");
+    customApiRequest("48", "course");
+    //customApiRequest("periodone", "allClassesInPeriod");
 
 
+
+    document.getElementById("print-submit").addEventListener('click', function (event) {
+
+      var schedule;
+      var data;
+      var i;
+      var dataarray = [];
+
+      schedule = document.getElementById('schedule');
+
+      for (i = 1; i < schedule.children.length; i++) {
+        data = scanner(schedule.children[i]);
+        dataarray.push(data);
+      }
+
+      printing(dataarray);
+    });
   });
 
 
