@@ -1447,6 +1447,9 @@
       case "allClassesInPeriod":
           requestURL = 'http://127.0.0.1:5000/api/classes?q={"filters":[{"name":"courses","op":"has","val":{"name":"periodone","op":"==","val":"1"}}], "order_by":[{"field": "dates__date", "direction": "asc"}, {"field": "starttime", "direction": "asc"}]}';
           break;
+      case "notourclasses":
+          requestURL = 'http://127.0.0.1:5000/api/notourclasses?q={"filters":[{"and":[{"or":[{"name":"hours","op":"has","val":{"name":"hour","op":"==","val":"10"}},{"name":"hours","op":"has","val":{"name":"hour","op":"==","val":"11"}}]},{"name":"dates","op":"has","val":{"name":"date","op":">=","val":"2017-08-29"}},{"name":"dates","op":"has","val":{"name":"date","op":"<","val":"2017-08-30"}}]}]}';
+          break;
 
 
     }
@@ -1503,6 +1506,11 @@
             break;
         case "allClassesInPeriod":
             modAvailableKind(jsonObj['objects']);
+            break;
+        case "notourclasses":
+            for (i = 0; i < jsonObj['objects'].length; i++) {
+              console.log(jsonObj['objects'][i]['rooms']['name']);
+            }
             break;
 
       }
@@ -1580,6 +1588,7 @@ function printing(objArray) {
     customApiRequest("48", "classtypes");
     customApiRequest("48", "rooms");
     customApiRequest("48", "course");
+    customApiRequest("none", "notourclasses");
     //customApiRequest("periodone", "allClassesInPeriod");
 
 
