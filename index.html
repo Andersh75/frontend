@@ -137,6 +137,12 @@
               <div class="table-tesla__table__header__lablebox-programandyear">
                 <div class="table-tesla__header__cell__text">ÅRSKURS</div>
               </div>
+              <div class="table-tesla__table__header__lablebox-programandyear">
+                <div class="table-tesla__header__cell__text">EXAMINATOR</div>
+              </div>
+              <div class="table-tesla__table__header__lablebox-programandyear">
+                <div class="table-tesla__header__cell__text">RESPONSIBLE</div>
+              </div>
             </div>
 
 <!--
@@ -676,6 +682,8 @@
     var periods;
     var program;
     var year;
+    var examiner;
+    var responsible;
     //var periodsexist;
 
 
@@ -716,6 +724,19 @@
         year = year.substring(4);
       }
 
+      examiner = "";
+
+      if (code[i]['examiner']) {
+        examiner = code[i]['examiner']['firstname'];
+      }
+
+      responsible = "";
+
+      if (code[i]['responsible']) {
+        responsible = code[i]['responsible']['firstname'];
+      }
+
+
 
 
 
@@ -731,6 +752,8 @@
         <div class="table-tesla__cell__text">' + periods + '</div>\
         <div class="table-tesla__cell__text">' + program + '</div>\
         <div class="table-tesla__cell__text">' + year + '</div>\
+        <div class="table-tesla__cell__text">' + examiner + '</div>\
+        <div class="table-tesla__cell__text">' + responsible + '</div>\
         </div>';
 
 // Append row element
