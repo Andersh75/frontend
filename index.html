@@ -162,13 +162,6 @@
   <script>
 
 
-  /* Set 'ready' handler' */
-//  document.addEventListener('DOMContentLoaded', initFunc);
-
-  /*
-  	This function gets called when clicking on table filter checkboxes.
-  	It builds a list of selected values and then filters the table based on that
-  */
   function coursesFilter() {
     const predicateArrays = [];
     predicateArrays[0] = [];
@@ -254,84 +247,6 @@
   }
 
 
-  // function programFilter() {
-  //
-  //   var show = [];
-  //
-  //   var filters = document.getElementById('programcheckboxes').children;
-  //
-  //
-  //
-  //   for (var i = 0; i < filters.length; i++) {
-  //     if (filters[i].children[0].checked) {
-  //       show.push(filters[i].children[1].textContent);
-  //     }
-  //   }
-  //   console.log(show);
-  //   execFilter(show, 2);
-  //
-  //
-  // }
-
-
-
-  // function execFilter(periodshow, programshow, yearshow) {
-  //   var rows = document.getElementById('courses').getElementsByClassName('table-tesla__table__row');
-  //
-  //   var textstring;
-  //
-  //   var n;
-  //
-  //   //console.log(programshow);
-  //
-  //
-  //
-  //   for (var i = 0; i < rows.length; i++) {
-  //
-  //     var display = "none";
-  //
-  //     var period = false;
-  //
-  //     var program = false;
-  //
-  //     var year = false;
-  //
-  //     textstring = rows[i].children[1].textContent;
-  //
-  //     for (var j = 0; j < periodshow.length; j++) {
-  //       n = textstring.search(periodshow[j]);
-  //       if (n !== -1) {
-  //         period = true;
-  //       }
-  //     }
-  //
-  //     textstring = rows[i].children[2].textContent;
-  //
-  //     for (var j = 0; j < programshow.length; j++) {
-  //       n = textstring.search(programshow[j]);
-  //       console.log(programshow[j]);
-  //       if (n !== -1) {
-  //         program = true;
-  //       }
-  //     }
-  //
-  //     textstring = rows[i].children[3].textContent;
-  //
-  //     for (var j = 0; j < yearshow.length; j++) {
-  //       n = textstring.search(yearshow[j]);
-  //       console.log(yearshow[j]);
-  //       if (n !== -1) {
-  //         year = true;
-  //       }
-  //     }
-  //
-  //     if (period && program && year) {
-  //       display = "";
-  //     }
-  //
-  //     rows[i].style.display = display;
-  //   }
-  // }
 
 function CounterSepCallback() {
   var i = 0;
