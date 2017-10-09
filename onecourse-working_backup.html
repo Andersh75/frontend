@@ -1186,7 +1186,7 @@
 
   function addExaminer(code) {
     var div;
-
+	  
     var i;
 
     var id;
@@ -1474,6 +1474,92 @@
     request.open('GET', requestURL);
 
     request.responseType = 'json';
+
+
+
+
+    /*
+
+    request.onreadystatechange = function() {
+        if(request.readyState == 4 && request.status == 200) {
+          //console.log("GotExaminer");
+        } else {
+          //console.log(requestExaminer.readyState);
+        }
+    }
+
+    request.onload = function() {
+      var jsonObj = request.response;
+
+      switch(kind) {
+        case "examiner":
+            addExaminer(jsonObj['objects']);
+            break;
+        case "availableteachers":
+            addAvailableKind(jsonObj['objects'], "teachers", 5);
+            break;
+        case "availablerooms":
+            addAvailableKind(jsonObj['objects'], "rooms", 4);
+            break;
+        case "courses":
+            addCoursesToSelect(jsonObj['objects']);
+            break;
+        case "responsible":
+            addResponsible(jsonObj['objects']);
+            break;
+        case "teachers":
+            addTeachers(jsonObj['objects']);
+            break;
+        case "course":
+            addCourseToTitle(jsonObj['objects']);
+            break;
+        case "classtypes":
+            addClasstypes(jsonObj['objects']);
+            break;
+        case "classes":
+            addClasses(jsonObj['objects']);
+            break;
+        case "rooms":
+            addRooms(jsonObj['objects']);
+            break;
+        case "allClassesInPeriod":
+            modAvailableKind(jsonObj['objects']);
+            break;
+        case "notourclasses":
+
+            var boookedRoomsObj = [];
+            var boookedRoomsId = [];
+            for (i = 0; i < jsonObj['objects'].length; i++) {
+              var bookedRoom = {};
+
+              bookedRoom['id'] = jsonObj['objects'][i]['rooms']['id'];
+              bookedRoom['name'] = jsonObj['objects'][i]['rooms']['name'];
+              boookedRoomsObj.push(JSON.stringify(bookedRoom));
+
+              boookedRoomsId.push(jsonObj['objects'][i]['rooms']['id']);
+              //boookedRooms['bookedroom'] = jsonObj['objects'][i]['rooms']['name'];
+              //console.log(jsonObj['objects'][i]['rooms']['name']);
+            }
+            var arrayUnique = function(a) {
+              return a.reduce(function(p, c) {
+                  if (p.indexOf(c) < 0) p.push(c);
+                  return p;
+              }, []);
+            };
+
+            //console.log(arrayUnique(boookedRoomsObj);
+            //console.log(arrayUnique(boookedRoomsId));
+            return arrayUnique(boookedRoomsId);
+
+            break;
+
+      }
+
+
+
+
+
+    }*/
 
     request.onload = function (e) {
       if (request.readyState === 4) {

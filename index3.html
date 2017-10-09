@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+
+    </body>
+</html>
+
+
+
+<script>
+
+
+var scoreboardOne = function() {
+    var message = 'Welcome to the game';
+    function printMessage() {
+        console.log(message);
+    }
+
+    function updateMessage(newMessage) {
+        message = newMessage;
+    }
+
+    return {
+        showMessage: printMessage,
+        updateMessage: updateMessage
+    }
+}();
+
+
+scoreboardOne.showMessage();
+
+
+
+
+var scoreboardTwo = function() {
+    console.log('Creating a new scoreboard');
+
+    var message = 'Welcome to the game!';
+
+    function printMessage() {
+        console.log(message);
+    }
+
+    function updateMessage(newMessage) {
+        message = newMessage;
+    }
+
+    return {
+        printMessage: printMessage,
+        updateMessage: updateMessage
+    }
+};
+
+
+
+var myArray = [];
+
+myArray.push(new scoreboardTwo());
+var myScoreboardTwo1 = new scoreboardTwo();
+var myScoreboardTwo2 = new scoreboardTwo();
+
+myScoreboardTwo2.printMessage();
+myScoreboardTwo1.updateMessage('updated message for 1');
+myScoreboardTwo2.printMessage();
+myScoreboardTwo1.printMessage();
+myScoreboardTwo2.updateMessage('updated message for 2');
+myScoreboardTwo2.printMessage();
+myScoreboardTwo1.updateMessage('updated message again for 1');
+myScoreboardTwo1.printMessage();
+
+myArray[0].printMessage();
+myArray[0].updateMessage('updated array 0');
+myArray[0].printMessage();
+
+
+
+
+</script>
