@@ -361,61 +361,82 @@ function buildCourseRowId(course) {
   return 'course-row-' + course.code;
 }
 
-function makeBackendObject(baseUrl) {
-  var req = function(relUrl, callback) {
-    var request = new XMLHttpRequest();
-    request.open('GET', baseUrl + '/' + relUrl);
-    request.responseType = 'application/json';
-    request.send();
-    request.onload = function() {
-      callback(JSON.parse(request.response).objects);
-    };
-  };
 
-  return {
-    req: req
+// function prepareForSuffixAndObjectFunction(baseUrl) {
+//   return (relUrl, callback) => {
+//     var request = new XMLHttpRequest();
+//     request.open('GET', baseUrl + '/' + relUrl);
+//     request.responseType = 'application/json';
+//     request.send();
+//     request.onload = () => {
+//       callback(JSON.parse(request.response).objects);
+//     };
+//   };
+// };
+
+
+function prepareForSuffixAndObjectFunction(baseUrl) {
+  return (relUrl) => {
+    return new Promise((resolve, reject) => {
+      var request = new XMLHttpRequest();
+      request.open('GET', baseUrl + '/' + relUrl);
+      request.responseType = 'application/json';
+      request.send();
+
+      //console.log(request.send());
+      request.onload = () => {
+        console.log("hej");
+        resolve(JSON.parse(request.response).objects);
+      };
+    })
   };
 };
 
-var backend = makeBackendObject('http://127.0.0.1:5000');
+
+
+var RequestObjectAndDoStuff = prepareForSuffixAndObjectFunction('http://127.0.0.1:5000');
 var databases = {};
 var events = {};
 
-events.sendOnReloadCourses = function() {
+events.sendOnReloadCourses = () => {
   var divCourses = document.getElementById('courses');
   divCourses.dispatchEvent(new Event('onReloadCourses'));
 }
 
 
-
-// Testar sortfunktionen...
-var testfn = function (){
-  var hej = [{a: 5}, {a:6}, {a:1}];
-
-  hej.sort(function(a, b) {
-    if (a.a == b.a) {
-      return 0;
-    } else if (a.a < b.a) {
-      return -1;
-    } else {
-      return 1;
-    }
-  });
-  return hej
-}
-
-
-
-
-
+//
 document.addEventListener("DOMContentLoaded", function() {
   setupEventListeners();
+  console.log("1");
 
-  backend.req('api/courses', function(objs) {
+
+  // RequestObjectAndDoStuff('api/courses', (objs) => {
+  //   databases.courses = objs;
+  //   events.sendOnReloadCourses();
+  //   console.log("2");
+  // });
+
+  RequestObjectAndDoStuff('api/courses').then((objs) => {
     databases.courses = objs;
     events.sendOnReloadCourses();
-  });
+    console.log("4");
+    });
+
+
+
+
+  setTimeout(function(){ console.log("3"); }, 5000);
+
+// ADD PROMISES SO 3 AFTER 2
+
 });
+
+// function requestLoaderPromise(code) {
+//   return new Promise(function(resolve, reject) {
+//     code();
+//     resolve();
+//   })
+// }
 
 /* When document ready, set click handlers for the filter boxes */
 function setupEventListeners() {
