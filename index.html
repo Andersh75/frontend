@@ -1,475 +1,372 @@
 <!DOCTYPE html>
-<!--  This site was created in Webflow. http://www.webflow.com -->
-<!--  Last Published: Thu Aug 10 2017 15:58:54 GMT+0000 (UTC)  -->
-<html data-wf-page="58ee511d22e1092ac39cacf8" data-wf-site="58ee511d22e1092ac39cacf7">
+<!-- This site was created in Webflow. http://www.webflow.com -->
+<!-- Last Published: Thu Aug 10 2017 15:58:54 GMT+0000 (UTC) -->
+<html
+data-wf-page="58ee511d22e1092ac39cacf8"
+data-wf-site="58ee511d22e1092ac39cacf7">
 <head>
-  <meta charset="utf-8">
-  <title>All Courses</title>
-  <meta content="width=device-width, initial-scale=1" name="viewport">
-  <meta content="Webflow" name="generator">
-  <link href="css/normalize.css" rel="stylesheet" type="text/css">
-  <link href="css/webflow.css" rel="stylesheet" type="text/css">
-  <link href="css/anderss-stunning-project.webflow.css" rel="stylesheet" type="text/css">
-  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js" type="text/javascript"></script>
-  <script type="text/javascript">WebFont.load({
-  google: {
-    families: ["Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic","Roboto:100,100italic,300,300italic,regular,italic,500,500italic,700,700italic,900,900italic","Source Sans Pro:200,200italic,300,300italic,regular,italic,600,600italic,700,700italic,900,900italic"]
-  }
-});</script>
-  <!-- [if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" type="text/javascript"></script><![endif] -->
-  <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);
-</script>
-  <link href="https://daks2k3a4ib2z.cloudfront.net/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
-  <link href="https://daks2k3a4ib2z.cloudfront.net/img/webclip.png" rel="apple-touch-icon">
+    <meta charset="utf-8">
+    <title>All Courses</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="Webflow" name="generator">
+    <link href="css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="css/webflow.css" rel="stylesheet" type="text/css">
+    <link
+        href="css/anderss-stunning-project.webflow.css"
+        rel="stylesheet"
+        type="text/css">
+    <script
+        src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"
+        type="text/javascript"></script>
+    <script type="text/javascript">
+        WebFont.load({
+            google: {
+                families: [
+                    "Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800itali" +
+                            "c",
+                    "Roboto:100,100italic,300,300italic,regular,italic,500,500italic,700,700italic," +
+                            "900,900italic",
+                    "Source Sans Pro:200,200italic,300,300italic,regular,italic,600,600italic,700,7" +
+                            "00italic,900,900italic"
+                ]
+            }
+        });
+    </script>
+    <!-- [if lt IE 9]><script
+    src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"
+    type="text/javascript"></script><![endif] -->
+    <script type="text/javascript">
+        !function (o, c) {
+            var n = c.documentElement,
+                t = " w-mod-";
+            n.className += t + "js",
+            ("ontouchstart" in o || o.DocumentTouch && c instanceof DocumentTouch) && (
+                n.className += t + "touch"
+            )
+        }(window, document);
+    </script>
+    <link
+        href="https://daks2k3a4ib2z.cloudfront.net/img/favicon.ico"
+        rel="shortcut icon"
+        type="image/x-icon">
+    <link
+        href="https://daks2k3a4ib2z.cloudfront.net/img/webclip.png"
+        rel="apple-touch-icon">
 </head>
 <body>
-  <div class="_100vw">
-    <div class="wrapper">
-      <div class="wrapper__header">
-        <div class="header-tesla">
-          <div class="logo-tesla__box">
-            <div class="text-block-13">RESURS</div>
-          </div>
-          <div class="menu-left-tesla">
-            <div class="menu-left-tesla__item">KURSER</div>
-            <div class="menu-left-tesla__item">LÄRARE</div>
-            <div class="menu-left-tesla__item">SALAR</div>
-            <div class="menu-left-tesla__item">PERIODER</div>
-          </div>
-          <div class="menu-right-tesla">
-            <div class="menu-right-tesla__item">MITT SCHEMA</div>
-            <div class="menu-right-tesla__item">MINA KURSER</div>
-            <div class="menu-right-tesla__item">LOG OUT</div>
-          </div>
-        </div>
-      </div>
-      <div class="pagetitle-tesla__wrapper">
-        <div class="margin__210--left"></div>
-        <div class="pagetitle-tesla__box">
-          <div class="titlebox-tesla">
-            <div class="h-tesla-30-400-000000">Kurser <button onclick="events.sendOnReloadCourses();">Ladda om alla kurser (fran minnet)!</button></div>
-          </div>
-        </div>
-        <div class="margin__210--right"></div>
-      </div>
-      <div class="table-tesla">
-        <div class="margin__210--left"></div>
-        <div class="table-tesla__container">
-          <div class="table-tesla__left">
-            <div class="table-tesla__searchblock">
-              <div class="form-wrapper w-form">
-                <form data-name="Email Form" id="email-form" name="email-form"><label class="field-label" for="name">NYKELORD</label><input class="text-field w-input" data-name="Name" id="name" maxlength="256" name="name" placeholder="Sök" type="text"></form>
-                <div class="w-form-done">
-                  <div>Thank you! Your submission has been received!</div>
+    <div class="_100vw">
+        <div class="wrapper">
+            <div class="wrapper__header">
+                <div class="header-tesla">
+                    <div class="logo-tesla__box">
+                        <div class="text-block-13">RESURS</div>
+                    </div>
+                    <div class="menu-left-tesla">
+                        <div class="menu-left-tesla__item">KURSER</div>
+                        <div class="menu-left-tesla__item">LÄRARE</div>
+                        <div class="menu-left-tesla__item">SALAR</div>
+                        <div class="menu-left-tesla__item">PERIODER</div>
+                    </div>
+                    <div class="menu-right-tesla">
+                        <div class="menu-right-tesla__item">MITT SCHEMA</div>
+                        <div class="menu-right-tesla__item">MINA KURSER</div>
+                        <div class="menu-right-tesla__item">LOG OUT</div>
+                    </div>
                 </div>
-                <div class="w-form-fail">
-                  <div>Oops! Something went wrong while submitting the form</div>
-                </div>
-              </div>
             </div>
-            <div class="table-tesla__checkboxblock">
-              <div class="form-wrapper-2 w-form">
-                <form data-name="Email Form 2" id="email-form-2" name="email-form-2"><label class="field-label" for="name">PERIOD</label>
-                  <div id="periodcheckboxes" class="table-tesla__checkbox__fieldbox">
-                    <div class="w-checkbox w-clearfix"><input checked="checked" class="w-checkbox-input" data-name="Checkbox" id="checkbox" name="checkbox"          data-period='periodone' type="checkbox"><label class="field-label-7 w-form-label" for="checkbox">1</label></div>
-                    <div class="w-checkbox w-clearfix"><input checked="checked" class="w-checkbox-input" data-name="Checkbox 13" id="checkbox-13" name="checkbox-13" data-period='periodtwo' type="checkbox"><label class="field-label-8 w-form-label" for="checkbox-13">2</label></div>
-                    <div class="w-checkbox w-clearfix"><input checked="checked" class="w-checkbox-input" data-name="Checkbox 12" id="checkbox-12" name="checkbox-12" data-period='periodthree' type="checkbox"><label class="field-label-9 w-form-label" for="checkbox-12">3</label></div>
-                    <div class="w-checkbox w-clearfix"><input checked="checked" class="w-checkbox-input" data-name="Checkbox 11" id="checkbox-11" name="checkbox-11" data-period='periodfour' type="checkbox"><label class="field-label-10 w-form-label" for="checkbox-11">4</label></div>
-                  </div>
-                </form>
-                <div class="w-form-done">
-                  <div>Thank you! Your submission has been received!</div>
+            <div class="pagetitle-tesla__wrapper">
+                <div class="margin__210--left"></div>
+                <div class="pagetitle-tesla__box">
+                    <div class="titlebox-tesla">
+                        <div class="h-tesla-30-400-000000">Kurser
+                            <button onclick="events.sendOnReloadCourses();">Ladda om alla kurser (fran minnet)!</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="w-form-fail">
-                  <div>Oops! Something went wrong while submitting the form</div>
-                </div>
-              </div>
+                <div class="margin__210--right"></div>
             </div>
-            <div class="table-tesla__checkboxblock">
-              <div class="form-wrapper-2 w-form">
-                <form data-name="Email Form 2" id="email-form-2" name="email-form-2"><label class="field-label" for="name">PROGRAM</label>
-                  <div id="programcheckboxes" class="table-tesla__checkbox__fieldbox">
-                    <div class="w-checkbox w-clearfix"><input checked="checked" class="checkbox w-checkbox-input" data-name="Checkbox 8" id="checkbox-8" name="checkbox-8" type="checkbox"><label class="field-label-4 w-form-label" for="checkbox-8">CSAMH</label></div>
-                    <div class="w-checkbox w-clearfix"><input checked="checked" class="w-checkbox-input" data-name="Checkbox 10" id="checkbox-10" name="checkbox-10" type="checkbox"><label class="field-label-5 w-form-label" for="checkbox-10">TFOFK</label></div>
-                    <div class="w-checkbox w-clearfix"><input checked="checked" class="w-checkbox-input" data-name="Checkbox 9" id="checkbox-9" name="checkbox-9" type="checkbox"><label class="field-label-6 w-form-label" for="checkbox-9">TFAFK</label></div>
-                    <div class="w-checkbox w-clearfix"><input checked="checked" class="w-checkbox-input" data-name="Checkbox 17" id="checkbox-17" name="checkbox-17" type="checkbox"><label class="field-label-6 w-form-label" for="checkbox-17">TFOBM</label></div>
-                    <div class="w-checkbox w-clearfix"><input checked="checked" class="w-checkbox-input" data-name="Checkbox 18" id="checkbox-18" name="checkbox-18" type="checkbox"><label class="field-label-6 w-form-label" for="checkbox-18">Other</label></div>
-                    <div class="w-checkbox w-clearfix"><input checked="checked" class="w-checkbox-input" data-name="Checkbox 19" id="checkbox-19" name="checkbox-19" type="checkbox"><label class="field-label-6 w-form-label" for="checkbox-19">None</label></div>
-                  </div>
-                </form>
-                <div class="w-form-done">
-                  <div>Thank you! Your submission has been received!</div>
+            <div class="table-tesla">
+                <div class="margin__210--left"></div>
+                <div class="table-tesla__container">
+                    <div class="table-tesla__left">
+                        <div class="table-tesla__searchblock">
+                            <div class="form-wrapper w-form">
+                                <form data-name="Email Form" id="email-form" name="email-form">
+                                    <label class="field-label" for="name">NYKELORD</label><input
+                                        class="text-field w-input"
+                                        data-name="Name"
+                                        id="name"
+                                        maxlength="256"
+                                        name="name"
+                                        placeholder="Sök"
+                                        type="text"></form>
+                                <div class="w-form-done">
+                                    <div>Thank you! Your submission has been received!</div>
+                                </div>
+                                <div class="w-form-fail">
+                                    <div>Oops! Something went wrong while submitting the form</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-tesla__checkboxblock">
+                            <div class="form-wrapper-2 w-form">
+                                <form data-name="Email Form 2" id="email-form-2" name="email-form-2">
+                                    <label class="field-label" for="name">PERIOD</label>
+                                    <div id="periodcheckboxes" class="table-tesla__checkbox__fieldbox">
+                                        <div class="w-checkbox w-clearfix"><input
+                                            checked="checked"
+                                            class="w-checkbox-input"
+                                            data-name="Checkbox"
+                                            id="checkbox"
+                                            name="checkbox"
+                                            data-period='periodone'
+                                            type="checkbox">
+                                            <label class="field-label-7 w-form-label" for="checkbox">1</label>
+                                        </div>
+                                        <div class="w-checkbox w-clearfix"><input
+                                            checked="checked"
+                                            class="w-checkbox-input"
+                                            data-name="Checkbox 13"
+                                            id="checkbox-13"
+                                            name="checkbox-13"
+                                            data-period='periodtwo'
+                                            type="checkbox">
+                                            <label class="field-label-8 w-form-label" for="checkbox-13">2</label>
+                                        </div>
+                                        <div class="w-checkbox w-clearfix"><input
+                                            checked="checked"
+                                            class="w-checkbox-input"
+                                            data-name="Checkbox 12"
+                                            id="checkbox-12"
+                                            name="checkbox-12"
+                                            data-period='periodthree'
+                                            type="checkbox">
+                                            <label class="field-label-9 w-form-label" for="checkbox-12">3</label>
+                                        </div>
+                                        <div class="w-checkbox w-clearfix"><input
+                                            checked="checked"
+                                            class="w-checkbox-input"
+                                            data-name="Checkbox 11"
+                                            id="checkbox-11"
+                                            name="checkbox-11"
+                                            data-period='periodfour'
+                                            type="checkbox">
+                                            <label class="field-label-10 w-form-label" for="checkbox-11">4</label>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="w-form-done">
+                                    <div>Thank you! Your submission has been received!</div>
+                                </div>
+                                <div class="w-form-fail">
+                                    <div>Oops! Something went wrong while submitting the form</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-tesla__checkboxblock">
+                            <div class="form-wrapper-2 w-form">
+                                <form data-name="Email Form 2" id="email-form-2" name="email-form-2">
+                                    <label class="field-label" for="name">PROGRAM</label>
+                                    <div id="programcheckboxes" class="table-tesla__checkbox__fieldbox">
+                                        <div class="w-checkbox w-clearfix"><input
+                                            checked="checked"
+                                            class="checkbox w-checkbox-input"
+                                            data-name="Checkbox 8"
+                                            id="checkbox-8"
+                                            name="checkbox-8"
+                                            type="checkbox">
+                                            <label class="field-label-4 w-form-label" for="checkbox-8">CSAMH</label>
+                                        </div>
+                                        <div class="w-checkbox w-clearfix"><input
+                                            checked="checked"
+                                            class="w-checkbox-input"
+                                            data-name="Checkbox 10"
+                                            id="checkbox-10"
+                                            name="checkbox-10"
+                                            type="checkbox">
+                                            <label class="field-label-5 w-form-label" for="checkbox-10">TFOFK</label>
+                                        </div>
+                                        <div class="w-checkbox w-clearfix"><input
+                                            checked="checked"
+                                            class="w-checkbox-input"
+                                            data-name="Checkbox 9"
+                                            id="checkbox-9"
+                                            name="checkbox-9"
+                                            type="checkbox">
+                                            <label class="field-label-6 w-form-label" for="checkbox-9">TFAFK</label>
+                                        </div>
+                                        <div class="w-checkbox w-clearfix"><input
+                                            checked="checked"
+                                            class="w-checkbox-input"
+                                            data-name="Checkbox 17"
+                                            id="checkbox-17"
+                                            name="checkbox-17"
+                                            type="checkbox">
+                                            <label class="field-label-6 w-form-label" for="checkbox-17">TFOBM</label>
+                                        </div>
+                                        <div class="w-checkbox w-clearfix"><input
+                                            checked="checked"
+                                            class="w-checkbox-input"
+                                            data-name="Checkbox 18"
+                                            id="checkbox-18"
+                                            name="checkbox-18"
+                                            type="checkbox">
+                                            <label class="field-label-6 w-form-label" for="checkbox-18">Other</label>
+                                        </div>
+                                        <div class="w-checkbox w-clearfix"><input
+                                            checked="checked"
+                                            class="w-checkbox-input"
+                                            data-name="Checkbox 19"
+                                            id="checkbox-19"
+                                            name="checkbox-19"
+                                            type="checkbox">
+                                            <label class="field-label-6 w-form-label" for="checkbox-19">None</label>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="w-form-done">
+                                    <div>Thank you! Your submission has been received!</div>
+                                </div>
+                                <div class="w-form-fail">
+                                    <div>Oops! Something went wrong while submitting the form</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-tesla__checkboxblock">
+                            <div class="form-wrapper-2 w-form">
+                                <form data-name="Email Form 2" id="email-form-2" name="email-form-2">
+                                    <label class="field-label" for="name">ÅRSKURS</label>
+                                    <div id="yearcheckboxes" class="table-tesla__checkbox__fieldbox">
+                                        <div class="w-checkbox w-clearfix"><input
+                                            checked="checked"
+                                            class="w-checkbox-input"
+                                            data-name="Checkbox 14"
+                                            id="checkbox-14"
+                                            name="checkbox-14"
+                                            type="checkbox">
+                                            <label class="field-label-11 w-form-label" for="checkbox-14">1</label>
+                                        </div>
+                                        <div class="w-checkbox w-clearfix"><input
+                                            checked="checked"
+                                            class="w-checkbox-input"
+                                            data-name="Checkbox 15"
+                                            id="checkbox-15"
+                                            name="checkbox-15"
+                                            type="checkbox">
+                                            <label class="field-label-12 w-form-label" for="checkbox-15">2</label>
+                                        </div>
+                                        <div class="w-checkbox w-clearfix"><input
+                                            checked="checked"
+                                            class="w-checkbox-input"
+                                            data-name="Checkbox 16"
+                                            id="checkbox-16"
+                                            name="checkbox-16"
+                                            type="checkbox">
+                                            <label class="field-label-13 w-form-label" for="checkbox-16">3</label>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="w-form-done">
+                                    <div>Thank you! Your submission has been received!</div>
+                                </div>
+                                <div class="w-form-fail">
+                                    <div>Oops! Something went wrong while submitting the form</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-tesla__checkboxblock">
+                            <div class="form-wrapper-2 w-form">
+                                <form data-name="Email Form 2" id="email-form-2" name="email-form-2">
+                                    <label class="field-label" for="name">DEPARTMENT</label>
+                                    <div id="departmentcheckboxes" class="table-tesla__checkbox__fieldbox">
+                                        <div class="w-checkbox w-clearfix"><input
+                                            checked="checked"
+                                            class="checkbox w-checkbox-input"
+                                            data-name="Checkbox 8"
+                                            id="checkbox-8"
+                                            name="checkbox-8"
+                                            data-department='AIB'
+                                            type="checkbox">
+                                            <label class="field-label-4 w-form-label" for="checkbox-8">AIB</label>
+                                        </div>
+                                        <div class="w-checkbox w-clearfix"><input
+                                            checked="checked"
+                                            class="w-checkbox-input"
+                                            data-name="Checkbox 10"
+                                            id="checkbox-10"
+                                            name="checkbox-10"
+                                            data-department='AIC'
+                                            type="checkbox">
+                                            <label class="field-label-5 w-form-label" for="checkbox-10">AIC</label>
+                                        </div>
+                                        <div class="w-checkbox w-clearfix"><input
+                                            checked="checked"
+                                            class="w-checkbox-input"
+                                            data-name="Checkbox 9"
+                                            id="checkbox-9"
+                                            name="checkbox-9"
+                                            data-department='AID'
+                                            type="checkbox">
+                                            <label class="field-label-6 w-form-label" for="checkbox-9">AID</label>
+                                        </div>
+                                        <div class="w-checkbox w-clearfix"><input
+                                            checked="checked"
+                                            class="w-checkbox-input"
+                                            data-name="Checkbox 17"
+                                            id="checkbox-17"
+                                            name="checkbox-17"
+                                            data-department='AIE'
+                                            type="checkbox">
+                                            <label class="field-label-6 w-form-label" for="checkbox-17">AIE</label>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="w-form-done">
+                                    <div>Thank you! Your submission has been received!</div>
+                                </div>
+                                <div class="w-form-fail">
+                                    <div>Oops! Something went wrong while submitting the form</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="courses" class="table-tesla__right">
+                        <div class="table-tesla__table__headerbox">
+                            <div id="sort_courses" class="table-tesla__header__lablebox--course">
+                                <div class="table-tesla__header__cell__text">KURS</div>
+                            </div>
+                            <div class="table-tesla__header__lablebox-period">
+                                <div class="table-tesla__header__cell__text">PERIOD</div>
+                            </div>
+                            <div class="table-tesla__table__header__lablebox-programandyear">
+                                <div class="table-tesla__header__cell__text">PROGRAM</div>
+                            </div>
+                            <div class="table-tesla__table__header__lablebox-programandyear">
+                                <div class="table-tesla__header__cell__text">ÅRSKURS</div>
+                            </div>
+                            <div id="sort_examiner" class="table-tesla__table__header__lablebox-programandyear">
+                                <div class="table-tesla__header__cell__text">EXAMINATOR</div>
+                            </div>
+                            <div id="sort_responsible" class="table-tesla__table__header__lablebox-programandyear">
+                                <div class="table-tesla__header__cell__text">RESPONSIBLE</div>
+                            </div>
+                        </div>
+
+                        <!-- -->
+
+                    </div>
                 </div>
-                <div class="w-form-fail">
-                  <div>Oops! Something went wrong while submitting the form</div>
-                </div>
-              </div>
-            </div>
-            <div class="table-tesla__checkboxblock">
-              <div class="form-wrapper-2 w-form">
-                <form data-name="Email Form 2" id="email-form-2" name="email-form-2"><label class="field-label" for="name">ÅRSKURS</label>
-                  <div id="yearcheckboxes" class="table-tesla__checkbox__fieldbox">
-                    <div class="w-checkbox w-clearfix"><input checked="checked" class="w-checkbox-input" data-name="Checkbox 14" id="checkbox-14" name="checkbox-14" type="checkbox"><label class="field-label-11 w-form-label" for="checkbox-14">1</label></div>
-                    <div class="w-checkbox w-clearfix"><input checked="checked" class="w-checkbox-input" data-name="Checkbox 15" id="checkbox-15" name="checkbox-15" type="checkbox"><label class="field-label-12 w-form-label" for="checkbox-15">2</label></div>
-                    <div class="w-checkbox w-clearfix"><input checked="checked" class="w-checkbox-input" data-name="Checkbox 16" id="checkbox-16" name="checkbox-16" type="checkbox"><label class="field-label-13 w-form-label" for="checkbox-16">3</label></div>
-                  </div>
-                </form>
-                <div class="w-form-done">
-                  <div>Thank you! Your submission has been received!</div>
-                </div>
-                <div class="w-form-fail">
-                  <div>Oops! Something went wrong while submitting the form</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="courses" class="table-tesla__right">
-            <div class="table-tesla__table__headerbox">
-              <div class="table-tesla__header__lablebox--course">
-                <div class="table-tesla__header__cell__text">KURS</div>
-              </div>
-              <div class="table-tesla__header__lablebox-period">
-                <div class="table-tesla__header__cell__text">PERIOD</div>
-              </div>
-              <div class="table-tesla__table__header__lablebox-programandyear">
-                <div class="table-tesla__header__cell__text">PROGRAM</div>
-              </div>
-              <div class="table-tesla__table__header__lablebox-programandyear">
-                <div class="table-tesla__header__cell__text">ÅRSKURS</div>
-              </div>
-              <div class="table-tesla__table__header__lablebox-programandyear">
-                <div class="table-tesla__header__cell__text">EXAMINATOR</div>
-              </div>
-              <div class="table-tesla__table__header__lablebox-programandyear">
-                <div class="table-tesla__header__cell__text">RESPONSIBLE</div>
-              </div>
+                <div class="margin__210--right"></div>
             </div>
 
-<!--
-
+<script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"
+    type="text/javascript"></script>
+<script src="js/webflow.js" type="text/javascript"></script>
+<script src="js/main.js" type="text/javascript"></script>
+<!-- [if lte IE 9]><script
+src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]
 -->
-
-
-          </div>
-        </div>
-        <div class="margin__210--right"></div>
-      </div>
-
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js" type="text/javascript"></script>
-  <script src="js/webflow.js" type="text/javascript"></script>
-  <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
-  <script>
-
-
-  function coursesFilter() {
-    const predicateArrays = [];
-    predicateArrays[0] = [];
-    predicateArrays[1] = [];
-    predicateArrays[2] = [];
-
-    var elems;
-
-    // Periods
-    elems = document.getElementById('periodcheckboxes').children;
-    Array.from(elems).forEach(function(elem) {
-      const checkbox = elem.children[0];
-      if (checkbox.checked) {
-        const key = checkbox.getAttribute('data-period');
-        predicateArrays[0].push(function(course) {
-          return course[key];
-        });
-      }
-    });
-
-    // Programs
-    elems = document.getElementById('programcheckboxes').children;
-    Array.from(elems).forEach(function(elem) {
-      const checkbox = elem.children[0];
-      if (checkbox.checked) {
-        const key = elem.children[1].textContent;
-        predicateArrays[1].push(function(course) {
-          var result = false;
-
-          course.coursefacts.forEach(function(facts) {
-            if (facts.name == key) {
-              result = true;
-            }
-          });
-
-          return result;
-        });
-      }
-    });
-
-    elems = document.getElementById('yearcheckboxes').children;
-    Array.from(elems).forEach(function(elem) {
-      const checkbox = elem.children[0];
-      if (checkbox.checked) {
-        const key = elem.children[1].textContent;
-        predicateArrays[2].push(function(course) {
-          var result = false;
-
-          course.coursefacts.forEach(function(facts) {
-            if (facts.year == key) {
-              result = true;
-            }
-          });
-
-          return result;
-        });
-      }
-    });
-
-    databases.courses.forEach(function(course) {
-      var results = [];
-
-      predicateArrays.forEach(function(predicates) {
-        var result = false;
-
-        predicates.forEach(function(predicate) {
-          if (predicate(course)) {
-            result = true;
-          }
-        });
-
-        results.push(result);
-      });
-
-      var visible = true;
-      results.forEach(function(result) {
-        if (!result) visible = false;
-      });
-
-      const elem = document.getElementById(buildCourseRowId(course));
-      elem.style.display = visible ? "" : "none";
-    });
-  }
-
-
-
-function CounterSepCallback() {
-  var i = 0;
-  return function(resultSoFar, value) {
-    // ignore value!
-    i++;
-    return (resultSoFar.length > 0 ? ", " : "") + i;
-  };
-};
-
-function BrSepCallback() {
-  return function(resultSoFar, value) {
-    return (resultSoFar.length > 0 ? "<br/>" : "") + value;
-  };
-};
-
-function includePeriodp(item) {
-  return item;
-};
-
-function includeAlwaysp(item) {
-  return true;
-}
-
-function makeSeparatedStringRecur(result, includep, sepCallback, arr) {
-  if (arr.length == 0) {
-    return result;
-  } else {
-    var value = arr[0];
-    var str = sepCallback(result, value);
-    return makeSeparatedStringRecur(
-      result + (includep(value) ? str : ""),
-      includep,
-      sepCallback,
-      arr.splice(1, arr.length));
-  }
-};
-
-
-
-  function makeReloadCoursesPromise(code) {
-    return new Promise(function(resolve, reject) {
-      const holder = document.getElementById('courses');
-
-      while (holder.hasChildNodes()) {
-        holder.removeChild(holder.lastChild);
-      }
-
-      var div;
-      //var divlist = document.getElementById('courses')
-      //console.log(divlist)
-      var i;
-      var periods;
-      var program;
-      var year;
-      var examiner;
-      var responsible;
-      //var periodsexist;
-
-      for (i = 0; i < code.length; i++) {
-        var course = code[i];
-
-        periods = makeSeparatedStringRecur(
-          '',
-          includePeriodp,
-          new CounterSepCallback(),
-          [course.periodone, course.periodtwo, course.periodthree, course.periodfour]);
-
-        program = makeSeparatedStringRecur(
-          '',
-          includeAlwaysp,
-          new BrSepCallback(),
-          course.coursefacts.map(function(item) {
-            return item.name;
-          }));
-
-        year = makeSeparatedStringRecur(
-          '',
-          includeAlwaysp,
-          new BrSepCallback(),
-          course.coursefacts.map(function(item) {
-            return item.year;
-          }));
-
-        examiner = course.examiner ? course.examiner.firstname : "";
-        responsible = course.responsible ? course.responsible.firstname : "";
-
-  // Create row element
-        div = document.createElement('div');
-        div.id = buildCourseRowId(course);
-        div.className = "table-tesla__table__rowbox";
-
-  // Populate row element
-        div.innerHTML = '<div class="table-tesla__table__row">\
-          <div class="table-tesla__cell__text--bold">' + course.code + ' ' + course.name + '</div>\
-          <div class="table-tesla__cell__text">' + periods + '</div>\
-          <div class="table-tesla__cell__text">' + program + '</div>\
-          <div class="table-tesla__cell__text">' + year + '</div>\
-          <div class="table-tesla__cell__text">' + examiner + '</div>\
-          <div class="table-tesla__cell__text">' + responsible + '</div>\
-          </div>';
-
-  // Append row element
-        holder.appendChild(div);
-      }
-
-      resolve();
-    });
-  }
-
-function buildCourseRowId(course) {
-  return 'course-row-' + course.code;
-}
-
-
-// function prepareForSuffixAndObjectFunction(baseUrl) {
-//   return (relUrl, callback) => {
-//     var request = new XMLHttpRequest();
-//     request.open('GET', baseUrl + '/' + relUrl);
-//     request.responseType = 'application/json';
-//     request.send();
-//     request.onload = () => {
-//       callback(JSON.parse(request.response).objects);
-//     };
-//   };
-// };
-
-
-function prepareForSuffixAndObjectFunction(baseUrl) {
-  return (relUrl) => {
-    return new Promise((resolve, reject) => {
-      var request = new XMLHttpRequest();
-      request.open('GET', baseUrl + '/' + relUrl);
-      request.responseType = 'application/json';
-      request.send();
-
-      //console.log(request.send());
-      request.onload = () => {
-        console.log("hej");
-        resolve(JSON.parse(request.response).objects);
-      };
-    })
-  };
-};
-
-
-
-var RequestObjectAndDoStuff = prepareForSuffixAndObjectFunction('http://127.0.0.1:5000');
-var databases = {};
-var events = {};
-
-events.sendOnReloadCourses = () => {
-  var divCourses = document.getElementById('courses');
-  divCourses.dispatchEvent(new Event('onReloadCourses'));
-}
-
-
-//
-document.addEventListener("DOMContentLoaded", function() {
-  setupEventListeners();
-  console.log("1");
-
-
-  // RequestObjectAndDoStuff('api/courses', (objs) => {
-  //   databases.courses = objs;
-  //   events.sendOnReloadCourses();
-  //   console.log("2");
-  // });
-
-  RequestObjectAndDoStuff('api/courses').then((objs) => {
-    databases.courses = objs;
-    events.sendOnReloadCourses();
-    console.log("4");
-    });
-
-
-
-
-  setTimeout(function(){ console.log("3"); }, 5000);
-
-// ADD PROMISES SO 3 AFTER 2
-
-});
-
-// function requestLoaderPromise(code) {
-//   return new Promise(function(resolve, reject) {
-//     code();
-//     resolve();
-//   })
-// }
-
-/* When document ready, set click handlers for the filter boxes */
-function setupEventListeners() {
-  var divCourses = document.getElementById('courses');
-  divCourses.addEventListener('onReloadCourses', function() {
-    let p = makeReloadCoursesPromise(databases.courses);
-    p.then(coursesFilter);
-  });
-
-  var periodfilters = document.getElementById('periodcheckboxes').childNodes;
-  for (var i = 0; i < periodfilters.length; i++) {
-    periodfilters[i].addEventListener('click', coursesFilter);
-  }
-
-  var periodfilters = document.getElementById('periodcheckboxes').childNodes;
-  for (var i = 0; i < periodfilters.length; i++) {
-    periodfilters[i].addEventListener('click', coursesFilter);
-  }
-
-  var programfilters = document.getElementById('programcheckboxes').childNodes;
-  for (var i = 0; i < programfilters.length; i++) {
-    programfilters[i].addEventListener('click', coursesFilter);
-  }
-
-  var yearfilters = document.getElementById('yearcheckboxes').childNodes;
-  for (var i = 0; i < yearfilters.length; i++) {
-    yearfilters[i].addEventListener('click', coursesFilter);
-  }
-}
-
-
-
-
-</script>
 </body>
 </html>
