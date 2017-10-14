@@ -1,4 +1,4 @@
-"use strict";  
+'use strict';  
 
 function coursesFilter() {
     const predicateArrays = [];
@@ -331,6 +331,66 @@ function compareResponsible(a, b) {
 
 
 
+function createCheckboxesDivFn(type, typevalue, titleid, title, data, datavalue) {
+    let newEl;
+    newEl = document.createElement('div');
+    newEl.setAttribute(type, typevalue);
+    newEl.innerHTML = '<input\
+        checked="checked"\
+        class="w-checkbox-input"\
+        data-' + data + '="' + datavalue + '"\
+        name="checkbox-19"\
+        type="checkbox">\
+    <label class="field-label-6 w-form-label" for="checkbox-19">' + title + '</label>';
+    return newEl;
+}
+
+
+function createFrameDivFn(type, typevalue, titleid, title, data, datavalue) {
+    let newEl;
+    newEl = document.createElement('div');
+    newEl.setAttribute(type, typevalue);
+    newEl.innerHTML = '<div class="form-wrapper-2 w-form">\
+                        <form data-name="Email Form 2" id="email-form-2" name="email-form-2">\
+                            <label class="field-label" for="name">' + title + '</label>\
+                            <div id=' + titleid + ' class="table-tesla__checkbox__fieldbox">\
+                            </div>\
+                            </form>\
+                            </div>';
+    return newEl;
+}
+
+
+function childBuilderMaker(adderFn) {
+    return function (model) {
+        let child;
+    
+        child = adderFn(model.type, model.typevalue, model.titleid, model.title, model.data, model.datavalue);
+        console.log(child);
+    
+        return child;
+    };
+};
+
+
+function parentGetterMaker(typevalue) {
+    return function () {
+        return document.getElementById(typevalue);
+    }
+}
+
+
+function sideBoxAdder(models, parentGetter, childBuilder) {
+    let newBox;
+    let boxParent = parentGetter();
+
+    models.forEach(function(model) {
+        boxParent.appendChild(childBuilder(model));
+    });
+};
+
+
+
 function objfactory(param) {
     var code;
     var name;
@@ -408,7 +468,6 @@ function objfactory(param) {
     };
 }
 
- 
 
 
 var RequestObjectAndDoStuff = prepareForSuffixAndObjectFunction(
@@ -421,17 +480,107 @@ events.sendOnReloadCourses = () => {
     var divCourses = document.getElementById('courses');
     divCourses.dispatchEvent(new Event('onReloadCourses'));
 }
-
+//var sideBox = sideBoxFactory('sideboxes');
 //
 document.addEventListener("DOMContentLoaded", function () {
+
+
+    let p3 = new Promise((resolve, reject) => {
+        
+        
+        var departmentFrameObj = {
+            "type": "class",
+            "typevalue": "table-tesla__checkboxblock",
+            "titleid": "departmentcheckboxes",
+            "title": "DEPARTMENT"
+        }
+        
+        var departmentFrameObjs = [];
+        
+        departmentFrameObjs.push(departmentFrameObj);
+        
+        sideBoxAdder(departmentFrameObjs, parentGetterMaker('sideboxes'), childBuilderMaker(createFrameDivFn));
+    
+    
+        var departmentsArray = [];
+    
+        departmentsArray = ["AIB", "AIC", "AID", "AIE"];
+    
+        var departmentCheckboxObjs = [];
+    
+        departmentsArray.forEach(function(department) {
+            let departmentCheckboxObj;
+    
+            departmentCheckboxObj = {
+                "type": "class",
+                "typevalue": "w-checkbox w-clearfix",
+                "title": department,
+                "data": "department",
+                "datavalue": department
+            }
+            departmentCheckboxObjs.push(departmentCheckboxObj);
+        })
+    
+    
+        sideBoxAdder(departmentCheckboxObjs, parentGetterMaker('departmentcheckboxes'), childBuilderMaker(createCheckboxesDivFn));
+
+
+
+
+
+
+        var yearFrameObj = {
+            "type": "class",
+            "typevalue": "table-tesla__checkboxblock",
+            "titleid": "yearcheckboxes",
+            "title": "YEAR"
+        }
+        
+        var yearFrameObjs = [];
+        
+        yearFrameObjs.push(yearFrameObj);
+        
+        sideBoxAdder(yearFrameObjs, parentGetterMaker('sideboxes'), childBuilderMaker(createFrameDivFn));
+    
+    
+        var yearsArray = [];
+    
+        yearsArray = ["1", "2", "3"];
+    
+        var yearCheckboxObjs = [];
+    
+        yearsArray.forEach(function(year) {
+            let yearCheckboxObj;
+    
+            yearCheckboxObj = {
+                "type": "class",
+                "typevalue": "w-checkbox w-clearfix",
+                "title": year,
+                "data": "department",
+                "datavalue": year
+            }
+            yearCheckboxObjs.push(yearCheckboxObj);
+        })
+    
+    
+        sideBoxAdder(yearCheckboxObjs, parentGetterMaker('yearcheckboxes'), childBuilderMaker(createCheckboxesDivFn));
+
+
+        resolve();
+        
+
+      });
+    //addSideBox();
+    
 // TEST CODE
+    
     let p1 = new Promise((resolve, reject) => {
         // We call resolve(...) when what we were doing asynchronously was successful, and reject(...) when it failed.
         // In this example, we use setTimeout(...) to simulate async code. 
         // In reality, you will probably be using something like XHR or an HTML5 API.
         setTimeout(function(){
           resolve("Success p1"); // Yay! Everything went well!
-        }, 5000);
+        }, 1000);
       });
 
       //console.log("hej");
@@ -448,8 +597,41 @@ document.addEventListener("DOMContentLoaded", function () {
           }, 10000);
     });
 
-    Promise.all([p1, p2]).then(function (res) {
+    Promise.all([p1, p2, p3]).then(function (res) {
         console.log(res[0] + " " + res[1]);
+        setupEventListeners();
+        RequestObjectAndDoStuff('api/courses').then((objs) => {
+            
+                    
+                    // var byName = databases.courses.slice(0);
+                    // byName.sort(function(a,b) {
+                    //     // if (a.code==null) return 1
+                    //     // if (b.code==null) return 0
+                    //     return a.code - b.code;
+                    // });
+                    // console.log('by name:');
+                    // console.log(byName);
+            
+            
+                    //MAKE OJEKTFACTORY
+            
+                    var newobjs = [];
+            
+                    objs.forEach(function (param) {
+                        var testobj = objfactory(param);
+                        newobjs.push(testobj);
+                        console.log(testobj.code + ' ' + testobj.id);
+                    });
+            
+            
+                    newobjs.sort(compareResponsible);
+                    setTimeout(function() {
+                        console.log(newobjs);
+                    }, 5000);
+                    
+                    databases.courses = newobjs;
+                    events.sendOnReloadCourses();
+                });
     });
 
     // var testarray = [];
@@ -466,50 +648,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     
 
-
+    setTimeout(function(){ console.log("Hello"); }, 3000);
 
 
 
 
 //REAL CODE STARTS HERE
 
-    setupEventListeners();
+    
 
     // RequestObjectAndDoStuff('api/courses', (objs) => {   databases.courses =
     // objs;   events.sendOnReloadCourses();   console.log("2"); });
 
-    RequestObjectAndDoStuff('api/courses').then((objs) => {
 
-        
-        // var byName = databases.courses.slice(0);
-        // byName.sort(function(a,b) {
-        //     // if (a.code==null) return 1
-        //     // if (b.code==null) return 0
-        //     return a.code - b.code;
-        // });
-        // console.log('by name:');
-        // console.log(byName);
-
-
-        //MAKE OJEKTFACTORY
-
-        var newobjs = [];
-
-        objs.forEach(function (param) {
-            var testobj = objfactory(param);
-            newobjs.push(testobj);
-            console.log(testobj.code + ' ' + testobj.id);
-        });
-
-
-        newobjs.sort(compareResponsible);
-        setTimeout(function() {
-            console.log(newobjs);
-        }, 5000);
-        
-        databases.courses = newobjs;
-        events.sendOnReloadCourses();
-    });
 
 
 
