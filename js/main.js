@@ -486,21 +486,77 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     let p3 = new Promise((resolve, reject) => {
+
+        var boxesArray = [];
+
+        boxesArray = [{"title": "PERIOD", "titleid": "periodcheckboxes",}, {"title": "PROGRAM", "titleid": "programcheckboxes",}, {"title": "DEPARTMENT", "titleid": "departmentcheckboxes",}, {"title": "YEAR", "titleid": "yearcheckboxes",}];
+
+        var frameObjs = [];
+
+        boxesArray.forEach(function(box) {
+            let frameObj = {
+                "type": "class",
+                "typevalue": "table-tesla__checkboxblock",
+                "title": box.title,
+                "titleid": box.titleid
+            }
+            frameObjs.push(frameObj);
+        })
+   
+        sideBoxAdder(frameObjs, parentGetterMaker('sideboxes'), childBuilderMaker(createFrameDivFn));
+
         
-        
-        var departmentFrameObj = {
-            "type": "class",
-            "typevalue": "table-tesla__checkboxblock",
-            "titleid": "departmentcheckboxes",
-            "title": "DEPARTMENT"
-        }
-        
-        var departmentFrameObjs = [];
-        
-        departmentFrameObjs.push(departmentFrameObj);
-        
-        sideBoxAdder(departmentFrameObjs, parentGetterMaker('sideboxes'), childBuilderMaker(createFrameDivFn));
+
+
+
+
     
+    
+        var periodsArray = [];
+    
+        periodsArray = [[1, "periodone"], [2, "periodtwo"], [3, "periodthree"], [4, "periodfour"]];
+    
+        var periodCheckboxObjs = [];
+    
+        periodsArray.forEach(function(period) {
+            let periodCheckboxObj;
+    
+            periodCheckboxObj = {
+                "type": "class",
+                "typevalue": "w-checkbox w-clearfix",
+                "title": period[0],
+                "data": "period",
+                "datavalue": period[1]
+            }
+            periodCheckboxObjs.push(periodCheckboxObj);
+        })
+    
+        sideBoxAdder(periodCheckboxObjs, parentGetterMaker('periodcheckboxes'), childBuilderMaker(createCheckboxesDivFn));
+
+
+    
+        var programsArray = [];
+    
+        programsArray = ["CSAMH", "TFOFK", "TFAFK", "OTHER", "NONE"];
+    
+        var programCheckboxObjs = [];
+    
+        programsArray.forEach(function(program) {
+            let programCheckboxObj;
+    
+            programCheckboxObj = {
+                "type": "class",
+                "typevalue": "w-checkbox w-clearfix",
+                "title": program,
+                "data": "program",
+                "datavalue": program
+            }
+            programCheckboxObjs.push(programCheckboxObj);
+        })
+    
+        sideBoxAdder(programCheckboxObjs, parentGetterMaker('programcheckboxes'), childBuilderMaker(createCheckboxesDivFn));
+
+
     
         var departmentsArray = [];
     
@@ -521,27 +577,10 @@ document.addEventListener("DOMContentLoaded", function () {
             departmentCheckboxObjs.push(departmentCheckboxObj);
         })
     
-    
         sideBoxAdder(departmentCheckboxObjs, parentGetterMaker('departmentcheckboxes'), childBuilderMaker(createCheckboxesDivFn));
 
 
 
-
-
-
-        var yearFrameObj = {
-            "type": "class",
-            "typevalue": "table-tesla__checkboxblock",
-            "titleid": "yearcheckboxes",
-            "title": "YEAR"
-        }
-        
-        var yearFrameObjs = [];
-        
-        yearFrameObjs.push(yearFrameObj);
-        
-        sideBoxAdder(yearFrameObjs, parentGetterMaker('sideboxes'), childBuilderMaker(createFrameDivFn));
-    
     
         var yearsArray = [];
     
@@ -560,8 +599,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "datavalue": year
             }
             yearCheckboxObjs.push(yearCheckboxObj);
-        })
-    
+        }) 
     
         sideBoxAdder(yearCheckboxObjs, parentGetterMaker('yearcheckboxes'), childBuilderMaker(createCheckboxesDivFn));
 
@@ -698,13 +736,6 @@ function setupEventListeners() {
         let p = makeReloadCoursesPromise(databases.courses);
         p.then(coursesFilter);
     });
-
-    var periodfilters = document
-        .getElementById('periodcheckboxes')
-        .childNodes;
-    for (var i = 0; i < periodfilters.length; i++) {
-        periodfilters[i].addEventListener('click', coursesFilter);
-    }
 
     var periodfilters = document
         .getElementById('periodcheckboxes')
