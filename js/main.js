@@ -1,6 +1,7 @@
 'use strict';  
 
 function coursesFilter() {
+
     const predicateArrays = [];
     predicateArrays[0] = [];
     predicateArrays[1] = [];
@@ -126,15 +127,15 @@ function coursesFilter() {
             });
 
             const elem = document.getElementById(buildCourseRowId(course));
-            //elem.style.display = visible
-            // elem.style.display = course.show
-            //     ? ""
-            //     : "none";
-            if (course.show) {
-                elem.style.display = ""; 
-            } else {
-                elem.style.display = "none";  
+
+            if (elem) {
+                if (course.show) {
+                    elem.style.display = ""; 
+                } else {
+                    elem.style.display = "none";  
+                }
             }
+            
         });
 }
 
@@ -191,30 +192,32 @@ function makeReloadCoursesPromise(code) {
             holder.removeChild(holder.lastChild);
         }
 
-        var div;
-        //var divlist = document.getElementById('courses') console.log(divlist)
+       // var div;
+        var divNewRow;
+        var courseTitle;
+        var course;
         var i;
         var periods;
         var program;
         var year;
         var examiner;
         var responsible;
-        //var periodsexist;
+
 
         for (i = 0; i < code.length; i++) {
-            var course = code[i];
+            course = code[i];
 
             periods = makeSeparatedStringRecur(
                 '',
                 includePeriodp,
-                new CounterSepCallback(),
+                CounterSepCallback(),
                 [course.periodone, course.periodtwo, course.periodthree, course.periodfour]
             );
 
             program = makeSeparatedStringRecur(
                 '',
                 includeAlwaysp,
-                new BrSepCallback(),
+                BrSepCallback(),
                 course.coursefacts.map(function (item) {
                     return item.name;
                 })
@@ -223,7 +226,7 @@ function makeReloadCoursesPromise(code) {
             year = makeSeparatedStringRecur(
                 '',
                 includeAlwaysp,
-                new BrSepCallback(),
+                BrSepCallback(),
                 course.coursefacts.map(function (item) {
                     return item.year;
                 })
@@ -236,30 +239,50 @@ function makeReloadCoursesPromise(code) {
                 ? course.responsible.firstname
                 : "";
 
-            // Create row element
-            div = document.createElement('div');
-            div.id = buildCourseRowId(course);
-            div.className = "table-tesla__table__rowbox";
 
-            // Populate row element
-            div.innerHTML = '<div class="table-tesla__table__row">\
-<div class="table-tesla__cell__text--bo' +
-                    'ld">' + course.code + ' ' + course.name + '</div>\
-<div class="table-tesla__ce' +
-                    'll__text">' + periods + '</div>\
-<div class="table-tesla__cell__text">' +
-                    program + '</div>\
-<div class="table-tesla__cell__text">' + year + '</div>\
-<di' +
-                    'v class="table-tesla__cell__text">' + examiner + '</div>\
-<div class="table-te' +
-                    'sla__cell__text">' + responsible + '</div>\
-</div>';
+            function createRowDiv(idvalue, classvalue) {
+                let newEl;
+                newEl = document.createElement('div');
+                newEl.id = idvalue;
+                newEl.className = classvalue;
+                newEl.innerHTML = '<div class="table-tesla__table__row">\
+                            <div id="' + course.code + '" class="table-tesla' +
+                        '__cell__text--bold">' + course.code + ' ' + course.name + '</div>\
+                    ' +
+                        '     <div class="table-tesla__cell__text">' + periods + '</div>\
+                        ' +
+                        '   <div class="table-tesla__cell__text">' + program + '</div>\
+                        ' +
+                        ' <div class="table-tesla__cell__text">' + year + '</div>\
+                            <div' +
+                        ' class="table-tesla__cell__text">' + examiner + '</div>\
+                            <div ' +
+                        'class="table-tesla__cell__text">' + responsible + '</div>\
+                            </d' +
+                        'iv>';
+                console.log(newEl);
+
+                return newEl;
+            }
+
+            divNewRow = createRowDiv(buildCourseRowId(course), "table-tesla__table__rowbox")
+
+
+
 
             // Append row element
-            if (course.show) {
-                holder.appendChild(div);
+            if (true) {
+                holder.appendChild(divNewRow);
             }
+
+            console.log(course.code);
+            console.log(document.getElementById(course.code));
+
+            courseTitle = document.getElementById(course.code);
+
+            courseTitle.addEventListener('click', function () {
+                console.log("hej");
+            });
             
         }
 
@@ -271,11 +294,6 @@ function buildCourseRowId(course) {
     return 'course-row-' + course.id;
 }
 
-// function prepareForSuffixAndObjectFunction(baseUrl) {   return (relUrl,
-// callback) => {     var request = new XMLHttpRequest(); request.open('GET',
-// baseUrl + '/' + relUrl);     request.responseType = 'application/json';
-// request.send();     request.onload = () => {
-// callback(JSON.parse(request.response).objects);     };   }; };
 
 function prepareForSuffixAndObjectFunction(baseUrl) {
     return(relUrl) => {
@@ -289,45 +307,122 @@ function prepareForSuffixAndObjectFunction(baseUrl) {
     };
 };
 
-function compareCode(a, b) {
-    if (a.code === null) return 1;
-    if (b.code === null) return -1;
-    if (a.code < b.code)
-        return -1;
-    if (a.code > b.code)
-        return 1;
-    return 0;
-}
+function compareId(reversed){
+    return function(){
+        reversed = !reversed;
+        return function(a,b){
+            if (reversed) {
+                if (a.id === null) return 1;
+                if (b.id === null) return -1;
+                if (a.id < b.id)
+                    return -1;
+                if (a.id > b.id)
+                    return 1;
+                return 0;
+            } else {
+                if (a.id === null) return -1;
+                if (b.id === null) return 1;
+                if (a.id < b.id)
+                    return 1;
+                if (a.id > b.id)
+                    return -1;
+                return 0;
+            }
+        };
+    };
+};
 
-function compareId(a, b) {
-    if (a.id === null) return 1;
-    if (b.id === null) return -1;
-    if (a.id < b.id)
-        return -1;
-    if (a.id > b.id)
-        return 1;
-    return 0;
-}
+var compareIdToggle = compareId(); // starts as false
 
-function compareExaminer(a, b) {
-    if (a.examiner === null) return 1;
-    if (b.examiner === null) return -1;
-    if (a.examiner.firstname < b.examiner.firstname)
-        return -1;
-    if (a.examiner.firstname > b.examiner.firstname)
-        return 1;
-    return 0;
-}
 
-function compareResponsible(a, b) {
-    if (a.responsible === null) return 1;
-    if (b.responsible === null) return -1;
-    if (a.responsible.firstname < b.responsible.firstname)
-        return -1;
-    if (a.responsible.firstname > b.responsible.firstname)
-        return 1;
-    return 0;
-}
+
+
+function compareCode(reversed){
+    return function(){
+        reversed = !reversed;
+        return function(a,b){
+            if (reversed) {
+                if (a.code === null) return 1;
+                if (b.code === null) return -1;
+                if (a.code < b.code)
+                    return -1;
+                if (a.code > b.code)
+                    return 1;
+                return 0;
+            } else {
+                if (a.code === null) return -1;
+                if (b.code === null) return 1;
+                if (a.code < b.code)
+                    return 1;
+                if (a.code > b.code)
+                    return -1;
+                return 0;
+            }
+        };
+    };
+};
+
+var compareCodeToggle = compareCode(); // starts as false
+
+
+
+
+function compareExaminer(reversed){
+    return function(){
+        reversed = !reversed;
+        return function(a,b){
+            if (reversed) {
+                if (a.examiner === null) return 1;
+                if (b.examiner === null) return -1;
+                if (a.examiner.firstname < b.examiner.firstname)
+                    return -1;
+                if (a.examiner.firstname > b.examiner.firstname)
+                    return 1;
+                return 0;
+            } else {
+                if (a.examiner === null) return -1;
+                if (b.examiner === null) return 1;
+                if (a.examiner.firstname < b.examiner.firstname)
+                    return 1;
+                if (a.examiner.firstname > b.examiner.firstname)
+                    return -1;
+                return 0;
+            }
+        };
+    };
+};
+
+var compareExaminerToggle = compareExaminer(); // starts as false
+
+
+function compareResponsible(reversed){
+    return function(){
+        reversed = !reversed;
+        return function(a,b){
+            if (reversed) {
+                if (a.responsible === null) return 1;
+                if (b.responsible === null) return -1;
+                if (a.responsible.firstname < b.responsible.firstname)
+                    return -1;
+                if (a.responsible.firstname > b.responsible.firstname)
+                    return 1;
+                return 0;
+            } else {
+                if (a.responsible === null) return -1;
+                if (b.responsible === null) return 1;
+                if (a.responsible.firstname < b.responsible.firstname)
+                    return 1;
+                if (a.responsible.firstname > b.responsible.firstname)
+                    return -1;
+                return 0;
+            }
+        };
+    };
+};
+
+var compareResponsibleToggle = compareResponsible(); // starts as false
+
+
 
 
 
@@ -537,7 +632,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
         var programsArray = [];
     
-        programsArray = ["CSAMH", "TFOFK", "TFAFK", "OTHER", "NONE"];
+        programsArray = ["CSAMH", "TFOFK", "TFAFK", "Other", "None"];
     
         var programCheckboxObjs = [];
     
@@ -608,50 +703,26 @@ document.addEventListener("DOMContentLoaded", function () {
         
 
       });
-    //addSideBox();
     
 // TEST CODE
     
-    let p1 = new Promise((resolve, reject) => {
-        // We call resolve(...) when what we were doing asynchronously was successful, and reject(...) when it failed.
-        // In this example, we use setTimeout(...) to simulate async code. 
-        // In reality, you will probably be using something like XHR or an HTML5 API.
-        setTimeout(function(){
-          resolve("Success p1"); // Yay! Everything went well!
-        }, 1000);
-      });
+    // let p1 = new Promise((resolve, reject) => {
 
-      //console.log("hej");
-      
-    //   myFirstPromise.then((successMessage) => {
-    //     // successMessage is whatever we passed in the resolve(...) function above.
-    //     // It doesn't have to be a string, but if it is only a succeed message, it probably will be.
-    //     console.log("Yay! " + successMessage);
+    //     setTimeout(function(){
+    //       resolve("Success p1"); // Yay! Everything went well!
+    //     }, 1000);
     //   });
     
-    let p2 = new Promise((resolve, reject) => {
-        setTimeout(function(){
-            resolve("Success p2"); // Yay! Everything went well!
-          }, 10000);
-    });
+    // let p2 = new Promise((resolve, reject) => {
+    //     setTimeout(function(){
+    //         resolve("Success p2"); // Yay! Everything went well!
+    //       }, 10000);
+    // });
 
-    Promise.all([p1, p2, p3]).then(function (res) {
-        console.log(res[0] + " " + res[1]);
+    Promise.all([p3]).then(function (res) {
+        //console.log(res[0] + " " + res[1]);
         setupEventListeners();
         RequestObjectAndDoStuff('api/courses').then((objs) => {
-            
-                    
-                    // var byName = databases.courses.slice(0);
-                    // byName.sort(function(a,b) {
-                    //     // if (a.code==null) return 1
-                    //     // if (b.code==null) return 0
-                    //     return a.code - b.code;
-                    // });
-                    // console.log('by name:');
-                    // console.log(byName);
-            
-            
-                    //MAKE OJEKTFACTORY
             
                     var newobjs = [];
             
@@ -660,79 +731,60 @@ document.addEventListener("DOMContentLoaded", function () {
                         newobjs.push(testobj);
                         console.log(testobj.code + ' ' + testobj.id);
                     });
-            
-            
-                    newobjs.sort(compareResponsible);
-                    setTimeout(function() {
-                        console.log(newobjs);
-                    }, 5000);
                     
                     databases.courses = newobjs;
                     events.sendOnReloadCourses();
                 });
     });
 
-    // var testarray = [];
 
-    // testarray.push(1);
-    // testarray.push(2);
-    // testarray.push(3);
-
-    // testarray.forEach(function (param) {
-    //     var testobj = objfactory(param);
-    //     console.log(testobj.name + ' ' + testobj.age);
-    // });
-    
-
-    
-
-    setTimeout(function(){ console.log("Hello"); }, 3000);
-
-
-
-
-//REAL CODE STARTS HERE
-
-    
-
-    // RequestObjectAndDoStuff('api/courses', (objs) => {   databases.courses =
-    // objs;   events.sendOnReloadCourses();   console.log("2"); });
-
-
-
-
+    setInterval(function(){ 
+        RequestObjectAndDoStuff('api/courses').then((objs) => {
+            
+                    var newobjs = [];
+            
+                    objs.forEach(function (param) {
+                        var testobj = objfactory(param);
+                        console.log(testobj.examiner.firstname);
+                        newobjs.push(testobj);
+                        //console.log(testobj.code + ' ' + testobj.id);
+                    });
+                    
+                    databases.courses = newobjs;
+                    //events.sendOnReloadCourses();
+                });
+    }, 10000);
 
 });
 
-// function requestLoaderPromise(code) {   return new Promise(function(resolve,
-// reject) {     code();     resolve();   }) }
 
 /* When document ready, set click handlers for the filter boxes */
 function setupEventListeners() {
     var divCourses = document.getElementById('courses');
     divCourses.addEventListener('onReloadCourses', function () {
-        databases.courses.sort(compareCode);
+        databases.courses.sort(compareCodeToggle());
         let p = makeReloadCoursesPromise(databases.courses);
         p.then(coursesFilter);
     });
 
     var divSortCourses = document.getElementById('sort_courses');
     divSortCourses.addEventListener('click', function () {
-        databases.courses.sort(compareCode);
+        databases.courses.sort(compareCodeToggle());
         let p = makeReloadCoursesPromise(databases.courses);
         p.then(coursesFilter);
     });
 
+
     var divSortExaminer = document.getElementById('sort_examiner');
     divSortExaminer.addEventListener('click', function () {
-        databases.courses.sort(compareExaminer);
+        databases.courses.sort(compareExaminerToggle());
         let p = makeReloadCoursesPromise(databases.courses);
         p.then(coursesFilter);
     });
 
     var divSortResponsible = document.getElementById('sort_responsible');
     divSortResponsible.addEventListener('click', function () {
-        databases.courses.sort(compareResponsible);
+        databases.courses.sort(compareResponsibleToggle());
         let p = makeReloadCoursesPromise(databases.courses);
         p.then(coursesFilter);
     });
