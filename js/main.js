@@ -281,10 +281,80 @@ function makeReloadCoursesPromise(code) {
             courseTitle = document.getElementById(course.code);
 
             courseTitle.addEventListener('click', function () {
-                console.log("hej");
+                //console.log(this.id);
+                console.log('api/classes?q={"filters":[{"name":"courses","op":"has","val":{"name":"code","op":"eq","val":""}}]}');
+
+                let that = this;
+
+                RequestObjectAndDoStuff('api/classes?q={"filters":[{"name":"courses","op":"has","val":{"name":"code","op":"eq","val":"' + that.id + '"}}]}').then((objs) => {
+                    return new Promise(function (resolve, reject) {
+                        console.log(objs);
+                        databases.classes = objs
+                    
+                        const holder = document.getElementById('sideboxes');
+                        while (holder.childNodes.length > 0) {
+                            holder.removeChild(holder.lastChild);
+                        }
+                    
+        
+                        var boxesArray = [];
+                        
+                        boxesArray = [{"title": "COURSE", "titleid": "coursecheckboxes",}, {"title": "EXAMINER", "titleid": "examinercheckboxes",}, {"title": "RESPONSIBLE", "titleid": "responsiblecheckboxes",}, {"title": "TEACHER", "titleid": "teachercheckboxes",}];
+                
+                        var frameObjs = [];
+                
+                        boxesArray.forEach(function(box) {
+                            let frameObj = {
+                                "type": "class",
+                                "typevalue": "table-tesla__checkboxblock",
+                                "title": box.title,
+                                "titleid": box.titleid
+                            }
+                            frameObjs.push(frameObj);
+                        })
+                    
+                        sideBoxAdder(frameObjs, parentGetterMaker('sideboxes'), childBuilderMaker(createFrameDivFn));
+                        let myCourseobj = databases.courses.filter(function( obj ) {
+                            return obj.code == that.id;
+                          })[0];
+
+                        resolve(myCourseobj);
+                        }).then(function(myCourseobj) {
+                            console.log("XXX")
+                            var examinersArray = [];
+                            
+                            examinersArray = [myCourseobj.code];
+                        
+                            var examinerCheckboxObjs = [];
+                        
+                            examinersArray.forEach(function(examiner) {
+                                let examinerCheckboxObj;
+                        
+                                examinerCheckboxObj = {
+                                    "type": "class",
+                                    "typevalue": "w-checkbox w-clearfix",
+                                    "title": examiner,
+                                    "data": "examiner",
+                                    "datavalue": examiner
+                                }
+                                examinerCheckboxObjs.push(examinerCheckboxObj);
+                            })
+                        
+                            sideBoxAdder(examinerCheckboxObjs, parentGetterMaker('examinercheckboxes'), childBuilderMaker(createCheckboxesDivFn));
+    
+                            var pagetitle = document.getElementById("pagetitle");
+                            
+                            pagetitle.textContent = databases.courses.filter(function( obj ) {
+                                return obj.code == that.id;
+                                })[0].code;
+                        });;
+
+                        
+
+                    })
             });
             
-        }
+        };
 
         resolve();
     });
@@ -745,7 +815,7 @@ document.addEventListener("DOMContentLoaded", function () {
             
                     objs.forEach(function (param) {
                         var testobj = objfactory(param);
-                        console.log(testobj.examiner.firstname);
+                        //console.log(testobj.examiner.firstname);
                         newobjs.push(testobj);
                         //console.log(testobj.code + ' ' + testobj.id);
                     });
