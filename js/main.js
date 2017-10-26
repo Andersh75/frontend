@@ -282,7 +282,21 @@ function makeReloadCoursesPromise(code) {
 
             courseTitle = document.getElementById(course.code);
 
-            courseTitle.addEventListener('click', function () {
+            divs['div' + course.code] = courseTitle;
+
+            divs['div' + course.code].click = function () {
+                this.publish(this.id, "click");
+            }
+        
+            makePublisher(divs['div' + course.code]);
+        
+            divs['div' + course.code].subscribe(divs.divPagetitle.setTitle, 'click');
+
+
+            divs['div' + course.code].addEventListener('click', function () {
+                console.log("THIS");
+                console.log(this);
+                this.click();
                 //console.log(this.id);
                 console.log('api/classes?q={"filters":[{"name":"courses","op":"has","val":{"name":"code","op":"eq","val":""}}]}');
 
@@ -316,7 +330,7 @@ function makeReloadCoursesPromise(code) {
                             frameObjs.push(frameObj);
                         })
                     
-                        sideBoxAdder(frameObjs, parentGetterMaker('sideboxes'), childBuilderMaker(createFrameDivFn));
+                        boxAdder(frameObjs, parentGetterMaker('sideboxes'), childBuilderMaker(createFrameDivFn));
                         let myCourseobj = databases.courses.filter(function( obj ) {
                             return obj.code == that.id;
                           })[0];
@@ -345,7 +359,7 @@ function makeReloadCoursesPromise(code) {
                                 examinerCheckboxObjs.push(examinerCheckboxObj);
                             })
                         
-                            sideBoxAdder(examinerCheckboxObjs, parentGetterMaker('examinercheckboxes'), childBuilderMaker(createCheckboxesDivFn));
+                            boxAdder(examinerCheckboxObjs, parentGetterMaker('examinercheckboxes'), childBuilderMaker(createCheckboxesDivFn));
 
 
 
@@ -368,7 +382,7 @@ function makeReloadCoursesPromise(code) {
                                 responsibleCheckboxObjs.push(responsibleCheckboxObj);
                             })
                         
-                            sideBoxAdder(responsibleCheckboxObjs, parentGetterMaker('responsiblecheckboxes'), childBuilderMaker(createCheckboxesDivFn));
+                            boxAdder(responsibleCheckboxObjs, parentGetterMaker('responsiblecheckboxes'), childBuilderMaker(createCheckboxesDivFn));
 
 
 
@@ -403,7 +417,7 @@ function makeReloadCoursesPromise(code) {
                                 frameObjs.push(frameObj);
                             })
                         
-                            sideBoxAdder(frameObjs, parentGetterMaker('courses'), childBuilderMaker(createMainClassesDivFn));
+                            boxAdder(frameObjs, parentGetterMaker('courses'), childBuilderMaker(createMainClassesDivFn));
 
 
 
@@ -454,11 +468,11 @@ function makeReloadCoursesPromise(code) {
 
 
     
-                            var pagetitle = document.getElementById("pagetitle");
+                            // var pagetitle = document.getElementById("pagetitle");
                             
-                            pagetitle.textContent = databases.courses.filter(function( obj ) {
-                                return obj.code == that.id;
-                                })[0].code;
+                            // pagetitle.textContent = databases.courses.filter(function( obj ) {
+                            //     return obj.code == that.id;
+                            //     })[0].code;
                         });;
 
                         
@@ -519,7 +533,7 @@ var compareIdToggle = compareId(); // starts as false
 
 
 
-function compareCode(reversed){
+function compareCourses(reversed){
     return function(){
         reversed = !reversed;
         return function(a,b){
@@ -544,7 +558,7 @@ function compareCode(reversed){
     };
 };
 
-var compareCodeToggle = compareCode(); // starts as false
+var compareCoursesToggle = compareCourses(); // starts as false
 
 
 
@@ -575,6 +589,10 @@ function compareExaminer(reversed){
 };
 
 var compareExaminerToggle = compareExaminer(); // starts as false
+
+
+
+
 
 
 function compareResponsible(reversed){
@@ -660,6 +678,7 @@ function createMainCoursesDivFn(item) {
 <div id="sort_responsible" class="table-tesla__table__header__lablebox-programandyear">\
     <div class="table-tesla__header__cell__text">RESPONSIBLE</div>\
 </div>';
+
     return newEl;
 }
 
@@ -713,7 +732,7 @@ function parentGetterMaker(typevalue) {
 }
 
 
-function sideBoxAdder(models, parentGetter, childBuilder) {
+function boxAdder(models, parentGetter, childBuilder) {
     let newBox;
     let boxParent = parentGetter();
 
@@ -722,15 +741,6 @@ function sideBoxAdder(models, parentGetter, childBuilder) {
     });
 };
 
-
-function mainBoxAdder(models, parentGetter, childBuilder) {
-    let newBox;
-    let boxParent = parentGetter();
-
-    models.forEach(function(model) {
-        boxParent.appendChild(childBuilder(model));
-    });
-};
 
 
 
@@ -812,19 +822,124 @@ function objfactory(param) {
 }
 
 
+var publisher = {
+    subscribers: {
+        any: []
+    },
+    subscribe: function (fn, type) {
+        type = type || 'any';
+        if (typeof this.subscribers[type] === "undefined") {
+            this.subscribers[type] = [];
+        }
+        this.subscribers[type].push(fn);
+    },
+    unsubscribe: function (fn, type) {
+        this.visitSubscribers('unsubscribe', fn, type);
+    },
+    publish: function (publication, type) {
+        this.visitSubscribers('publish', publication, type);
+    },
+    visitSubscribers: function (action, arg, type) {
+        var pubtype = type || 'any',
+            subscribers = this.subscribers[pubtype],
+            i,
+            max = subscribers.length;
+
+        for (i = 0; i < max; i += 1) {
+            if (action === 'publish') {
+                subscribers[i](arg);
+            } else {
+                if (subscribers[i] === arg) {
+                    subscribers.splice(i, 1);
+                }
+            }
+        }
+    }
+};
+
+
+function makePublisher(o) {
+    var i;
+    for (i in publisher) {
+        if (publisher.hasOwnProperty(i) && typeof publisher[i] === "function") {
+            o[i] = publisher[i];
+        }
+    }
+    o.subscribers = {any: []};
+}
+
+
+var paper = {
+    daily: function () {
+        this.publish("big news today");
+    },
+    monthly: function () {
+        this.publish("interesting analysis", "monthly");
+    }
+};
+
+makePublisher(paper);
+
+var joe = {
+    drinkCoffee: function (paper) {
+        console.log('Just read ' + paper);
+    },
+    sundayPreNap: function (monthly) {
+        console.log('About to fall asleep reading this ' + monthly);
+    }
+};
+
+paper.subscribe(joe.drinkCoffee);
+paper.subscribe(joe.sundayPreNap, 'monthly');
+
+paper.daily();
+paper.daily();
+paper.daily();
+paper.monthly();
+
+
+
+
+
 
 var RequestObjectAndDoStuff = prepareForSuffixAndObjectFunction(
     'http://127.0.0.1:5000'
 );
 var databases = {};
+
+databases.courses = [];
 var events = {};
+var divs = {};
 
 events.sendOnReloadCourses = () => {
     var divCourses = document.getElementById('courses');
     divCourses.dispatchEvent(new Event('onReloadCourses'));
 }
 
+function sortCoursesAndFilter (sortfn) {
+    console.log("WHAT IS THIS");
+    console.log(this);
+    console.log(sortfn);
+    console.log(databases);
+    this.click();
+    databases.courses.sort(sortfn());
+    let p = makeReloadCoursesPromise(databases.courses);
+    p.then(coursesFilter);
+};
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
+
+    divs.divCourses = document.getElementById('courses');
+    divs.divSideboxes = document.getElementById('sideboxes');
+    divs.divPagetitle = document.getElementById('pagetitle');
+
+    divs.divPagetitle.setTitle = function (title) {
+            console.log("TITLE");
+            console.log(title);
+            divs.divPagetitle.textContent = title;
+        };
 
 
     let p3 = new Promise((resolve, reject) => {
@@ -845,7 +960,13 @@ document.addEventListener("DOMContentLoaded", function () {
             frameObjs.push(frameObj);
         })
    
-        sideBoxAdder(frameObjs, parentGetterMaker('sideboxes'), childBuilderMaker(createFrameDivFn));
+        boxAdder(frameObjs, parentGetterMaker('sideboxes'), childBuilderMaker(createFrameDivFn));
+
+
+        divs.divPeriodcheckboxes = document.getElementById('periodcheckboxes');
+        divs.divProgramcheckboxes = document.getElementById('programcheckboxes');
+        divs.divDepartmentcheckboxes = document.getElementById('departmentcheckboxes');
+        divs.divYearcheckboxes = document.getElementById('yearcheckboxes');
 
 
     
@@ -869,7 +990,7 @@ document.addEventListener("DOMContentLoaded", function () {
             periodCheckboxObjs.push(periodCheckboxObj);
         })
     
-        sideBoxAdder(periodCheckboxObjs, parentGetterMaker('periodcheckboxes'), childBuilderMaker(createCheckboxesDivFn));
+        boxAdder(periodCheckboxObjs, parentGetterMaker('periodcheckboxes'), childBuilderMaker(createCheckboxesDivFn));
 
 
     
@@ -892,7 +1013,7 @@ document.addEventListener("DOMContentLoaded", function () {
             programCheckboxObjs.push(programCheckboxObj);
         })
     
-        sideBoxAdder(programCheckboxObjs, parentGetterMaker('programcheckboxes'), childBuilderMaker(createCheckboxesDivFn));
+        boxAdder(programCheckboxObjs, parentGetterMaker('programcheckboxes'), childBuilderMaker(createCheckboxesDivFn));
 
 
     
@@ -915,7 +1036,7 @@ document.addEventListener("DOMContentLoaded", function () {
             departmentCheckboxObjs.push(departmentCheckboxObj);
         })
     
-        sideBoxAdder(departmentCheckboxObjs, parentGetterMaker('departmentcheckboxes'), childBuilderMaker(createCheckboxesDivFn));
+        boxAdder(departmentCheckboxObjs, parentGetterMaker('departmentcheckboxes'), childBuilderMaker(createCheckboxesDivFn));
 
 
 
@@ -939,7 +1060,7 @@ document.addEventListener("DOMContentLoaded", function () {
             yearCheckboxObjs.push(yearCheckboxObj);
         }) 
     
-        sideBoxAdder(yearCheckboxObjs, parentGetterMaker('yearcheckboxes'), childBuilderMaker(createCheckboxesDivFn));
+        boxAdder(yearCheckboxObjs, parentGetterMaker('yearcheckboxes'), childBuilderMaker(createCheckboxesDivFn));
 
 
 
@@ -962,7 +1083,44 @@ document.addEventListener("DOMContentLoaded", function () {
             frameObjs.push(frameObj);
         })
     
-        mainBoxAdder(frameObjs, parentGetterMaker('courses'), childBuilderMaker(createMainCoursesDivFn));
+        boxAdder(frameObjs, parentGetterMaker('courses'), childBuilderMaker(createMainCoursesDivFn));
+
+
+
+
+
+        var sorterAdderArray = [
+            {
+                prop: "divSort_courses", 
+                id: "sort_courses", 
+                compareFn: compareCoursesToggle
+            },
+            {
+                prop: "divSort_examiner", 
+                id: "sort_examiner", 
+                compareFn: compareExaminerToggle
+            },
+            {
+                prop: "divSort_responsible", 
+                id: "sort_responsible", 
+                compareFn: compareResponsibleToggle
+            }
+        ]
+
+        sorterAdderArray.forEach(function(item) {
+            divs[item.prop] = document.getElementById(item.id);
+
+            makePublisher(divs[item.prop]);
+            
+            divs[item.prop].click = function () {
+                this.publish(this.children[0].textContent, "click");
+            }
+        
+            divs[item.prop].subscribe(divs.divPagetitle.setTitle, 'click');
+    
+            divs[item.prop].addEventListener('click', sortCoursesAndFilter.bind(divs[item.prop], item.compareFn));
+
+        });
 
 
 
@@ -986,9 +1144,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     
                     databases.courses = newobjs;
                     events.sendOnReloadCourses();
+                    
+                    
                 });
     });
 
+
+
+    // Get new data regularly and update objects
 
     setInterval(function(){ 
         RequestObjectAndDoStuff('api/courses').then((objs) => {
@@ -1010,36 +1173,43 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+
+
+
+
+var pubishers = {};
+
+
 /* When document ready, set click handlers for the filter boxes */
 function setupEventListeners() {
-    var divCourses = document.getElementById('courses');
+    //var divCourses = document.getElementById('courses');
+    var divCourses = divs.divCourses;
     divCourses.addEventListener('onReloadCourses', function () {
-        databases.courses.sort(compareCodeToggle());
-        let p = makeReloadCoursesPromise(databases.courses);
-        p.then(coursesFilter);
-    });
-
-    var divSortCourses = document.getElementById('sort_courses');
-    divSortCourses.addEventListener('click', function () {
-        databases.courses.sort(compareCodeToggle());
+        databases.courses.sort(compareCoursesToggle());
         let p = makeReloadCoursesPromise(databases.courses);
         p.then(coursesFilter);
     });
 
 
-    var divSortExaminer = document.getElementById('sort_examiner');
-    divSortExaminer.addEventListener('click', function () {
-        databases.courses.sort(compareExaminerToggle());
-        let p = makeReloadCoursesPromise(databases.courses);
-        p.then(coursesFilter);
-    });
+    
 
-    var divSortResponsible = document.getElementById('sort_responsible');
-    divSortResponsible.addEventListener('click', function () {
-        databases.courses.sort(compareResponsibleToggle());
-        let p = makeReloadCoursesPromise(databases.courses);
-        p.then(coursesFilter);
-    });
+
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
 
     var periodfilters = document
         .getElementById('periodcheckboxes')
