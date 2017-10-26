@@ -188,6 +188,8 @@ function makeReloadCoursesPromise(code) {
     return new Promise(function (resolve, reject) {
         const holder = document.getElementById('courses');
 
+        console.log(holder.childNodes.length);
+
         while (holder.childNodes.length > 2) {
             holder.removeChild(holder.lastChild);
         }
@@ -288,6 +290,7 @@ function makeReloadCoursesPromise(code) {
 
                 RequestObjectAndDoStuff('api/classes?q={"filters":[{"name":"courses","op":"has","val":{"name":"code","op":"eq","val":"' + that.id + '"}}]}').then((objs) => {
                     return new Promise(function (resolve, reject) {
+                        console.log("OBJS:");
                         console.log(objs);
                         databases.classes = objs
                     
@@ -321,9 +324,11 @@ function makeReloadCoursesPromise(code) {
                         resolve(myCourseobj);
                         }).then(function(myCourseobj) {
                             console.log("XXX")
+
+
                             var examinersArray = [];
                             
-                            examinersArray = [myCourseobj.code];
+                            examinersArray = [myCourseobj.examiner];
                         
                             var examinerCheckboxObjs = [];
                         
@@ -333,14 +338,121 @@ function makeReloadCoursesPromise(code) {
                                 examinerCheckboxObj = {
                                     "type": "class",
                                     "typevalue": "w-checkbox w-clearfix",
-                                    "title": examiner,
+                                    "title": examiner.firstname + " " + examiner.lastname,
                                     "data": "examiner",
-                                    "datavalue": examiner
+                                    "datavalue": examiner.id
                                 }
                                 examinerCheckboxObjs.push(examinerCheckboxObj);
                             })
                         
                             sideBoxAdder(examinerCheckboxObjs, parentGetterMaker('examinercheckboxes'), childBuilderMaker(createCheckboxesDivFn));
+
+
+
+                            var responsiblesArray = [];
+                            
+                            responsiblesArray = [myCourseobj.responsible];
+                        
+                            var responsibleCheckboxObjs = [];
+                        
+                            responsiblesArray.forEach(function(responsible) {
+                                let responsibleCheckboxObj;
+                        
+                                responsibleCheckboxObj = {
+                                    "type": "class",
+                                    "typevalue": "w-checkbox w-clearfix",
+                                    "title": responsible.firstname + " " + responsible.lastname,
+                                    "data": "responsible",
+                                    "datavalue": responsible.id
+                                }
+                                responsibleCheckboxObjs.push(responsibleCheckboxObj);
+                            })
+                        
+                            sideBoxAdder(responsibleCheckboxObjs, parentGetterMaker('responsiblecheckboxes'), childBuilderMaker(createCheckboxesDivFn));
+
+
+
+
+
+
+
+                            // BUILD MAIN
+
+                            const holder = document.getElementById('courses');
+                            
+                            console.log(holder.childNodes.length);
+                    
+                            while (holder.childNodes.length > 1) {
+                                holder.removeChild(holder.lastChild);
+                            }
+
+
+                            var boxesArray = [];
+                            
+                            boxesArray = [{"title": "PERIOD", "titleid": "periodcheckboxes"}];
+
+                            var frameObjs = [];
+
+                            boxesArray.forEach(function(box) {
+                                let frameObj = {
+                                    "type": "class",
+                                    "typevalue": "table-tesla__table__headerbox",
+                                    "title": box.title,
+                                    "titleid": box.titleid
+                                }
+                                frameObjs.push(frameObj);
+                            })
+                        
+                            sideBoxAdder(frameObjs, parentGetterMaker('courses'), childBuilderMaker(createMainClassesDivFn));
+
+
+
+                        
+
+
+                            databases.classes.forEach(function(item) {
+                                console.log(item.content);
+                                function createRowDiv(idvalue, classvalue) {
+                                    let newEl;
+                                    newEl = document.createElement('div');
+                                    newEl.id = idvalue;
+                                    newEl.className = classvalue;
+                                    newEl.innerHTML = '<div class="table-tesla__table__row">\
+                                                <div id="class-' + item.id + '" class="table-tesla' +
+                                            '__cell__text--bold">' + item.dates.date + '</div>\
+                                        ' +
+                                            '     <div class="table-tesla__cell__text">' + item.starttime + '-' + item.endtime + '</div>\
+                                            ' +
+                                            '   <div class="table-tesla__cell__text">' + item.classtypes.classtype + '</div>\
+                                            ' +
+                                            ' <div class="table-tesla__cell__text">' + item.content + '</div>\
+                                                <div' +
+                                            ' class="table-tesla__cell__text">' + item.id + '</div>\
+                                                <div ' +
+                                            'class="table-tesla__cell__text">' + item.id + '</div>\
+                                                </d' +
+                                            'iv>';
+                                    console.log(newEl);
+                    
+                                    return newEl;
+                                }
+                                 divNewRow = createRowDiv(buildCourseRowId(item), "table-tesla__table__rowbox");
+                                 if (true) {
+                                    holder.appendChild(divNewRow);
+                                }
+                             })
+
+                                
+                    
+                                
+
+                            
+
+
+
+                            // MAIN BUILT
+
+
     
                             var pagetitle = document.getElementById("pagetitle");
                             
@@ -496,29 +608,29 @@ var compareResponsibleToggle = compareResponsible(); // starts as false
 
 
 
-function createCheckboxesDivFn(type, typevalue, titleid, title, data, datavalue) {
+function createCheckboxesDivFn(item) {
     let newEl;
     newEl = document.createElement('div');
-    newEl.setAttribute(type, typevalue);
+    newEl.setAttribute(item.type, item.typevalue);
     newEl.innerHTML = '<input\
         checked="checked"\
         class="w-checkbox-input"\
-        data-' + data + '="' + datavalue + '"\
+        data-' + item.data + '="' + item.datavalue + '"\
         name="checkbox-19"\
         type="checkbox">\
-    <label class="field-label-6 w-form-label" for="checkbox-19">' + title + '</label>';
+    <label class="field-label-6 w-form-label" for="checkbox-19">' + item.title + '</label>';
     return newEl;
 }
 
 
-function createFrameDivFn(type, typevalue, titleid, title, data, datavalue) {
+function createFrameDivFn(item) {
     let newEl;
     newEl = document.createElement('div');
-    newEl.setAttribute(type, typevalue);
+    newEl.setAttribute(item.type, item.typevalue);
     newEl.innerHTML = '<div class="form-wrapper-2 w-form">\
                         <form data-name="Email Form 2" id="email-form-2" name="email-form-2">\
-                            <label class="field-label" for="name">' + title + '</label>\
-                            <div id=' + titleid + ' class="table-tesla__checkbox__fieldbox">\
+                            <label class="field-label" for="name">' + item.title + '</label>\
+                            <div id=' + item.titleid + ' class="table-tesla__checkbox__fieldbox">\
                             </div>\
                             </form>\
                             </div>';
@@ -526,16 +638,72 @@ function createFrameDivFn(type, typevalue, titleid, title, data, datavalue) {
 }
 
 
+function createMainCoursesDivFn(item) {
+    let newEl;
+    newEl = document.createElement('div');
+    newEl.setAttribute(item.type, item.typevalue); // <div class="table-tesla__table__headerbox">
+    newEl.innerHTML = '<div id="sort_courses" class="table-tesla__header__lablebox--course">\
+    <div class="table-tesla__header__cell__text">' + item.lables[0] + '</div>\
+</div>\
+<div class="table-tesla__header__lablebox-period">\
+    <div class="table-tesla__header__cell__text">PERIOD</div>\
+</div>\
+<div class="table-tesla__table__header__lablebox-programandyear">\
+    <div class="table-tesla__header__cell__text">PROGRAM</div>\
+</div>\
+<div class="table-tesla__table__header__lablebox-programandyear">\
+    <div class="table-tesla__header__cell__text">YEAR</div>\
+</div>\
+<div id="sort_examiner" class="table-tesla__table__header__lablebox-programandyear">\
+    <div class="table-tesla__header__cell__text">EXAMINER</div>\
+</div>\
+<div id="sort_responsible" class="table-tesla__table__header__lablebox-programandyear">\
+    <div class="table-tesla__header__cell__text">RESPONSIBLE</div>\
+</div>';
+    return newEl;
+}
+
+
+function createMainClassesDivFn(item) {
+    let newEl;
+    newEl = document.createElement('div');
+    newEl.setAttribute(item.type, item.typevalue);
+    newEl.innerHTML = '<div id="sort_courses" class="table-tesla__header__lablebox--course">\
+    <div class="table-tesla__header__cell__text">DATE</div>\
+</div>\
+<div class="table-tesla__header__lablebox-period">\
+    <div class="table-tesla__header__cell__text">TIME</div>\
+</div>\
+<div class="table-tesla__table__header__lablebox-programandyear">\
+    <div class="table-tesla__header__cell__text">TYPE</div>\
+</div>\
+<div class="table-tesla__table__header__lablebox-programandyear">\
+    <div class="table-tesla__header__cell__text">TITLE</div>\
+</div>\
+<div id="sort_examiner" class="table-tesla__table__header__lablebox-programandyear">\
+    <div class="table-tesla__header__cell__text">ROOM</div>\
+</div>\
+<div id="sort_responsible" class="table-tesla__table__header__lablebox-programandyear">\
+    <div class="table-tesla__header__cell__text">TEACHERS</div>\
+</div>';
+    return newEl;
+}
+
+
+
+
+
 function childBuilderMaker(adderFn) {
     return function (model) {
         let child;
     
-        child = adderFn(model.type, model.typevalue, model.titleid, model.title, model.data, model.datavalue);
+        child = adderFn(model);
         console.log(child);
     
         return child;
     };
 };
+
 
 
 function parentGetterMaker(typevalue) {
@@ -546,6 +714,16 @@ function parentGetterMaker(typevalue) {
 
 
 function sideBoxAdder(models, parentGetter, childBuilder) {
+    let newBox;
+    let boxParent = parentGetter();
+
+    models.forEach(function(model) {
+        boxParent.appendChild(childBuilder(model));
+    });
+};
+
+
+function mainBoxAdder(models, parentGetter, childBuilder) {
     let newBox;
     let boxParent = parentGetter();
 
@@ -645,8 +823,7 @@ events.sendOnReloadCourses = () => {
     var divCourses = document.getElementById('courses');
     divCourses.dispatchEvent(new Event('onReloadCourses'));
 }
-//var sideBox = sideBoxFactory('sideboxes');
-//
+
 document.addEventListener("DOMContentLoaded", function () {
 
 
@@ -654,7 +831,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         var boxesArray = [];
 
-        boxesArray = [{"title": "PERIOD", "titleid": "periodcheckboxes",}, {"title": "PROGRAM", "titleid": "programcheckboxes",}, {"title": "DEPARTMENT", "titleid": "departmentcheckboxes",}, {"title": "YEAR", "titleid": "yearcheckboxes",}];
+        boxesArray = [{"title": "PERIOD", "titleid": "periodcheckboxes"}, {"title": "PROGRAM", "titleid": "programcheckboxes"}, {"title": "DEPARTMENT", "titleid": "departmentcheckboxes"}, {"title": "YEAR", "titleid": "yearcheckboxes"}];
 
         var frameObjs = [];
 
@@ -669,10 +846,6 @@ document.addEventListener("DOMContentLoaded", function () {
         })
    
         sideBoxAdder(frameObjs, parentGetterMaker('sideboxes'), childBuilderMaker(createFrameDivFn));
-
-        
-
-
 
 
     
@@ -769,28 +942,37 @@ document.addEventListener("DOMContentLoaded", function () {
         sideBoxAdder(yearCheckboxObjs, parentGetterMaker('yearcheckboxes'), childBuilderMaker(createCheckboxesDivFn));
 
 
+
+
+        // BUILD MAIN
+
+
+        var boxesArray = [];
+        
+        boxesArray = [{"lables": ["COURSE2", "PERIOD", "PROGRAM", "YEAR", "EXAMINER", "RESPONSIBLE"]}];
+
+        var frameObjs = [];
+
+        boxesArray.forEach(function(box) {
+            let frameObj = {
+                "type": "class",
+                "typevalue": "table-tesla__table__headerbox",
+                "lables": box.lables
+            }
+            frameObjs.push(frameObj);
+        })
+    
+        mainBoxAdder(frameObjs, parentGetterMaker('courses'), childBuilderMaker(createMainCoursesDivFn));
+
+
+
         resolve();
         
 
       });
     
-// TEST CODE
-    
-    // let p1 = new Promise((resolve, reject) => {
-
-    //     setTimeout(function(){
-    //       resolve("Success p1"); // Yay! Everything went well!
-    //     }, 1000);
-    //   });
-    
-    // let p2 = new Promise((resolve, reject) => {
-    //     setTimeout(function(){
-    //         resolve("Success p2"); // Yay! Everything went well!
-    //       }, 10000);
-    // });
 
     Promise.all([p3]).then(function (res) {
-        //console.log(res[0] + " " + res[1]);
         setupEventListeners();
         RequestObjectAndDoStuff('api/courses').then((objs) => {
             
