@@ -184,17 +184,43 @@ function makeSeparatedStringRecur(result, includep, sepCallback, arr) {
     }
 };
 
+
+function removeAllSlotsFromHolder(remain, holder) {
+    while (holder.childNodes.length > remain) {
+        holder.removeChild(holder.lastChild);
+    }
+}
+
+
+function createRowDiv(idvalue, classvalue, course, periods, program, year, responsible, examiner) {
+    let newEl;
+    newEl = document.createElement('div');
+    newEl.id = idvalue;
+    newEl.className = classvalue;
+    newEl.innerHTML = '<div class="table-tesla__table__row">\
+                <div id="' + course.code + '" class="table-tesla' +
+            '__cell__text--bold">' + course.code + ' ' + course.name + '</div>\
+        ' +
+            '     <div class="table-tesla__cell__text">' + periods + '</div>\
+            ' +
+            '   <div class="table-tesla__cell__text">' + program + '</div>\
+            ' +
+            ' <div class="table-tesla__cell__text">' + year + '</div>\
+                <div' +
+            ' class="table-tesla__cell__text">' + examiner + '</div>\
+                <div ' +
+            'class="table-tesla__cell__text">' + responsible + '</div>\
+                </d' +
+            'iv>';
+    console.log(newEl);
+
+    return newEl;
+}
+
+
 function makeReloadCoursesPromise(code) {
     return new Promise(function (resolve, reject) {
-        const holder = document.getElementById('courses');
 
-        console.log(holder.childNodes.length);
-
-        while (holder.childNodes.length > 2) {
-            holder.removeChild(holder.lastChild);
-        }
-
-       // var div;
         var divNewRow;
         var courseTitle;
         var course;
@@ -205,6 +231,8 @@ function makeReloadCoursesPromise(code) {
         var examiner;
         var responsible;
 
+
+        removeAllSlotsFromHolder(2, divs.divCourses);
 
         for (i = 0; i < code.length; i++) {
             course = code[i];
@@ -242,47 +270,13 @@ function makeReloadCoursesPromise(code) {
                 : "";
 
 
-            function createRowDiv(idvalue, classvalue) {
-                let newEl;
-                newEl = document.createElement('div');
-                newEl.id = idvalue;
-                newEl.className = classvalue;
-                newEl.innerHTML = '<div class="table-tesla__table__row">\
-                            <div id="' + course.code + '" class="table-tesla' +
-                        '__cell__text--bold">' + course.code + ' ' + course.name + '</div>\
-                    ' +
-                        '     <div class="table-tesla__cell__text">' + periods + '</div>\
-                        ' +
-                        '   <div class="table-tesla__cell__text">' + program + '</div>\
-                        ' +
-                        ' <div class="table-tesla__cell__text">' + year + '</div>\
-                            <div' +
-                        ' class="table-tesla__cell__text">' + examiner + '</div>\
-                            <div ' +
-                        'class="table-tesla__cell__text">' + responsible + '</div>\
-                            </d' +
-                        'iv>';
-                console.log(newEl);
+            divNewRow = createRowDiv(buildCourseRowId(course), "table-tesla__table__rowbox", course, periods, program, year, responsible, examiner);
 
-                return newEl;
-            }
-
-            divNewRow = createRowDiv(buildCourseRowId(course), "table-tesla__table__rowbox")
+            divs.divCourses.appendChild(divNewRow);
 
 
 
-
-            // Append row element
-            if (true) {
-                holder.appendChild(divNewRow);
-            }
-
-            console.log(course.code);
-            console.log(document.getElementById(course.code));
-
-            courseTitle = document.getElementById(course.code);
-
-            divs['div' + course.code] = courseTitle;
+            divs['div' + course.code] = document.getElementById(course.code);
 
             divs['div' + course.code].click = function () {
                 this.publish(this.id, "click");
@@ -294,32 +288,22 @@ function makeReloadCoursesPromise(code) {
 
 
             divs['div' + course.code].addEventListener('click', function () {
-                console.log("THIS");
-                console.log(this);
                 this.click();
-                //console.log(this.id);
-                console.log('api/classes?q={"filters":[{"name":"courses","op":"has","val":{"name":"code","op":"eq","val":""}}]}');
+                //console.log('api/classes?q={"filters":[{"name":"courses","op":"has","val":{"name":"code","op":"eq","val":""}}]}');
 
                 let that = this;
 
                 RequestObjectAndDoStuff('api/classes?q={"filters":[{"name":"courses","op":"has","val":{"name":"code","op":"eq","val":"' + that.id + '"}}]}').then((objs) => {
                     return new Promise(function (resolve, reject) {
-                        console.log("OBJS:");
-                        console.log(objs);
                         databases.classes = objs
                     
                         const holder = document.getElementById('sideboxes');
-                        while (holder.childNodes.length > 0) {
-                            holder.removeChild(holder.lastChild);
-                        }
-                    
+
+                        removeAllSlotsFromHolder(0, divs.divSideboxes);
         
                         var boxesArray = [];
-                        
                         boxesArray = [{"title": "COURSE", "titleid": "coursecheckboxes",}, {"title": "EXAMINER", "titleid": "examinercheckboxes",}, {"title": "RESPONSIBLE", "titleid": "responsiblecheckboxes",}, {"title": "TEACHER", "titleid": "teachercheckboxes",}];
-                
-                        var frameObjs = [];
-                
+                        var frameObjs = [];                
                         boxesArray.forEach(function(box) {
                             let frameObj = {
                                 "type": "class",
@@ -331,13 +315,16 @@ function makeReloadCoursesPromise(code) {
                         })
                     
                         boxAdder(frameObjs, parentGetterMaker('sideboxes'), childBuilderMaker(createFrameDivFn));
+
+
+
+
                         let myCourseobj = databases.courses.filter(function( obj ) {
                             return obj.code == that.id;
                           })[0];
 
                         resolve(myCourseobj);
                         }).then(function(myCourseobj) {
-                            console.log("XXX")
 
 
                             var examinersArray = [];
@@ -425,7 +412,6 @@ function makeReloadCoursesPromise(code) {
 
 
                             databases.classes.forEach(function(item) {
-                                console.log(item.content);
                                 function createRowDiv(idvalue, classvalue) {
                                     let newEl;
                                     newEl = document.createElement('div');
@@ -503,24 +489,26 @@ function prepareForSuffixAndObjectFunction(baseUrl) {
     };
 };
 
-function compareId(reversed){
-    return function(){
+
+
+function compareLevelOne(reversed){
+    return function(item1){
         reversed = !reversed;
         return function(a,b){
             if (reversed) {
-                if (a.id === null) return 1;
-                if (b.id === null) return -1;
-                if (a.id < b.id)
+                if (a[item1] === null) return 1;
+                if (b[item1] === null) return -1;
+                if (a[item1] < b[item1])
                     return -1;
-                if (a.id > b.id)
+                if (a[item1] > b[item1])
                     return 1;
                 return 0;
             } else {
-                if (a.id === null) return -1;
-                if (b.id === null) return 1;
-                if (a.id < b.id)
+                if (a[item1] === null) return -1;
+                if (b[item1] === null) return 1;
+                if (a[item1] < b[item1])
                     return 1;
-                if (a.id > b.id)
+                if (a[item1] > b[item1])
                     return -1;
                 return 0;
             }
@@ -528,29 +516,24 @@ function compareId(reversed){
     };
 };
 
-var compareIdToggle = compareId(); // starts as false
-
-
-
-
-function compareCourses(reversed){
-    return function(){
+function compareLevelTwo(reversed){
+    return function(item1, item2){
         reversed = !reversed;
         return function(a,b){
             if (reversed) {
-                if (a.code === null) return 1;
-                if (b.code === null) return -1;
-                if (a.code < b.code)
+                if (a[item1] === null) return 1;
+                if (b[item1] === null) return -1;
+                if (a[item1][item2] < b[item1][item2])
                     return -1;
-                if (a.code > b.code)
+                if (a[item1][item2] > b[item1][item2])
                     return 1;
                 return 0;
             } else {
-                if (a.code === null) return -1;
-                if (b.code === null) return 1;
-                if (a.code < b.code)
+                if (a[item1] === null) return -1;
+                if (b[item1] === null) return 1;
+                if (a[item1][item2] < b[item1][item2])
                     return 1;
-                if (a.code > b.code)
+                if (a[item1][item2] > b[item1][item2])
                     return -1;
                 return 0;
             }
@@ -558,71 +541,9 @@ function compareCourses(reversed){
     };
 };
 
-var compareCoursesToggle = compareCourses(); // starts as false
-
-
-
-
-function compareExaminer(reversed){
-    return function(){
-        reversed = !reversed;
-        return function(a,b){
-            if (reversed) {
-                if (a.examiner === null) return 1;
-                if (b.examiner === null) return -1;
-                if (a.examiner.firstname < b.examiner.firstname)
-                    return -1;
-                if (a.examiner.firstname > b.examiner.firstname)
-                    return 1;
-                return 0;
-            } else {
-                if (a.examiner === null) return -1;
-                if (b.examiner === null) return 1;
-                if (a.examiner.firstname < b.examiner.firstname)
-                    return 1;
-                if (a.examiner.firstname > b.examiner.firstname)
-                    return -1;
-                return 0;
-            }
-        };
-    };
-};
-
-var compareExaminerToggle = compareExaminer(); // starts as false
-
-
-
-
-
-
-function compareResponsible(reversed){
-    return function(){
-        reversed = !reversed;
-        return function(a,b){
-            if (reversed) {
-                if (a.responsible === null) return 1;
-                if (b.responsible === null) return -1;
-                if (a.responsible.firstname < b.responsible.firstname)
-                    return -1;
-                if (a.responsible.firstname > b.responsible.firstname)
-                    return 1;
-                return 0;
-            } else {
-                if (a.responsible === null) return -1;
-                if (b.responsible === null) return 1;
-                if (a.responsible.firstname < b.responsible.firstname)
-                    return 1;
-                if (a.responsible.firstname > b.responsible.firstname)
-                    return -1;
-                return 0;
-            }
-        };
-    };
-};
-
-var compareResponsibleToggle = compareResponsible(); // starts as false
-
-
+var compareCoursesToggle = compareLevelOne(); // starts as false
+var compareExaminerToggle = compareLevelTwo(); // starts as false
+var compareResponsibleToggle = compareLevelTwo(); // starts as false
 
 
 
@@ -717,7 +638,6 @@ function childBuilderMaker(adderFn) {
         let child;
     
         child = adderFn(model);
-        console.log(child);
     
         return child;
     };
@@ -869,38 +789,6 @@ function makePublisher(o) {
 }
 
 
-var paper = {
-    daily: function () {
-        this.publish("big news today");
-    },
-    monthly: function () {
-        this.publish("interesting analysis", "monthly");
-    }
-};
-
-makePublisher(paper);
-
-var joe = {
-    drinkCoffee: function (paper) {
-        console.log('Just read ' + paper);
-    },
-    sundayPreNap: function (monthly) {
-        console.log('About to fall asleep reading this ' + monthly);
-    }
-};
-
-paper.subscribe(joe.drinkCoffee);
-paper.subscribe(joe.sundayPreNap, 'monthly');
-
-paper.daily();
-paper.daily();
-paper.daily();
-paper.monthly();
-
-
-
-
-
 
 var RequestObjectAndDoStuff = prepareForSuffixAndObjectFunction(
     'http://127.0.0.1:5000'
@@ -916,13 +804,9 @@ events.sendOnReloadCourses = () => {
     divCourses.dispatchEvent(new Event('onReloadCourses'));
 }
 
-function sortCoursesAndFilter (sortfn) {
-    console.log("WHAT IS THIS");
-    console.log(this);
-    console.log(sortfn);
-    console.log(databases);
+function sortCoursesAndFilter (sortfn, sort1, sort2) {
     this.click();
-    databases.courses.sort(sortfn());
+    databases.courses.sort(sortfn(sort1, sort2));
     let p = makeReloadCoursesPromise(databases.courses);
     p.then(coursesFilter);
 };
@@ -936,8 +820,6 @@ document.addEventListener("DOMContentLoaded", function () {
     divs.divPagetitle = document.getElementById('pagetitle');
 
     divs.divPagetitle.setTitle = function (title) {
-            console.log("TITLE");
-            console.log(title);
             divs.divPagetitle.textContent = title;
         };
 
@@ -1093,17 +975,23 @@ document.addEventListener("DOMContentLoaded", function () {
             {
                 prop: "divSort_courses", 
                 id: "sort_courses", 
-                compareFn: compareCoursesToggle
+                compareFn: compareCoursesToggle,
+                sort1: 'code',
+                sort2: ''
             },
             {
                 prop: "divSort_examiner", 
                 id: "sort_examiner", 
-                compareFn: compareExaminerToggle
+                compareFn: compareExaminerToggle,
+                sort1: 'examiner',
+                sort2: 'firstname'
             },
             {
                 prop: "divSort_responsible", 
                 id: "sort_responsible", 
-                compareFn: compareResponsibleToggle
+                compareFn: compareResponsibleToggle,
+                sort1: 'responsible',
+                sort2: 'firstname'
             }
         ]
 
@@ -1118,7 +1006,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
             divs[item.prop].subscribe(divs.divPagetitle.setTitle, 'click');
     
-            divs[item.prop].addEventListener('click', sortCoursesAndFilter.bind(divs[item.prop], item.compareFn));
+            divs[item.prop].addEventListener('click', sortCoursesAndFilter.bind(divs[item.prop], item.compareFn, item.sort1, item.sort2));
 
         });
 
@@ -1139,7 +1027,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     objs.forEach(function (param) {
                         var testobj = objfactory(param);
                         newobjs.push(testobj);
-                        console.log(testobj.code + ' ' + testobj.id);
                     });
                     
                     databases.courses = newobjs;
@@ -1160,13 +1047,10 @@ document.addEventListener("DOMContentLoaded", function () {
             
                     objs.forEach(function (param) {
                         var testobj = objfactory(param);
-                        //console.log(testobj.examiner.firstname);
                         newobjs.push(testobj);
-                        //console.log(testobj.code + ' ' + testobj.id);
                     });
                     
                     databases.courses = newobjs;
-                    //events.sendOnReloadCourses();
                 });
     }, 10000);
 
@@ -1182,33 +1066,12 @@ var pubishers = {};
 
 /* When document ready, set click handlers for the filter boxes */
 function setupEventListeners() {
-    //var divCourses = document.getElementById('courses');
     var divCourses = divs.divCourses;
     divCourses.addEventListener('onReloadCourses', function () {
         databases.courses.sort(compareCoursesToggle());
         let p = makeReloadCoursesPromise(databases.courses);
         p.then(coursesFilter);
     });
-
-
-    
-
-
-
-    
-
-
-    
-
-
-
-
-
-
-
-
-
-
 
 
     var periodfilters = document
