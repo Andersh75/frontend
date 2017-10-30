@@ -452,6 +452,7 @@ function buildClasses(objs) {
 
 
         var myBigRoomAr = new Set();
+        
 
         databases.classes.forEach(function(item) {
             let myClass = [];
@@ -461,13 +462,19 @@ function buildClasses(objs) {
                 return myrooms;
              }, []);
 
-             let myset = new Set(myroomar);
+             let myset = new Set();
 
-             //console.log(myroomar);
+             myroomar.forEach(function(item) {
+                myset.add(item);
+             })
 
-             myBigRoomAr = myBigRoomAr.union(myroomar);
+             myBigRoomAr = myBigRoomAr.union(myset);
 
              console.log(myBigRoomAr);
+
+             //myBigRoomAr = myBigRoomAr.union(myroomar);
+
+             //console.log(myBigRoomAr);
 
             let myroom = item.rooms.reduce(function(mystring, roomar) {
                 if (mystring === "") {
@@ -519,7 +526,9 @@ function buildClasses(objs) {
             
         })
 
-        console.log(myBigRoomAr);
+        // myBigRoomAr.union(myset);
+
+        // console.log(myBigRoomAr);
 
         resolve();
 
@@ -1088,6 +1097,42 @@ function mainBuilder(mainArray) {
         divs[item.prop].addEventListener('click', sortCoursesAndFilter.bind(divs[item.prop], item.compareFn, item.sort1, item.sort2));
 
     });
+}
+
+
+Set.prototype.isSuperset = function(subset) {
+    for (var elem of subset) {
+        if (!this.has(elem)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+Set.prototype.union = function(setB) {
+    var union = new Set(this);
+    for (var elem of setB) {
+        union.add(elem);
+    }
+    return union;
+}
+
+Set.prototype.intersection = function(setB) {
+    var intersection = new Set();
+    for (var elem of setB) {
+        if (this.has(elem)) {
+            intersection.add(elem);
+        }
+    }
+    return intersection;
+}
+
+Set.prototype.difference = function(setB) {
+    var difference = new Set(this);
+    for (var elem of setB) {
+        difference.delete(elem);
+    }
+    return difference;
 }
 
 
