@@ -354,33 +354,7 @@ function buildClasses(objs) {
 
         databases.classes = objs;
 
-        // Build left side
-
-        removeAllSlotsFromHolder(0, divs.divSideboxes);
-
-        let myCourseobj = databases.courses.filter(function( obj ) {
-                return obj.code == databases.classes[0].courses.code;
-                })[0];
-
-        var boxesAr = [];
-
-        boxesAr = [
-            {
-                kind: 'examiner',
-                values: [[myCourseobj.examiner.firstname + " " + myCourseobj.examiner.lastname, myCourseobj.examiner.id]],
-                title: "EXAMINER",
-                titleid: "examinercheckboxes"
-            },
-            {
-                kind: 'responsible',
-                values: [[myCourseobj.responsible.firstname + " " + myCourseobj.responsible.lastname, myCourseobj.responsible.id]],
-                title: "RESPONSIBLE",
-                titleid: "responsiblecheckboxes"
-            }
-        ];
-
-
-        sideBuilder(boxesAr, 'sideboxes');
+  
 
 
 
@@ -470,7 +444,9 @@ function buildClasses(objs) {
 
              myBigRoomAr = myBigRoomAr.union(myset);
 
-             console.log(myBigRoomAr);
+             //console.log(myBigRoomAr);
+
+
 
              //myBigRoomAr = myBigRoomAr.union(myroomar);
 
@@ -526,14 +502,72 @@ function buildClasses(objs) {
             
         })
 
+        let ArConvertedFromSet = Array.from(myBigRoomAr);
+        
+        ArConvertedFromSet.sort(function (a, b) {
+            var nameA=a.toLowerCase(), nameB=b.toLowerCase();
+            if (nameA < nameB) //sort string ascending
+             return -1;
+            if (nameA > nameB)
+             return 1;
+            return 0;
+        });
+
+        console.log(ArConvertedFromSet);
+
+
+        let nextAr = ArConvertedFromSet.map(function(item) {
+            let newAr = [];
+            newAr.push(item);
+            newAr.push(item);
+            return newAr;
+        })
+
         // myBigRoomAr.union(myset);
 
         // console.log(myBigRoomAr);
+
+              // Build left side
+
+        removeAllSlotsFromHolder(0, divs.divSideboxes);
+        
+        let myCourseobj = databases.courses.filter(function( obj ) {
+                return obj.code == databases.classes[0].courses.code;
+                })[0];
+
+        var boxesAr = [];
+
+        boxesAr = [
+            {
+                kind: 'examiner',
+                values: [[myCourseobj.examiner.firstname + " " + myCourseobj.examiner.lastname, myCourseobj.examiner.id]],
+                title: "EXAMINER",
+                titleid: "examinercheckboxes"
+            },
+            {
+                kind: 'responsible',
+                values: [[myCourseobj.responsible.firstname + " " + myCourseobj.responsible.lastname, myCourseobj.responsible.id]],
+                title: "RESPONSIBLE",
+                titleid: "responsiblecheckboxes"
+            },
+            {
+                kind: 'teachers',
+                values: nextAr,
+                title: "TEACHERS",
+                titleid: "teacherscheckboxes"
+            }
+        ];
+
+
+        sideBuilder(boxesAr, 'sideboxes');
 
         resolve();
 
     });
 }
+
+
+
 
 
 
