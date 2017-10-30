@@ -1,6 +1,7 @@
 'use strict';  
 
 function coursesFilter() {
+    this.click();
 
     const predicateArrays = [];
     predicateArrays[0] = [];
@@ -11,20 +12,17 @@ function coursesFilter() {
     var elems;
 
     // Periods
-    elems = document
-        .getElementById('periodcheckboxes')
-        .children;
-    Array
-        .from(elems)
-        .forEach(function (elem) {
-            const checkbox = elem.children[0];
-            if (checkbox.checked) {
-                const key = checkbox.getAttribute('data-period');
-                predicateArrays[0].push(function (course) {
-                    return course[key];
-                });
-            }
-        });
+    elems = document.getElementById('periodcheckboxes').children;
+    Array.from(elems).forEach(function (elem) {
+        const checkbox = elem.children[0];
+        console.log(checkbox);
+        if (checkbox.checked) {
+            const key = checkbox.getAttribute('data-period');
+            predicateArrays[0].push(function (course) {
+                return course[key];
+            });
+        }
+    });
 
     // Programs
     elems = document
@@ -118,6 +116,7 @@ function coursesFilter() {
 
             var visible = true;
             course.show = true;
+            console.log(results);
             results.forEach(function (result) {
                 if (!result) {
                     visible = false;
@@ -218,6 +217,43 @@ function createRowDiv(idvalue, classvalue, course, periods, program, year, respo
 }
 
 
+
+function createClassRowDiv(item) {
+    let newEl;
+    let firstEl;
+    newEl = document.createElement('div');
+    newEl.setAttribute("class", "table-tesla__table__rowbox"); // <div class="table-tesla__table__headerbox">
+    
+    firstEl = document.createElement('div');
+    //firstEl.setAttribute("id", param.id);
+    firstEl.setAttribute("class", "table-tesla__table__row");
+
+    newEl.appendChild(firstEl);
+    item.forEach(function(param) {
+        
+        let innerEl;
+        
+        innerEl = document.createElement('div');
+        innerEl.setAttribute("class", param.class);
+        innerEl.innerHTML = param.lable;
+        firstEl.appendChild(innerEl);
+        
+    });
+
+    return newEl;
+}
+
+
+function classBuilder(classArray) {
+    const holder = document.getElementById('courses');
+    let divNewRow = createClassRowDiv(classArray);
+    if (true) {
+       holder.appendChild(divNewRow);
+   }
+
+}
+
+
 function makeReloadCoursesPromise(code) {
     return new Promise(function (resolve, reject) {
 
@@ -289,181 +325,13 @@ function makeReloadCoursesPromise(code) {
 
             divs['div' + course.code].addEventListener('click', function () {
                 this.click();
-                //console.log('api/classes?q={"filters":[{"name":"courses","op":"has","val":{"name":"code","op":"eq","val":""}}]}');
 
                 let that = this;
 
                 RequestObjectAndDoStuff('api/classes?q={"filters":[{"name":"courses","op":"has","val":{"name":"code","op":"eq","val":"' + that.id + '"}}]}').then((objs) => {
-                    return new Promise(function (resolve, reject) {
-                        databases.classes = objs
-                    
-                        const holder = document.getElementById('sideboxes');
-
-                        removeAllSlotsFromHolder(0, divs.divSideboxes);
-        
-                        var boxesArray = [];
-                        boxesArray = [{"title": "COURSE", "titleid": "coursecheckboxes",}, {"title": "EXAMINER", "titleid": "examinercheckboxes",}, {"title": "RESPONSIBLE", "titleid": "responsiblecheckboxes",}, {"title": "TEACHER", "titleid": "teachercheckboxes",}];
-                        var frameObjs = [];                
-                        boxesArray.forEach(function(box) {
-                            let frameObj = {
-                                "type": "class",
-                                "typevalue": "table-tesla__checkboxblock",
-                                "title": box.title,
-                                "titleid": box.titleid
-                            }
-                            frameObjs.push(frameObj);
-                        })
-                    
-                        boxAdder(frameObjs, parentGetterMaker('sideboxes'), childBuilderMaker(createFrameDivFn));
-
-
-
-
-                        let myCourseobj = databases.courses.filter(function( obj ) {
-                            return obj.code == that.id;
-                          })[0];
-
-                        resolve(myCourseobj);
-                        }).then(function(myCourseobj) {
-
-
-                            var examinersArray = [];
-                            
-                            examinersArray = [myCourseobj.examiner];
-                        
-                            var examinerCheckboxObjs = [];
-                        
-                            examinersArray.forEach(function(examiner) {
-                                let examinerCheckboxObj;
-                        
-                                examinerCheckboxObj = {
-                                    "type": "class",
-                                    "typevalue": "w-checkbox w-clearfix",
-                                    "title": examiner.firstname + " " + examiner.lastname,
-                                    "data": "examiner",
-                                    "datavalue": examiner.id
-                                }
-                                examinerCheckboxObjs.push(examinerCheckboxObj);
-                            })
-                        
-                            boxAdder(examinerCheckboxObjs, parentGetterMaker('examinercheckboxes'), childBuilderMaker(createCheckboxesDivFn));
-
-
-
-                            var responsiblesArray = [];
-                            
-                            responsiblesArray = [myCourseobj.responsible];
-                        
-                            var responsibleCheckboxObjs = [];
-                        
-                            responsiblesArray.forEach(function(responsible) {
-                                let responsibleCheckboxObj;
-                        
-                                responsibleCheckboxObj = {
-                                    "type": "class",
-                                    "typevalue": "w-checkbox w-clearfix",
-                                    "title": responsible.firstname + " " + responsible.lastname,
-                                    "data": "responsible",
-                                    "datavalue": responsible.id
-                                }
-                                responsibleCheckboxObjs.push(responsibleCheckboxObj);
-                            })
-                        
-                            boxAdder(responsibleCheckboxObjs, parentGetterMaker('responsiblecheckboxes'), childBuilderMaker(createCheckboxesDivFn));
-
-
-
-
-
-
-
-                            // BUILD MAIN
-
-                            const holder = document.getElementById('courses');
-                            
-                            console.log(holder.childNodes.length);
-                    
-                            while (holder.childNodes.length > 1) {
-                                holder.removeChild(holder.lastChild);
-                            }
-
-
-                            var boxesArray = [];
-                            
-                            boxesArray = [{"title": "PERIOD", "titleid": "periodcheckboxes"}];
-
-                            var frameObjs = [];
-
-                            boxesArray.forEach(function(box) {
-                                let frameObj = {
-                                    "type": "class",
-                                    "typevalue": "table-tesla__table__headerbox",
-                                    "title": box.title,
-                                    "titleid": box.titleid
-                                }
-                                frameObjs.push(frameObj);
-                            })
-                        
-                            boxAdder(frameObjs, parentGetterMaker('courses'), childBuilderMaker(createMainClassesDivFn));
-
-
-
-                        
-
-
-                            databases.classes.forEach(function(item) {
-                                function createRowDiv(idvalue, classvalue) {
-                                    let newEl;
-                                    newEl = document.createElement('div');
-                                    newEl.id = idvalue;
-                                    newEl.className = classvalue;
-                                    newEl.innerHTML = '<div class="table-tesla__table__row">\
-                                                <div id="class-' + item.id + '" class="table-tesla' +
-                                            '__cell__text--bold">' + item.dates.date + '</div>\
-                                        ' +
-                                            '     <div class="table-tesla__cell__text">' + item.starttime + '-' + item.endtime + '</div>\
-                                            ' +
-                                            '   <div class="table-tesla__cell__text">' + item.classtypes.classtype + '</div>\
-                                            ' +
-                                            ' <div class="table-tesla__cell__text">' + item.content + '</div>\
-                                                <div' +
-                                            ' class="table-tesla__cell__text">' + item.id + '</div>\
-                                                <div ' +
-                                            'class="table-tesla__cell__text">' + item.id + '</div>\
-                                                </d' +
-                                            'iv>';
-                                    console.log(newEl);
-                    
-                                    return newEl;
-                                }
-                                 divNewRow = createRowDiv(buildCourseRowId(item), "table-tesla__table__rowbox");
-                                 if (true) {
-                                    holder.appendChild(divNewRow);
-                                }
-                             })
-
-                                
-                    
-                                
-
-                            
-
-
-
-                            // MAIN BUILT
-
-
-    
-                            // var pagetitle = document.getElementById("pagetitle");
-                            
-                            // pagetitle.textContent = databases.courses.filter(function( obj ) {
-                            //     return obj.code == that.id;
-                            //     })[0].code;
-                        });;
-
-                        
-
-                    })
+                    buildClasses(objs);
+                });
+                
             });
             
         };
@@ -475,6 +343,190 @@ function makeReloadCoursesPromise(code) {
 function buildCourseRowId(course) {
     return 'course-row-' + course.id;
 }
+
+
+function buildClasses(objs) {
+    return new Promise(function (resolve, reject) {
+
+        divs.divSideboxes.setAttribute("class", "schedule-tesla__right");
+        divs.divCourses.setAttribute("class", "schedule-tesla__left");
+        divs.divSideboxesRight.setAttribute("class", "schedule-tesla__right");
+
+        databases.classes = objs;
+
+        // Build left side
+
+        removeAllSlotsFromHolder(0, divs.divSideboxes);
+
+        let myCourseobj = databases.courses.filter(function( obj ) {
+                return obj.code == databases.classes[0].courses.code;
+                })[0];
+
+        var boxesAr = [];
+
+        boxesAr = [
+            {
+                kind: 'examiner',
+                values: [[myCourseobj.examiner.firstname + " " + myCourseobj.examiner.lastname, myCourseobj.examiner.id]],
+                title: "EXAMINER",
+                titleid: "examinercheckboxes"
+            },
+            {
+                kind: 'responsible',
+                values: [[myCourseobj.responsible.firstname + " " + myCourseobj.responsible.lastname, myCourseobj.responsible.id]],
+                title: "RESPONSIBLE",
+                titleid: "responsiblecheckboxes"
+            }
+        ];
+
+
+        sideBuilder(boxesAr, 'sideboxes');
+
+
+
+        // var boxesAr = [];
+        
+        //         boxesAr = [
+        //             {
+        //                 kind: 'examiner',
+        //                 values: [[myCourseobj.examiner.firstname + " " + myCourseobj.examiner.lastname, myCourseobj.examiner.id]],
+        //                 title: "EXAMINER",
+        //                 titleid: "examinercheckboxes2"
+        //             },
+        //             {
+        //                 kind: 'responsible',
+        //                 values: [[myCourseobj.responsible.firstname + " " + myCourseobj.responsible.lastname, myCourseobj.responsible.id]],
+        //                 title: "RESPONSIBLE",
+        //                 titleid: "responsiblecheckboxes2"
+        //             }
+        //         ];
+        
+        
+        //         sideBuilder(boxesAr, 'sideboxesRight');
+
+
+
+
+        // BUILD MAIN
+
+
+        removeAllSlotsFromHolder(1, divs.divCourses);
+
+
+        var mainAr = [];
+        
+        mainAr = [
+            {
+                lable: "DATE",
+                id: "sort_courses",
+                class: "table-tesla__header__lablebox-period", 
+            },
+            {
+                lable: "TIME",
+                id: "sort_times",
+                class: "table-tesla__header__lablebox-period" 
+            },
+            {
+                lable: "TYPE",
+                id: "sort_types",
+                class: "table-tesla__header__lablebox-period" 
+            },
+            {
+                lable: "TITLE",
+                id: "sort_titles",
+                class: "table-tesla__header__lablebox--course" 
+            },
+            {
+                lable: "ROOM",
+                id: "sort_rooms",
+                class: "table-tesla__table__header__lablebox-programandyear"
+            },
+            {
+                lable: "TEACHERS",
+                id: "sort_teachers",
+                class: "table-tesla__table__header__lablebox-programandyear" 
+            }
+        ]
+
+        mainBuilder(mainAr);
+
+
+        var myBigRoomAr = new Set();
+
+        databases.classes.forEach(function(item) {
+            let myClass = [];
+
+            let myroomar = item.rooms.reduce(function(myrooms, roomar) {
+                myrooms.push(roomar.name);
+                return myrooms;
+             }, []);
+
+             let myset = new Set(myroomar);
+
+             //console.log(myroomar);
+
+             myBigRoomAr = myBigRoomAr.union(myroomar);
+
+             console.log(myBigRoomAr);
+
+            let myroom = item.rooms.reduce(function(mystring, roomar) {
+                if (mystring === "") {
+                    return mystring + roomar.name;
+                } else
+                return mystring + ", " + roomar.name;
+             }, "");
+
+
+             let myteachers = item.teachers.reduce(function(mystring, teacherar) {
+                if (mystring === "") {
+                    return mystring + teacherar.firstname.slice(0, 1) + teacherar.lastname.slice(0, 1);
+                } else
+                return mystring + ", " + teacherar.firstname.slice(0, 1) + teacherar.lastname.slice(0, 1);
+             }, "");
+
+            // console.log(myroom);
+
+            myClass = [
+                {
+                    class: "table-tesla__cell__text",
+                    lable: item.dates.date.slice(2, 10)
+                },
+                {
+                    class: "table-tesla__cell__text",
+                    lable: item.starttime + '-' + item.endtime
+                },
+                {
+                    class: "table-tesla__cell__text",
+                    lable: item.classtypes.classtype.slice(0, 1)
+                },
+                {
+                    class: "table-tesla__cell__text--bold",
+                    lable: item.content
+                },
+                {
+                    class: "table-tesla__cell__text",
+                    lable: myroom
+                },
+                {
+                    class: "table-tesla__cell__text",
+                    lable: myteachers
+                }
+            ];
+
+        
+            classBuilder(myClass);
+
+            
+        })
+
+        console.log(myBigRoomAr);
+
+        resolve();
+
+    });
+}
+
+
 
 
 function prepareForSuffixAndObjectFunction(baseUrl) {
@@ -581,24 +633,18 @@ function createMainCoursesDivFn(item) {
     let newEl;
     newEl = document.createElement('div');
     newEl.setAttribute(item.type, item.typevalue); // <div class="table-tesla__table__headerbox">
-    newEl.innerHTML = '<div id="sort_courses" class="table-tesla__header__lablebox--course">\
-    <div class="table-tesla__header__cell__text">' + item.lables[0] + '</div>\
-</div>\
-<div class="table-tesla__header__lablebox-period">\
-    <div class="table-tesla__header__cell__text">PERIOD</div>\
-</div>\
-<div class="table-tesla__table__header__lablebox-programandyear">\
-    <div class="table-tesla__header__cell__text">PROGRAM</div>\
-</div>\
-<div class="table-tesla__table__header__lablebox-programandyear">\
-    <div class="table-tesla__header__cell__text">YEAR</div>\
-</div>\
-<div id="sort_examiner" class="table-tesla__table__header__lablebox-programandyear">\
-    <div class="table-tesla__header__cell__text">EXAMINER</div>\
-</div>\
-<div id="sort_responsible" class="table-tesla__table__header__lablebox-programandyear">\
-    <div class="table-tesla__header__cell__text">RESPONSIBLE</div>\
-</div>';
+    item.lables.forEach(function(param) {
+        let firstEl;
+        let innerEl;
+        firstEl = document.createElement('div');
+        firstEl.setAttribute("id", param.id);
+        firstEl.setAttribute("class", param.class);
+        innerEl = document.createElement('div');
+        innerEl.setAttribute("class", 'table-tesla__header__cell__text');
+        innerEl.innerHTML = param.lable;
+        firstEl.appendChild(innerEl);
+        newEl.appendChild(firstEl);
+    });
 
     return newEl;
 }
@@ -607,25 +653,20 @@ function createMainCoursesDivFn(item) {
 function createMainClassesDivFn(item) {
     let newEl;
     newEl = document.createElement('div');
-    newEl.setAttribute(item.type, item.typevalue);
-    newEl.innerHTML = '<div id="sort_courses" class="table-tesla__header__lablebox--course">\
-    <div class="table-tesla__header__cell__text">DATE</div>\
-</div>\
-<div class="table-tesla__header__lablebox-period">\
-    <div class="table-tesla__header__cell__text">TIME</div>\
-</div>\
-<div class="table-tesla__table__header__lablebox-programandyear">\
-    <div class="table-tesla__header__cell__text">TYPE</div>\
-</div>\
-<div class="table-tesla__table__header__lablebox-programandyear">\
-    <div class="table-tesla__header__cell__text">TITLE</div>\
-</div>\
-<div id="sort_examiner" class="table-tesla__table__header__lablebox-programandyear">\
-    <div class="table-tesla__header__cell__text">ROOM</div>\
-</div>\
-<div id="sort_responsible" class="table-tesla__table__header__lablebox-programandyear">\
-    <div class="table-tesla__header__cell__text">TEACHERS</div>\
-</div>';
+    newEl.setAttribute(item.type, item.typevalue); // <div class="table-tesla__table__headerbox">
+    item.lables.forEach(function(param) {
+        let firstEl;
+        let innerEl;
+        firstEl = document.createElement('div');
+        firstEl.setAttribute("id", param.id);
+        firstEl.setAttribute("class", param.class);
+        innerEl = document.createElement('div');
+        innerEl.setAttribute("class", 'table-tesla__header__cell__text');
+        innerEl.innerHTML = param.lable;
+        firstEl.appendChild(innerEl);
+        newEl.appendChild(firstEl);
+    });
+
     return newEl;
 }
 
@@ -789,10 +830,157 @@ function makePublisher(o) {
 }
 
 
+function buildCourses() {
+    let buildSiteFrame = new Promise((resolve, reject) => {
+        removeAllSlotsFromHolder(1, divs.divCourses);
+        removeAllSlotsFromHolder(0, divs.divSideboxes);
+        removeAllSlotsFromHolder(0, divs.divSideboxesRight);
+        
+        divs.divCourses.removeAttribute("class");
+        divs.divSideboxes.removeAttribute("class");
+        divs.divSideboxesRight.removeAttribute("class");
+
+        divs.divSideboxes.setAttribute("class", "table-tesla__left");
+        divs.divCourses.setAttribute("class", "table-tesla__right");
+        
+        // Build left side
+
+
+        var boxesAr = [];
+
+        boxesAr = [
+            {
+                kind: 'year',
+                values: [["1", "1"], ["2", "2"], ["3", "3"]],
+                title: "YEAR",
+                titleid: "yearcheckboxes"
+            },
+            {
+                kind: 'department',
+                values: [["AIB", "AIB"], ["AIC", "AIC"], ["AID", "AID"], ["AIE", "AIE"]],
+                title: "DEPARTMENT",
+                titleid: "departmentcheckboxes"
+            },
+            {
+                kind: 'program',
+                values: [["CSAMH", "CSAMH"], ["TFOFK", "TFOFK"], ["TFAFK", "TFAFK"], ["Other", "Other"], ["None", "None"]],
+                title: "PROGRAM",
+                titleid: "programcheckboxes"
+            },
+            {
+                kind: 'period',
+                values: [[1, "periodone"], [2, "periodtwo"], [3, "periodthree"], [4, "periodfour"]],
+                title: "PERIOD",
+                titleid: "periodcheckboxes"
+            },
+            {
+                kind: 'schools',
+                values: [["KTH", "KTH"], ["SU", "SU"]],
+                title: "SCHOOLS",
+                titleid: "schoolscheckboxes"
+            }
+        ];
+
+
+        sideBuilder(boxesAr, 'sideboxes');
+
+
+
+
+
+
+        // BUILD MAIN
+
+
+
+        var mainAr = [];
+
+        mainAr = [
+            {
+                lable: "COURSE3",
+                prop: "divSort_courses", 
+                id: "sort_courses",
+                class: "table-tesla__header__lablebox--course", 
+                compareFn: compareCoursesToggle,
+                sort1: 'code',
+                sort2: ''
+            },
+            {
+                lable: "PERIOD",
+                id: "sort_periods",
+                class: "table-tesla__header__lablebox-period" 
+            },
+            {
+                lable: "PROGRAM",
+                id: "sort_program",
+                class: "table-tesla__table__header__lablebox-programandyear" 
+            },
+            {
+                lable: "YEAR",
+                id: "sort_year",
+                class: "table-tesla__table__header__lablebox-programandyear" 
+            },
+            {
+                lable: "EXAMINER",
+                prop: "divSort_examiner", 
+                id: "sort_examiner",
+                class: "table-tesla__table__header__lablebox-programandyear", 
+                compareFn: compareExaminerToggle,
+                sort1: 'examiner',
+                sort2: 'firstname'
+            },
+            {
+                lable: "RESPONSIBLE",
+                prop: "divSort_responsible", 
+                id: "sort_responsible",
+                class: "table-tesla__table__header__lablebox-programandyear", 
+                compareFn: compareResponsibleToggle,
+                sort1: 'responsible',
+                sort2: 'firstname'
+            }
+        ]
+
+        mainBuilder(mainAr);
+
+
+        resolve();
+        
+
+        });
+    
+
+    Promise.all([buildSiteFrame]).then(function (res) {
+        setupEventListeners();
+        if (databases.courses.length > 0) {
+            events.sendOnReloadCourses();
+        } else {
+            RequestObjectAndDoStuff('api/courses').then((objs) => {
+                
+                        var newobjs = [];
+                
+                        objs.forEach(function (param) {
+                            var testobj = objfactory(param);
+                            newobjs.push(testobj);
+                        });
+                        
+                        databases.courses = newobjs;
+                        events.sendOnReloadCourses();
+                        
+                        
+                    });
+        }
+        
+        
+    });
+
+}
+
+
 
 var RequestObjectAndDoStuff = prepareForSuffixAndObjectFunction(
     'http://127.0.0.1:5000'
 );
+
 var databases = {};
 
 databases.courses = [];
@@ -813,228 +1001,114 @@ function sortCoursesAndFilter (sortfn, sort1, sort2) {
 
 
 
+function sideBuilder(boxesArray, side) {
+    var frameObjs = [];
+    
+    boxesArray.forEach(function(box) {
+        let frameObj = {
+            "type": "class",
+            "typevalue": "table-tesla__checkboxblock",
+            "title": box.title,
+            "titleid": box.titleid
+        }
+        console.log(frameObj);
+        frameObjs.push(frameObj);
+    })
+
+    boxAdder(frameObjs, parentGetterMaker(side), childBuilderMaker(createFrameDivFn));
+
+
+    divs.divPeriodcheckboxes = document.getElementById('periodcheckboxes');
+    divs.divProgramcheckboxes = document.getElementById('programcheckboxes');
+    divs.divDepartmentcheckboxes = document.getElementById('departmentcheckboxes');
+    divs.divYearcheckboxes = document.getElementById('yearcheckboxes');
+
+
+
+    boxesArray.forEach(function(item) {
+
+        var CheckboxObjs = [];
+        
+        item.values.forEach(function(param) {
+            let CheckboxObj;
+    
+            CheckboxObj = {
+                "type": "class",
+                "typevalue": "w-checkbox w-clearfix",
+                "title": param[0],
+                "data": item.kind,
+                "datavalue": param[1]
+            }
+            CheckboxObjs.push(CheckboxObj);
+        }) 
+    
+        boxAdder(CheckboxObjs, parentGetterMaker(item.kind + 'checkboxes'), childBuilderMaker(createCheckboxesDivFn));
+
+        var filters = document.getElementById(item.kind + 'checkboxes').childNodes;
+        
+        for (var i = 0; i < filters.length; i++) {
+            divs[item.kind + 'filter' + i] = filters[i];
+            makePublisher(divs[item.kind + 'filter' + i]);
+            divs[item.kind + 'filter' + i].click = function () {
+                this.publish(this.children[1].textContent, "click");
+            }
+        
+            divs[item.kind + 'filter' + i].subscribe(divs.divPagetitle.setTitle, 'click');
+            divs[item.kind + 'filter' + i].addEventListener('click', coursesFilter.bind(divs[item.kind + 'filter' + i]));
+        }
+    });
+}
+
+
+
+function mainBuilder(mainArray) {
+    var frameObjs = [
+        {
+        "type": "class",
+        "typevalue": "table-tesla__table__headerbox",
+        "lables": mainArray
+        }
+    ];
+
+
+    boxAdder(frameObjs, parentGetterMaker('courses'), childBuilderMaker(createMainCoursesDivFn));
+
+    
+    mainArray.forEach(function(item) {
+        divs[item.prop] = document.getElementById(item.id);
+
+        makePublisher(divs[item.prop]);
+        
+        divs[item.prop].click = function () {
+            this.publish(this.children[0].textContent, "click");
+        }
+    
+        divs[item.prop].subscribe(divs.divPagetitle.setTitle, 'click');
+
+        divs[item.prop].addEventListener('click', sortCoursesAndFilter.bind(divs[item.prop], item.compareFn, item.sort1, item.sort2));
+
+    });
+}
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
 
     divs.divCourses = document.getElementById('courses');
+    divs.divMenuCourses = document.getElementById('menu-courses');
     divs.divSideboxes = document.getElementById('sideboxes');
+    divs.divSideboxesRight = document.getElementById('sideboxesRight');
     divs.divPagetitle = document.getElementById('pagetitle');
 
     divs.divPagetitle.setTitle = function (title) {
             divs.divPagetitle.textContent = title;
         };
 
-
-    let p3 = new Promise((resolve, reject) => {
-
-        var boxesArray = [];
-
-        boxesArray = [{"title": "PERIOD", "titleid": "periodcheckboxes"}, {"title": "PROGRAM", "titleid": "programcheckboxes"}, {"title": "DEPARTMENT", "titleid": "departmentcheckboxes"}, {"title": "YEAR", "titleid": "yearcheckboxes"}];
-
-        var frameObjs = [];
-
-        boxesArray.forEach(function(box) {
-            let frameObj = {
-                "type": "class",
-                "typevalue": "table-tesla__checkboxblock",
-                "title": box.title,
-                "titleid": box.titleid
-            }
-            frameObjs.push(frameObj);
-        })
-   
-        boxAdder(frameObjs, parentGetterMaker('sideboxes'), childBuilderMaker(createFrameDivFn));
-
-
-        divs.divPeriodcheckboxes = document.getElementById('periodcheckboxes');
-        divs.divProgramcheckboxes = document.getElementById('programcheckboxes');
-        divs.divDepartmentcheckboxes = document.getElementById('departmentcheckboxes');
-        divs.divYearcheckboxes = document.getElementById('yearcheckboxes');
-
+    buildCourses()
 
     
     
-        var periodsArray = [];
     
-        periodsArray = [[1, "periodone"], [2, "periodtwo"], [3, "periodthree"], [4, "periodfour"]];
-    
-        var periodCheckboxObjs = [];
-    
-        periodsArray.forEach(function(period) {
-            let periodCheckboxObj;
-    
-            periodCheckboxObj = {
-                "type": "class",
-                "typevalue": "w-checkbox w-clearfix",
-                "title": period[0],
-                "data": "period",
-                "datavalue": period[1]
-            }
-            periodCheckboxObjs.push(periodCheckboxObj);
-        })
-    
-        boxAdder(periodCheckboxObjs, parentGetterMaker('periodcheckboxes'), childBuilderMaker(createCheckboxesDivFn));
-
-
-    
-        var programsArray = [];
-    
-        programsArray = ["CSAMH", "TFOFK", "TFAFK", "Other", "None"];
-    
-        var programCheckboxObjs = [];
-    
-        programsArray.forEach(function(program) {
-            let programCheckboxObj;
-    
-            programCheckboxObj = {
-                "type": "class",
-                "typevalue": "w-checkbox w-clearfix",
-                "title": program,
-                "data": "program",
-                "datavalue": program
-            }
-            programCheckboxObjs.push(programCheckboxObj);
-        })
-    
-        boxAdder(programCheckboxObjs, parentGetterMaker('programcheckboxes'), childBuilderMaker(createCheckboxesDivFn));
-
-
-    
-        var departmentsArray = [];
-    
-        departmentsArray = ["AIB", "AIC", "AID", "AIE"];
-    
-        var departmentCheckboxObjs = [];
-    
-        departmentsArray.forEach(function(department) {
-            let departmentCheckboxObj;
-    
-            departmentCheckboxObj = {
-                "type": "class",
-                "typevalue": "w-checkbox w-clearfix",
-                "title": department,
-                "data": "department",
-                "datavalue": department
-            }
-            departmentCheckboxObjs.push(departmentCheckboxObj);
-        })
-    
-        boxAdder(departmentCheckboxObjs, parentGetterMaker('departmentcheckboxes'), childBuilderMaker(createCheckboxesDivFn));
-
-
-
-    
-        var yearsArray = [];
-    
-        yearsArray = ["1", "2", "3"];
-    
-        var yearCheckboxObjs = [];
-    
-        yearsArray.forEach(function(year) {
-            let yearCheckboxObj;
-    
-            yearCheckboxObj = {
-                "type": "class",
-                "typevalue": "w-checkbox w-clearfix",
-                "title": year,
-                "data": "department",
-                "datavalue": year
-            }
-            yearCheckboxObjs.push(yearCheckboxObj);
-        }) 
-    
-        boxAdder(yearCheckboxObjs, parentGetterMaker('yearcheckboxes'), childBuilderMaker(createCheckboxesDivFn));
-
-
-
-
-        // BUILD MAIN
-
-
-        var boxesArray = [];
-        
-        boxesArray = [{"lables": ["COURSE2", "PERIOD", "PROGRAM", "YEAR", "EXAMINER", "RESPONSIBLE"]}];
-
-        var frameObjs = [];
-
-        boxesArray.forEach(function(box) {
-            let frameObj = {
-                "type": "class",
-                "typevalue": "table-tesla__table__headerbox",
-                "lables": box.lables
-            }
-            frameObjs.push(frameObj);
-        })
-    
-        boxAdder(frameObjs, parentGetterMaker('courses'), childBuilderMaker(createMainCoursesDivFn));
-
-
-
-
-
-        var sorterAdderArray = [
-            {
-                prop: "divSort_courses", 
-                id: "sort_courses", 
-                compareFn: compareCoursesToggle,
-                sort1: 'code',
-                sort2: ''
-            },
-            {
-                prop: "divSort_examiner", 
-                id: "sort_examiner", 
-                compareFn: compareExaminerToggle,
-                sort1: 'examiner',
-                sort2: 'firstname'
-            },
-            {
-                prop: "divSort_responsible", 
-                id: "sort_responsible", 
-                compareFn: compareResponsibleToggle,
-                sort1: 'responsible',
-                sort2: 'firstname'
-            }
-        ]
-
-        sorterAdderArray.forEach(function(item) {
-            divs[item.prop] = document.getElementById(item.id);
-
-            makePublisher(divs[item.prop]);
-            
-            divs[item.prop].click = function () {
-                this.publish(this.children[0].textContent, "click");
-            }
-        
-            divs[item.prop].subscribe(divs.divPagetitle.setTitle, 'click');
-    
-            divs[item.prop].addEventListener('click', sortCoursesAndFilter.bind(divs[item.prop], item.compareFn, item.sort1, item.sort2));
-
-        });
-
-
-
-        resolve();
-        
-
-      });
-    
-
-    Promise.all([p3]).then(function (res) {
-        setupEventListeners();
-        RequestObjectAndDoStuff('api/courses').then((objs) => {
-            
-                    var newobjs = [];
-            
-                    objs.forEach(function (param) {
-                        var testobj = objfactory(param);
-                        newobjs.push(testobj);
-                    });
-                    
-                    databases.courses = newobjs;
-                    events.sendOnReloadCourses();
-                    
-                    
-                });
-    });
 
 
 
@@ -1054,14 +1128,26 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
     }, 10000);
 
+        // Get new data regularly and update objects
+
+    setInterval(function(){ 
+        RequestObjectAndDoStuff('api/rooms').then((objs) => {
+            
+                    // var newobjs = [];
+            
+                    // objs.forEach(function (param) {
+                    //     var testobj = objfactory(param);
+                    //     newobjs.push(testobj);
+                    // });
+                    
+                    databases.rooms = objs;
+                });
+    }, 10000);
+
 });
 
 
 
-
-
-
-var pubishers = {};
 
 
 /* When document ready, set click handlers for the filter boxes */
@@ -1074,31 +1160,16 @@ function setupEventListeners() {
     });
 
 
-    var periodfilters = document
-        .getElementById('periodcheckboxes')
-        .childNodes;
-    for (var i = 0; i < periodfilters.length; i++) {
-        periodfilters[i].addEventListener('click', coursesFilter);
+    var divMenuCourses = divs.divMenuCourses;
+    makePublisher(divs.divMenuCourses);
+    
+    divs.divMenuCourses.click = function () {
+        this.publish("HELLO!", "click");
     }
 
-    var programfilters = document
-        .getElementById('programcheckboxes')
-        .childNodes;
-    for (var i = 0; i < programfilters.length; i++) {
-        programfilters[i].addEventListener('click', coursesFilter);
-    }
-
-    var yearfilters = document
-        .getElementById('yearcheckboxes')
-        .childNodes;
-    for (var i = 0; i < yearfilters.length; i++) {
-        yearfilters[i].addEventListener('click', coursesFilter);
-    }
-
-    var departmentfilters = document
-        .getElementById('departmentcheckboxes')
-        .childNodes;
-    for (var i = 0; i < departmentfilters.length; i++) {
-        departmentfilters[i].addEventListener('click', coursesFilter);
-    }
+    divs.divMenuCourses.subscribe(divs.divPagetitle.setTitle, 'click');
+    divs.divMenuCourses.addEventListener('click', function() {
+        this.click();
+        buildCourses();
+    });
 }
