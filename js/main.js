@@ -354,34 +354,6 @@ function buildClasses(objs) {
 
         databases.classes = objs;
 
-  
-
-
-
-        // var boxesAr = [];
-        
-        //         boxesAr = [
-        //             {
-        //                 kind: 'examiner',
-        //                 values: [[myCourseobj.examiner.firstname + " " + myCourseobj.examiner.lastname, myCourseobj.examiner.id]],
-        //                 title: "EXAMINER",
-        //                 titleid: "examinercheckboxes2"
-        //             },
-        //             {
-        //                 kind: 'responsible',
-        //                 values: [[myCourseobj.responsible.firstname + " " + myCourseobj.responsible.lastname, myCourseobj.responsible.id]],
-        //                 title: "RESPONSIBLE",
-        //                 titleid: "responsiblecheckboxes2"
-        //             }
-        //         ];
-        
-        
-        //         sideBuilder(boxesAr, 'sideboxesRight');
-
-
-
-
-        // BUILD MAIN
 
 
         removeAllSlotsFromHolder(1, divs.divCourses);
