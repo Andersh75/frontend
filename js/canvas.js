@@ -551,7 +551,7 @@ function prepareForSuffixAndObjectFunction(baseUrl) {
             request.open('GET', baseUrl + '/' + relUrl);
             request.responseType = 'application/json';
             request.send();
-            console.log(baseUrl + '/' + relUrl);
+            //console.log(baseUrl + '/' + relUrl);
             request.onload = () => resolve(JSON.parse(request.response).objects);
         })
     };
@@ -564,7 +564,7 @@ function prepareForSuffixAndObjectFunctionCanvas(baseUrl) {
             request.open('GET', baseUrl + '/' + relUrl);
             request.responseType = 'application/json';
             request.send();
-            console.log(baseUrl + '/' + relUrl);
+            //console.log(baseUrl + '/' + relUrl);
             request.onload = () => resolve(JSON.parse(request.response));
         })
     };
@@ -859,7 +859,7 @@ function makePublisher(o) {
 }
 
 
-function buildCourses() {
+function buildCourses(dataBlob) {
     let buildSiteFrame = new Promise((resolve, reject) => {
         removeAllSlotsFromHolder(1, divs.divCourses);
         removeAllSlotsFromHolder(0, divs.divSideboxes);
@@ -874,13 +874,17 @@ function buildCourses() {
         
         // Build left side
 
+        console.log("db: " + JSON.stringify(dataBlob));
+
 
         var boxesAr = [];
+
+        
 
         boxesAr = [
             {
                 kind: 'year',
-                values: [["1", "1"], ["2", "2"], ["3", "3"]],
+                values: [["AIB", "AIB"], ["AIC", "AIC"], ["AID", "AID"], ["AIE", "AIE"]],
                 title: "YEAR",
                 titleid: "yearcheckboxes"
             },
@@ -1215,11 +1219,70 @@ var nyDataStr = [{"id":18187,"name":"Nicole Ferreira Sjöström","sortable_name"
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    RequestCanvasAndDoStuff('groups/23104/users?per_page=100&access_token=8779~3LmsZZse4dRnHvdnYBRt69Yc5dTFDApw1FlZCP49T4o6xIDsVXrKZ122VQFiopCh').then((objs) => {
+
+
+    var canvasData = {};
+    RequestCanvasAndDoStuff('users/5091/courses?per_page=100&access_token=8779~3LmsZZse4dRnHvdnYBRt69Yc5dTFDApw1FlZCP49T4o6xIDsVXrKZ122VQFiopCh').then((objs) => {
         
         //console.log(objs);
-        alert(objs[0].name);
+        //alert(objs[0].name);
+        canvasData = objs;
+
+        alert(canvasData[0].id);
+
+        canvasData.forEach(function(item) {
+            RequestCanvasAndDoStuff('courses/' + item.id + '/group_categories?per_page=100&access_token=8779~3LmsZZse4dRnHvdnYBRt69Yc5dTFDApw1FlZCP49T4o6xIDsVXrKZ122VQFiopCh').then((objs) => {
+                
+                //console.log(objs);
+                //alert(objs[0].name);
+                item.group_categories = objs;
+    
+                item.group_categories.forEach(function(subItem) {
+                    RequestCanvasAndDoStuff('group_categories/' + subItem.id + '/groups?per_page=100&access_token=8779~3LmsZZse4dRnHvdnYBRt69Yc5dTFDApw1FlZCP49T4o6xIDsVXrKZ122VQFiopCh').then((objs) => {
+                        
+                        //console.log(objs);
+                        //alert(objs[0].name);
+                        subItem.groups = objs;
+
+                        
+                        subItem.groups.forEach(function(subSubItem) {
+                            RequestCanvasAndDoStuff('groups/' + subSubItem.id + '/users?per_page=100&access_token=8779~3LmsZZse4dRnHvdnYBRt69Yc5dTFDApw1FlZCP49T4o6xIDsVXrKZ122VQFiopCh').then((objs) => {
+                                
+                                //console.log(objs);
+                                //alert(objs[0].name);
+                                subSubItem.users = objs;
+                            });
+                        });
+                        
+        
+                    });
+                });
+                
+    
+    
+    
+            });
+
+            buildCourses(canvasData)
+    
+
+        });
+
+
+        //console.log(canvasData);
+
+        
+
+
+
+
     });
+
+    
+
+
+
+
 
 
     
@@ -1253,7 +1316,7 @@ document.addEventListener("DOMContentLoaded", function () {
             divs.divPagetitle.textContent = title;
         };
 
-    buildCourses()
+    
 
     
     
@@ -1319,6 +1382,6 @@ function setupEventListeners() {
     divs.divMenuCourses.subscribe(divs.divPagetitle.setTitle, 'click');
     divs.divMenuCourses.addEventListener('click', function() {
         this.click();
-        buildCourses();
+        buildCourses(canvasData);
     });
 }
